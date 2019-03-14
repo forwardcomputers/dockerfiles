@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build:
+  build_one:
     working_directory: /app
     docker:
       - image: circleci/golang
@@ -12,18 +12,46 @@ jobs:
       - run: 
           name: Build and push to docker
           command: |
-            mkdir -p /go/src/github.com/forwardcomputers
-            mv -f /app /go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}
-            echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
+            mkdir -p /go/src/github.com/forwardcomputers/dockerfiles
+            mv -f /app /go/src/github.com/forwardcomputers/dockerfiles/${CIRCLE_PROJECT_REPONAME}
+            echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/dockerfiles/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
             source $BASH_ENV
             docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+            GH_SHA=$( \
+              curl --silent --location --url https://api.github.com/repos/forwardcomputers/dockerfiles/commits | \
+              jq -r '.[0].sha' \
+            )
+            GH_APP=( $( \
+              curl --silent --location --url https://api.github.com/repos/forwardcomputers/dockerfiles/commits/"${GH_SHA}" | \
+              jq --raw-output '[.files | .[] | select( .status == "added" or .status == "modified" and ( .filename | contains(".circleci") | not ) and ( .filename | contains("/") ) ) | .filename | split("/")[0]] | unique[]') \
+            )
+            for APP in "${GH_APP[@]}"; do
+              ./dapp.sh upgrade ${APP}
+            done
+  build_all:
+    working_directory: /app
+    docker:
+      - image: circleci/golang
+        user: root
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: 
+          name: Build and push to docker
+          command: |
+            mkdir -p /go/src/github.com/forwardcomputers/dockerfiles
+            mv -f /app /go/src/github.com/forwardcomputers/dockerfiles/${CIRCLE_PROJECT_REPONAME}
+            echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/dockerfiles/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
+            source $BASH_ENV
+            docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+            ./dapp.sh build_all
 
 workflows:
   version: 2.1
 
   commit:
     jobs:
-      - build:
+      - build_one:
           context: global
 
   nightly:
@@ -37,5 +65,5 @@ workflows:
               only:
                 - master
     jobs:
-      - build:
+      - build_all:
           context: global

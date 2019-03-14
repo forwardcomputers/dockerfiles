@@ -49,7 +49,7 @@ main () {
     TARGET="${1-help}"
 #    NAME="${2}"
 
-    if [[ "${TARGET}" == "help" || ( "${NAME}" == "none" && "${TARGET}" != "readme" ) ]]; then
+    if [[ "${TARGET}" == "help" || ( "${NAME}" == "none" && "${TARGET}" != "build_all" && "${TARGET}" != "readme" ) ]]; then
         help
     else
         if ! type "${TARGET}" >/dev/null 2>&1; then
@@ -105,11 +105,8 @@ upgrade () { ## Upgrade if there is a newer application version
 build_all () { ## Build all applications
     printf '%s\n' "Building all applications"
     all_apps
-    for APP in "${APPS[@]}"; do
-        build
-        push
-        tweet
-        printf '%b' "${GREEN}Rebuilt to the latest version ${YELLOW}${APPNEW}${NC}\n"
+    for NAME in "${APPS[@]}"; do
+        upgrade
     done
 }
 #
@@ -217,7 +214,7 @@ tweet () {
 }
 #
 all_apps () {
-    APPS=( $(\
+    APPS=( $( \
         curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://api.github.com/repos/forwardcomputers/dockerfiles/contents | \
         jq -r 'sort_by(.name)[] | select(.type == "dir" and .name != ".circleci") | .name') \
     )
