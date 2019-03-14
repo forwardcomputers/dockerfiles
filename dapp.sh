@@ -49,7 +49,7 @@ main () {
     TARGET="${1-help}"
 #    NAME="${2}"
 
-    if [[ "${TARGET}" == "help" || ( "${NAME}" == "none" && "${TARGET}" != "build_all" && "${TARGET}" != "readme" ) ]]; then
+    if [[ "${TARGET}" == "help" || ( "${NAME}" == "none" && "${TARGET}" != "build_all" && "${TARGET}" != "upgrade_all" && "${TARGET}" != "readme" ) ]]; then
         help
     else
         if ! type "${TARGET}" >/dev/null 2>&1; then
