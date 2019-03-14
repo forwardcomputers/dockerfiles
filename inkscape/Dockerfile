@@ -1,5 +1,5 @@
 #
-#APPNEW curl --silent --location --output - --url https://inkscape.org | perl -nle 'print $$1 if /Current stable version: (\K[^<]+)/'
+#APPNEW curl --silent --location --output - --url https://inkscape.org | perl -nle 'print $1 if /Current stable version: (\K[^<]+)/'
 #DESKTOP_NAME Inkscape
 #DESKTOP_COMMENT Create and edit Scalable Vector Graphics images
 #DESKTOP_CATEGORIES Graphics;VectorGraphics;GTK;

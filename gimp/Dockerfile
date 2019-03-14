@@ -1,5 +1,5 @@
 #
-#APPNEW curl --silent --location --output - --url https://www.gimp.org | perl -nle 'print $$1 if / DOWNLOAD <.+?>(\K[^<]+)/'
+#APPNEW curl --silent --location --output - --url https://www.gimp.org | perl -nle 'print $1 if / DOWNLOAD <.+?>(\K[^<]+)/'
 #DESKTOP_NAME GNU Image Manipulation Program
 #DESKTOP_COMMENT Create images and edit photographs
 #DESKTOP_CATEGORIES Graphics;2DGraphics;RasterGraphics;GTK;

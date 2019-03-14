@@ -1,5 +1,5 @@
 #
-#APPNEW curl --silent --location --url https://www.torproject.org/projects/torbrowser.html.en | awk -F '[()]' '/GNU\/Linux/ { i++ } i==4 { print $$2; exit }'
+#APPNEW curl --silent --location --url https://www.torproject.org/projects/torbrowser.html.en | awk -F '[()]' '/GNU\/Linux/ { i++ } i==4 { print $2; exit }'
 #DESKTOP_NAME Tor browser
 #DESKTOP_COMMENT Tor Browser is +1 for privacy and -1 for mass surveillance
 #DESKTOP_CATEGORIES Network;WebBrowser;Security;

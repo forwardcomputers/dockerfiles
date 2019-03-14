@@ -1,5 +1,5 @@
 #
-#APPNEW curl --location --silent --output - --url https://omahaproxy.appspot.com/all | perl -nle 'print $$1 if /linux,stable,(\K[^,]+)/'
+#APPNEW curl --location --silent --output - --url https://omahaproxy.appspot.com/all | perl -nle 'print $1 if /linux,stable,(\K[^,]+)/'
 #DESKTOP_NAME Google Chrome
 #DESKTOP_COMMENT Access the Internet
 #DESKTOP_CATEGORIES Network;WebBrowser;

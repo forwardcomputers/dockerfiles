@@ -1,5 +1,5 @@
 #
-#APPNEW curl --silent --location --output - --url https://shotcut.org/download/ | perl -nle 'print $$1 if /Current Version: (\K[^<]+)/'
+#APPNEW curl --silent --location --output - --url https://shotcut.org/download/ | perl -nle 'print $1 if /Current Version: (\K[^<]+)/'
 #DESKTOP_NAME Shotcut
 #DESKTOP_COMMENT Program for editing and playing video files
 #DESKTOP_CATEGORIES AudioVideo;Video;AudioVideoEditing;

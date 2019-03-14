@@ -1,5 +1,5 @@
 #
-#APPNEW curl --silent --location --output - --url http://www.pitivi.org/?go=download | perl -nle 'print $$1 if /developer.pitivi.org\/releases.+?>(\K[^<]+)/'
+#APPNEW curl --silent --location --output - --url http://www.pitivi.org/?go=download | perl -nle 'print $1 if /developer.pitivi.org\/releases.+?>(\K[^<]+)/'
 #DESKTOP_NAME Pitivi
 #DESKTOP_COMMENT Create and edit your own movies
 #DESKTOP_CATEGORIES GNOME;GTK;AudioVideo;Video;AudioVideoEditing;
