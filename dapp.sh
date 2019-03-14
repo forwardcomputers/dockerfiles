@@ -66,29 +66,12 @@ help () { ## Show this help message
     printf '\n'
 }
 #
-spinner () {
-    local i sp n
-    i=0
-    sp='/-\|'
-    n=${#sp}
-    printf ' '
-    while sleep 0.1; do
-        printf "\b%s" "${sp:i++%n:1}"
-    done
-}
-#
 checkbaseimage () {
-    # spinner &
-    # PID=$!
     rm -f /tmp/MAKE_BASE_LOG /tmp/MAKE_BASE_UPDATED /tmp/MAKE_REBUILD
-    # docker pull ${IMG}:latest > /dev/null 2>&1 || true
     docker pull ${IMG}:latest || true
-    if [[ ${BASE_IMAGE} ]]; then docker pull ${BASE_IMAGE} > /tmp/MAKE_BASE_LOG; fi
+    if [[ ${BASE_IMAGE} ]]; then docker pull ${BASE_IMAGE} 2>&1 | tee /tmp/MAKE_BASE_LOG; fi
     if [[ -f /tmp/MAKE_BASE_LOG && ! -z "$(grep 'Pull complete' /tmp/MAKE_BASE_LOG)" ]]; then touch -f /tmp/MAKE_BASE_UPDATED; fi
     rm -f /tmp/MAKE_BASE_LOG
-    # disown "${PID}"
-    # kill "${PID}"
-    # printf '\b'
 }
 #
 info () { ## Check if there is a newer application version
