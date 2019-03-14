@@ -3,7 +3,7 @@ set -E              # any trap on ERR is inherited by shell functions
 set -e              # exit if error occurs
 set -u              # treat unset variables and parameters as an error
 set -o pipefail     # fail if pipe failed
-#set -x              # show every commond
+set -x              # show every commond
 #
 GH_API_HEADER="Accept: application/vnd.github.v3+json"
 GH_AUTH_HEADER="Authorization: token ${LP_GITHUB_API_TOKEN}"
@@ -49,7 +49,7 @@ main () {
     TARGET="${1-help}"
 #    NAME="${2}"
 
-    if [[ "${TARGET}" == "help" || "${NAME}" == "none" ]]; then
+    if [[ "${TARGET}" == "help" || ( "${NAME}" == "none" && "${TARGET}" != "readme" ) ]]; then
         help
     else
         if ! type "${TARGET}" >/dev/null 2>&1; then
@@ -200,6 +200,14 @@ desktop () { ## Populate desktop application menu
         "Exec=${DOCKER_FILES}/dapp.sh run ${NAME}" \
         "Icon=${HOME}/.local/share/applications/${DESKTOP_LOGO_NAME}" > ~/.local/share/applications/${NAME}.desktop
     printf '%s\n' "${DESKTOP_MIMETYPES}=${NAME}.desktop;" >> ~/.local/share/applications/mimeapps.list
+}
+#
+readme () {
+    APPS=( $(curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://api.github.com/repos/forwardcomputers/dockerfiles/contents | jq -r 'sort_by(.name)[] | select(.type == "dir" and .name != ".circleci") | .name') )
+    rm -f README.md
+    for APP in "${APPS[@]}"; do
+        curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://raw.githubusercontent.com/forwardcomputers/dockerfiles/master/${APP}/README.md | sed '/BlockStart/,/BlockEnd/!d;//d' >> README.md
+    done
 }
 #
 main "$@"
