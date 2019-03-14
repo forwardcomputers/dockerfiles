@@ -66,14 +66,6 @@ help () { ## Show this help message
     printf '\n'
 }
 #
-checkbaseimage () {
-    rm -f /tmp/MAKE_BASE_LOG /tmp/MAKE_BASE_UPDATED /tmp/MAKE_REBUILD
-    docker pull ${IMG}:latest || true
-    if [[ ${BASE_IMAGE} ]]; then docker pull ${BASE_IMAGE} 2>&1 | tee /tmp/MAKE_BASE_LOG; fi
-    if [[ -f /tmp/MAKE_BASE_LOG && ! -z "$(grep 'Pull complete' /tmp/MAKE_BASE_LOG)" ]]; then touch -f /tmp/MAKE_BASE_UPDATED; fi
-    rm -f /tmp/MAKE_BASE_LOG
-}
-#
 info () { ## Check if there is a newer application version
     checkbaseimage
     if [[ ! ${APPNEW} ]]; then APPNEW=null; fi
@@ -122,31 +114,6 @@ push () {  ## Push image to Docker Hub
     tweet
 }
 #
-tweet () {
-    printf '%s\n' "Tweet ${NAME} push"
-    # Code bits from - https://github.com/moebiuscurve/tweetExperiments/tree/master/curlTweets
-    message="Pushed ${NAME}"
-    message_string=`echo -n ${message}|sed -e s'/ /%2520/g'`
-    message_curl=`echo -n ${message}|sed -e s'/ /+/g'`
-    timestamp=`date +%s`
-    nonce=`date +%s%T | openssl base64 | sed -e s'/[+=/]//g'`
-    api_version=1.1
-    signature_base_string="POST&https%3A%2F%2Fapi.twitter.com%2F${api_version}%2Fstatuses%2Fupdate.json&oauth_consumer_key%3D${LP_T_CONSUMER_KEY}%26oauth_nonce%3D${nonce}%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D${timestamp}%26oauth_token%3D${LP_T_OAUTH_TOKEN}%26oauth_version%3D1.0%26status%3D${message_string}"
-    signature_key="${LP_T_CONSUMER_SECRET}&${LP_T_OAUTH_SECRET}"
-    oauth_signature=`echo -n ${signature_base_string} | openssl dgst -sha1 -hmac ${signature_key} -binary | openssl base64 | sed -e s'/+/%2B/g' -e s'/\//%2F/g' -e s'/=/%3D/g'`
-    header="Authorization: OAuth oauth_consumer_key=\"${LP_T_CONSUMER_KEY}\", oauth_nonce=\"${nonce}\", oauth_signature=\"${oauth_signature}\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"${timestamp}\", oauth_token=\"${LP_T_OAUTH_TOKEN}\", oauth_version=\"1.0\""
-    result=`curl -s -X POST "https://api.twitter.com/${api_version}/statuses/update.json" --data "status=${message_curl}" --header "Content-Type: application/x-www-form-urlencoded" --header "${header}"`
-}
-#
-checklocalimage () {
-    if ! docker image inspect ${IMG} > /dev/null 2>&1; then
-        docker pull ${IMG} > /dev/null 2>&1 || make build
-    fi
-    if [[ ${NAME} = "chrome" ]]; then
-        DOCKER_OPT="$DOCKER_OPT --security-opt seccomp=$HOME/.config/google-chrome/chrome.json"
-    fi
-}
-#
 run () { ## Run the docker application
     printf '%s\n' "Runing ${NAME}"
     checklocalimage
@@ -193,10 +160,7 @@ desktop () { ## Populate desktop application menu
 #
 readme () { ## Create readme file
     printf '%s\n' "Creating readme file"
-    APPS=( $(\
-        curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://api.github.com/repos/forwardcomputers/dockerfiles/contents | \
-        jq -r 'sort_by(.name)[] | select(.type == "dir" and .name != ".circleci") | .name') \
-    )
+    all_apps
     printf '%s\n' \
         "# Dockerfiles for forwardcomputers.com" \
         "---" \
@@ -206,6 +170,46 @@ readme () { ## Create readme file
         curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://raw.githubusercontent.com/forwardcomputers/dockerfiles/master/${APP}/README.md | \
         sed '/BlockStart/,/BlockEnd/!d;//d' >> README.md
     done
+}
+#
+checkbaseimage () {
+    rm -f /tmp/MAKE_BASE_LOG /tmp/MAKE_BASE_UPDATED /tmp/MAKE_REBUILD
+    docker pull ${IMG}:latest || true
+    if [[ ${BASE_IMAGE} ]]; then docker pull ${BASE_IMAGE} 2>&1 | tee /tmp/MAKE_BASE_LOG; fi
+    if [[ -f /tmp/MAKE_BASE_LOG && ! -z "$(grep 'Pull complete' /tmp/MAKE_BASE_LOG)" ]]; then touch -f /tmp/MAKE_BASE_UPDATED; fi
+    rm -f /tmp/MAKE_BASE_LOG
+}
+#
+checklocalimage () {
+    if ! docker image inspect ${IMG} > /dev/null 2>&1; then
+        docker pull ${IMG} > /dev/null 2>&1 || make build
+    fi
+    if [[ ${NAME} = "chrome" ]]; then
+        DOCKER_OPT="$DOCKER_OPT --security-opt seccomp=$HOME/.config/google-chrome/chrome.json"
+    fi
+}
+#
+tweet () {
+    printf '%s\n' "Tweet ${NAME} push"
+    # Code bits from - https://github.com/moebiuscurve/tweetExperiments/tree/master/curlTweets
+    message="Pushed ${NAME}"
+    message_string=`echo -n ${message}|sed -e s'/ /%2520/g'`
+    message_curl=`echo -n ${message}|sed -e s'/ /+/g'`
+    timestamp=`date +%s`
+    nonce=`date +%s%T | openssl base64 | sed -e s'/[+=/]//g'`
+    api_version=1.1
+    signature_base_string="POST&https%3A%2F%2Fapi.twitter.com%2F${api_version}%2Fstatuses%2Fupdate.json&oauth_consumer_key%3D${LP_T_CONSUMER_KEY}%26oauth_nonce%3D${nonce}%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D${timestamp}%26oauth_token%3D${LP_T_OAUTH_TOKEN}%26oauth_version%3D1.0%26status%3D${message_string}"
+    signature_key="${LP_T_CONSUMER_SECRET}&${LP_T_OAUTH_SECRET}"
+    oauth_signature=`echo -n ${signature_base_string} | openssl dgst -sha1 -hmac ${signature_key} -binary | openssl base64 | sed -e s'/+/%2B/g' -e s'/\//%2F/g' -e s'/=/%3D/g'`
+    header="Authorization: OAuth oauth_consumer_key=\"${LP_T_CONSUMER_KEY}\", oauth_nonce=\"${nonce}\", oauth_signature=\"${oauth_signature}\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"${timestamp}\", oauth_token=\"${LP_T_OAUTH_TOKEN}\", oauth_version=\"1.0\""
+    result=`curl -s -X POST "https://api.twitter.com/${api_version}/statuses/update.json" --data "status=${message_curl}" --header "Content-Type: application/x-www-form-urlencoded" --header "${header}"`
+}
+#
+all_apps () {
+    APPS=( $(\
+        curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://api.github.com/repos/forwardcomputers/dockerfiles/contents | \
+        jq -r 'sort_by(.name)[] | select(.type == "dir" and .name != ".circleci") | .name') \
+    )
 }
 #
 main "$@"
