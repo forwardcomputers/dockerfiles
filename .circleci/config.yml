@@ -12,12 +12,13 @@ jobs:
       - run: 
           name: Build and push to docker
           command: |
-            mkdir -p /go/src/github.com/forwardcomputers/dockerfiles
-            mv -f /app /go/src/github.com/forwardcomputers/dockerfiles/${CIRCLE_PROJECT_REPONAME}
-            echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/dockerfiles/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
+            mkdir -p /go/src/github.com/forwardcomputers
+            mv -f /app /go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}
+            echo "USER=root" >> $BASH_ENV
+            echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
             source $BASH_ENV
             docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-            GH_SHA=$( \
+            GH_SHA=$( \docker log 
               curl --silent --location --url https://api.github.com/repos/forwardcomputers/dockerfiles/commits | \
               jq -r '.[0].sha' \
             )
@@ -28,6 +29,7 @@ jobs:
             for APP in "${GH_APP[@]}"; do
               ./dapp.sh upgrade ${APP}
             done
+
   build_all:
     working_directory: /app
     docker:
@@ -39,9 +41,10 @@ jobs:
       - run: 
           name: Build and push to docker
           command: |
-            mkdir -p /go/src/github.com/forwardcomputers/dockerfiles
-            mv -f /app /go/src/github.com/forwardcomputers/dockerfiles/${CIRCLE_PROJECT_REPONAME}
-            echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/dockerfiles/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
+            mkdir -p /go/src/github.com/forwardcomputers
+            mv -f /app /go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}
+            echo "USER=root" >> $BASH_ENV
+            echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
             source $BASH_ENV
             docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
             ./dapp.sh build_all
@@ -59,7 +62,7 @@ workflows:
       - schedule:
           # Times are in UTC, this job is run
           # daily @ 14HRS = 9AM EST, 20HRS = 3PM EST
-          cron: "0 14,20 * * *"
+          cron: "0 14,0 * * *"
           filters:
             branches:
               only:
