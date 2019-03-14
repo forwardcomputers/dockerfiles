@@ -3,7 +3,7 @@ set -E              # any trap on ERR is inherited by shell functions
 set -e              # exit if error occurs
 set -u              # treat unset variables and parameters as an error
 set -o pipefail     # fail if pipe failed
-set -x              # show every commond
+#set -x              # show every commond
 #
 GH_API_HEADER="Accept: application/vnd.github.v3+json"
 GH_AUTH_HEADER="Authorization: token ${LP_GITHUB_API_TOKEN}"
@@ -100,6 +100,20 @@ upgrade () { ## Upgrade if there is a newer application version
         printf '%b' "${GREEN}Rebuilt to the latest version ${YELLOW}${APPNEW}${NC}\n"
         rm -f /tmp/MAKE_REBUILD
     fi
+}
+#
+upgrade_all () { ## Upgrade all applications
+    printf '%s\n' "Building all applications"
+    all_apps
+    for APP in "${APPS[@]}"; do
+        NAME=${APP}
+        IMG="${CO}/${NAME}"
+        set +e
+        eval APPNEW=\$\($(grep -oP '(?<=APPNEW ).*' ${NAME}/Dockerfile 2> /dev/null || true)\)
+        set -e
+        upgrade
+        printf '%b' "${GREEN}Built ${BLUE}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}\n"
+    done
 }
 #
 build_all () { ## Build all applications
