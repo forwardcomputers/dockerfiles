@@ -3,7 +3,7 @@ set -E              # any trap on ERR is inherited by shell functions
 set -e              # exit if error occurs
 set -u              # treat unset variables and parameters as an error
 set -o pipefail     # fail if pipe failed
-set -x              # show every commond
+#set -x              # show every commond
 #
 GH_API_HEADER="Accept: application/vnd.github.v3+json"
 GH_AUTH_HEADER="Authorization: token ${LP_GITHUB_API_TOKEN}"
@@ -117,6 +117,7 @@ update () {
 }
 #
 upgrade () { ## Upgrade if there is a newer application version
+    printf '%s\n' "Upgrading ${NAME}"
     info
     if [[ -f /tmp/MAKE_REBUILD ]]; then
         make build
@@ -127,16 +128,19 @@ upgrade () { ## Upgrade if there is a newer application version
 }
 #
 build () { ## Generate docker image file
+    printf '%s\n' "Buildng ${NAME}"
     docker build --rm --compress --label ${IMG} --tag ${IMG} --tag ${IMG}:${APPNEW} --build-arg REPO=${NAME} --build-arg VERSION=${APPNEW} --build-arg TEXT="${BUILD_DATE}" ${NAME}
 }
 #
 push () {  ## Push image to Docker Hub
+    printf '%s\n' "Pushing ${NAME} to Docker hub"
     docker push ${IMG}:latest
     docker push ${IMG}:${APPNEW}
     tweet
 }
 #
 tweet () {
+    printf '%s\n' "Tweet ${NAME} push"
     # Code bits from - https://github.com/moebiuscurve/tweetExperiments/tree/master/curlTweets
     message="Pushed ${NAME}"
     message_string=`echo -n ${message}|sed -e s'/ /%2520/g'`
@@ -161,6 +165,7 @@ checklocalimage () {
 }
 #
 run () { ## Run the docker application
+    printf '%s\n' "Runing ${NAME}"
     checklocalimage
     docker run --detach \
                 --name ${NAME} \
@@ -169,6 +174,7 @@ run () { ## Run the docker application
 }
 #
 shell () { ## Run shell in docker application
+    printf '%s\n' "Runing shell in ${NAME}"
     checklocalimage
     docker run --interactive --tty \
                 --name ${NAME}_shell \
@@ -178,7 +184,7 @@ shell () { ## Run shell in docker application
 }
 #
 desktop () { ## Populate desktop application menu
-    printf "Populating application menu\n"
+    printf '%s\n' "Populating application menu"
     DESKTOP_NAME="$(grep -oP '(?<=DESKTOP_NAME ).*' ${NAME}/Dockerfile 2> /dev/null || true)"
     DESKTOP_COMMENT="$(grep -oP '(?<=DESKTOP_COMMENT ).*' ${NAME}/Dockerfile 2> /dev/null || true)"
     DESKTOP_CATEGORIES="$(grep -oP '(?<=DESKTOP_CATEGORIES ).*' ${NAME}/Dockerfile 2> /dev/null || true)"
@@ -186,7 +192,7 @@ desktop () { ## Populate desktop application menu
     DESKTOP_LOGO="$(grep -oP '(?<=DESKTOP_LOGO ).*' ${NAME}/Dockerfile 2> /dev/null || true)"
     DESKTOP_LOGO_NAME="${NAME}_$(basename ${DESKTOP_LOGO})"
     curl --silent --location --output ~/.local/share/applications/${DESKTOP_LOGO_NAME} ${DESKTOP_LOGO}
-    printf '%s\n' \
+    printf 
         "[Desktop Entry]" \
         "Version=1.0" \
         "Type=Application" \
@@ -202,11 +208,20 @@ desktop () { ## Populate desktop application menu
     printf '%s\n' "${DESKTOP_MIMETYPES}=${NAME}.desktop;" >> ~/.local/share/applications/mimeapps.list
 }
 #
-readme () {
-    APPS=( $(curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://api.github.com/repos/forwardcomputers/dockerfiles/contents | jq -r 'sort_by(.name)[] | select(.type == "dir" and .name != ".circleci") | .name') )
-    rm -f README.md
+readme () { ## Create readme file
+    printf '%s\n' "Creating readme file"
+    APPS=( $(\
+        curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://api.github.com/repos/forwardcomputers/dockerfiles/contents | \
+        jq -r 'sort_by(.name)[] | select(.type == "dir" and .name != ".circleci") | .name') \
+    )
+    printf '%s\n' \
+        "# Dockerfiles for forwardcomputers.com" \
+        "---" \
+        "" \
+        "" > README.md
     for APP in "${APPS[@]}"; do
-        curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://raw.githubusercontent.com/forwardcomputers/dockerfiles/master/${APP}/README.md | sed '/BlockStart/,/BlockEnd/!d;//d' >> README.md
+        curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://raw.githubusercontent.com/forwardcomputers/dockerfiles/master/${APP}/README.md | \
+        sed '/BlockStart/,/BlockEnd/!d;//d' >> README.md
     done
 }
 #
