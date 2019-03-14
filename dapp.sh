@@ -95,14 +95,25 @@ upgrade () { ## Upgrade if there is a newer application version
     printf '%s\n' "Upgrading ${NAME}"
     info
     if [[ -f /tmp/MAKE_REBUILD ]]; then
-        make build
-        make push
+        build
+        push
         printf '%b' "${GREEN}Rebuilt to the latest version ${YELLOW}${APPNEW}${NC}\n"
         rm -f /tmp/MAKE_REBUILD
     fi
 }
 #
-build () { ## Generate docker image file
+build_all () { ## Build all applications
+    printf '%s\n' "Building all applications"
+    all_apps
+    for APP in "${APPS[@]}"; do
+        build
+        push
+        tweet
+        printf '%b' "${GREEN}Rebuilt to the latest version ${YELLOW}${APPNEW}${NC}\n"
+    done
+}
+#
+build () { ## Build docker image file
     printf '%s\n' "Buildng ${NAME}"
     docker build --rm --compress --label ${IMG} --tag ${IMG} --tag ${IMG}:${APPNEW} --build-arg REPO=${NAME} --build-arg VERSION=${APPNEW} --build-arg TEXT="${BUILD_DATE}" ${NAME}
 }
@@ -182,7 +193,7 @@ checkbaseimage () {
 #
 checklocalimage () {
     if ! docker image inspect ${IMG} > /dev/null 2>&1; then
-        docker pull ${IMG} > /dev/null 2>&1 || make build
+        docker pull ${IMG}:latest || build
     fi
     if [[ ${NAME} = "chrome" ]]; then
         DOCKER_OPT="$DOCKER_OPT --security-opt seccomp=$HOME/.config/google-chrome/chrome.json"
