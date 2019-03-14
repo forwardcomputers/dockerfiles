@@ -103,12 +103,13 @@ upgrade () { ## Upgrade if there is a newer application version
 }
 #
 upgrade_all () { ## Upgrade all applications
-    printf '%s\n' "Building all applications"
+    printf '%s\n' "Upgrading applications"
     all_apps
-    for APP in "${APPS[@]}"; do
-        NAME=${APP}
+    for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
         set +e
+        BASE_IMAGE="$(sed -n -e 's/^FROM //p' ${NAME}/Dockerfile 2> /dev/null || true)"
+        APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/${NAME}/tags | jq --raw-output '.results|.[0]|.name // 0')"
         eval APPNEW=\$\($(grep -oP '(?<=APPNEW ).*' ${NAME}/Dockerfile 2> /dev/null || true)\)
         set -e
         upgrade
@@ -116,11 +117,10 @@ upgrade_all () { ## Upgrade all applications
     done
 }
 #
-build_all () { ## Build all applications
-    printf '%s\n' "Building all applications"
+rebuild_all () { ## Rebuild all applications
+    printf '%s\n' "Rebuilding all applications"
     all_apps
-    for APP in "${APPS[@]}"; do
-        NAME=${APP}
+    for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
         set +e
         eval APPNEW=\$\($(grep -oP '(?<=APPNEW ).*' ${NAME}/Dockerfile 2> /dev/null || true)\)
