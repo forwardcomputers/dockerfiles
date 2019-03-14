@@ -1,0 +1,59 @@
+version: 2.1
+
+jobs:
+  build:
+    working_directory: /app
+    docker:
+      - image: circleci/golang
+        user: root
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: 
+          name: Build and push to docker
+          command: |
+            mkdir -p /go/src/github.com/forwardcomputers
+            mv -f /app /go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}
+            echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
+            source $BASH_ENV
+            docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+            make upgrade
+      - run:
+          name: Tweet on push
+          command: |
+            if [ -f /tmp/MAKE_PUSHED ]; then
+              # Code bits from - https://github.com/moebiuscurve/tweetExperiments/tree/master/curlTweets
+              message="Pushed ${CIRCLE_PROJECT_REPONAME}"
+              message_string=`echo -n ${message}|sed -e s'/ /%2520/g'`
+              message_curl=`echo -n ${message}|sed -e s'/ /+/g'`
+              timestamp=`date +%s`
+              nonce=`date +%s%T | openssl base64 | sed -e s'/[+=/]//g'`
+              api_version=1.1
+              signature_base_string="POST&https%3A%2F%2Fapi.twitter.com%2F${api_version}%2Fstatuses%2Fupdate.json&oauth_consumer_key%3D${T_CONSUMER_KEY}%26oauth_nonce%3D${nonce}%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D${timestamp}%26oauth_token%3D${T_OAUTH_TOKEN}%26oauth_version%3D1.0%26status%3D${message_string}"
+              signature_key="${T_CONSUMER_SECRET}&${T_OAUTH_SECRET}"
+              oauth_signature=`echo -n ${signature_base_string} | openssl dgst -sha1 -hmac ${signature_key} -binary | openssl base64 | sed -e s'/+/%2B/g' -e s'/\//%2F/g' -e s'/=/%3D/g'`
+              header="Authorization: OAuth oauth_consumer_key=\"${T_CONSUMER_KEY}\", oauth_nonce=\"${nonce}\", oauth_signature=\"${oauth_signature}\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"${timestamp}\", oauth_token=\"${T_OAUTH_TOKEN}\", oauth_version=\"1.0\""
+              result=`curl -s -X POST "https://api.twitter.com/${api_version}/statuses/update.json" --data "status=${message_curl}" --header "Content-Type: application/x-www-form-urlencoded" --header "${header}"`
+            fi
+
+workflows:
+  version: 2.1
+
+  commit:
+    jobs:
+      - build:
+          context: global
+
+  nightly:
+    triggers:
+      - schedule:
+          # Times are in UTC, this job is run
+          # daily @ 14HRS = 9AM EST, 20HRS = 3PM EST
+          cron: "0 14,20 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build:
+          context: global
