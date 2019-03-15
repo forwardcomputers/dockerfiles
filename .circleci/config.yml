@@ -4,7 +4,7 @@ jobs:
   build_one:
     working_directory: /app
     docker:
-      - image: circleci/golang:latest
+      - image: circleci/buildpack-deps:latest
         user: root
     steps:
       - checkout
@@ -12,11 +12,11 @@ jobs:
       - run: 
           name: Build and push to docker
           command: |
-            mkdir -p /go/src/github.com/forwardcomputers
-            mv -f /app /go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}
-            echo "USER=root" >> $BASH_ENV
-            echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
-            source $BASH_ENV
+            # mkdir -p /go/src/github.com/forwardcomputers
+            # mv -f /app /go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}
+            # echo "USER=root" >> $BASH_ENV
+            # echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
+            # source $BASH_ENV
             docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
             GH_SHA=$( \
               curl --silent --location --url https://api.github.com/repos/forwardcomputers/dockerfiles/commits | \
