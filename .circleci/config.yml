@@ -63,7 +63,7 @@ workflows:
           # Times are in UTC, this job is run
           # daily @ 14HRS = 9AM EST, 20HRS = 3PM EST
           # cron: "0 14,20 * * *"
-          cron: "24 0 * * *"
+          cron: "26 0 * * *"
           filters:
             branches:
               only:
