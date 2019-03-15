@@ -18,7 +18,7 @@ jobs:
             echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
             source $BASH_ENV
             docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-            GH_SHA=$( \docker log 
+            GH_SHA=$( \
               curl --silent --location --url https://api.github.com/repos/forwardcomputers/dockerfiles/commits | \
               jq -r '.[0].sha' \
             )
