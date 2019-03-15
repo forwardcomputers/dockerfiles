@@ -1,17 +1,18 @@
 version: 2.1
 
 jobs:
-  shellcheck:
+  build_one:
+    working_directory: /app
     docker:
-      - image: circleci/buildpack-deps:stable
+      - image: circleci/buildpack-deps:disco
         user: root
     steps:
       - checkout
       - run: 
-          name: Test files
+          name: Shellcheck file
           command: |
             apt-get update && apt-get install -y shellcheck
-            shellcheck /app/dapp.sh && echo "[OK]: successfully linted dapp.sh
+            shellcheck /app/dapp.sh && echo "[OK]: successfully linted dapp.sh"
             if [ ${ERRORS} -ne 0 ]; then
               echo "dapp.sh failed shellcheck"
               exit 1
@@ -32,15 +33,6 @@ jobs:
             header="Authorization: OAuth oauth_consumer_key=\"${LP_T_CONSUMER_KEY}\", oauth_nonce=\"${nonce}\", oauth_signature=\"${oauth_signature}\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"${timestamp}\", oauth_token=\"${LP_T_OAUTH_TOKEN}\", oauth_version=\"1.0\""
             result=$(curl -s -X POST "https://api.twitter.com/${api_version}/statuses/update.json" --data "status=${message_curl}" --header "Content-Type: application/x-www-form-urlencoded" --header "${header}")
           when: on_fail
-
-  build_one:
-    working_directory: /app
-    docker:
-      - image: circleci/buildpack-deps:disco
-        user: root
-    steps:
-      - checkout
-      - setup_remote_docker
       - run: 
           name: Build and push to docker
           command: |
@@ -86,8 +78,6 @@ workflows:
 
   commit:
     jobs:
-      - shellcheck:
-          context: global
       - build_one:
           context: global
 
