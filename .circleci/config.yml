@@ -1,6 +1,38 @@
 version: 2.1
 
 jobs:
+  shellcheck:
+    docker:
+      - image: circleci/buildpack-deps:stable
+        user: root
+    steps:
+      - checkout
+      - run: 
+          name: Test files
+          command: |
+            apt-get update && apt-get install -y shellcheck
+            shellcheck /app/dapp.sh && echo "[OK]: successfully linted dapp.sh
+            if [ ${ERRORS} -ne 0 ]; then
+              echo "dapp.sh failed shellcheck"
+              exit 1
+            fi
+      - run:
+          name: Tweet on Failure
+          command: |
+            # Code bits from - https://github.com/moebiuscurve/tweetExperiments/tree/master/curlTweets
+            message="${CIRCLE_PROJECT_REPONAME} failed"
+            message_string=$(echo -n "${message}"|sed -e s'/ /%2520/g')
+            message_curl=$(echo -n "${message}"|sed -e s'/ /+/g')
+            timestamp=$(date +%s)
+            nonce=$(date +%s%T | openssl base64 | sed -e s'/[+=/]//g')
+            api_version=1.1
+            signature_base_string="POST&https%3A%2F%2Fapi.twitter.com%2F${api_version}%2Fstatuses%2Fupdate.json&oauth_consumer_key%3D${LP_T_CONSUMER_KEY}%26oauth_nonce%3D${nonce}%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D${timestamp}%26oauth_token%3D${LP_T_OAUTH_TOKEN}%26oauth_version%3D1.0%26status%3D${message_string}"
+            signature_key="${LP_T_CONSUMER_SECRET}&${LP_T_OAUTH_SECRET}"
+            oauth_signature=$(echo -n "${signature_base_string}" | openssl dgst -sha1 -hmac "${signature_key}" -binary | openssl base64 | sed -e s'/+/%2B/g' -e s'/\//%2F/g' -e s'/=/%3D/g')
+            header="Authorization: OAuth oauth_consumer_key=\"${LP_T_CONSUMER_KEY}\", oauth_nonce=\"${nonce}\", oauth_signature=\"${oauth_signature}\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"${timestamp}\", oauth_token=\"${LP_T_OAUTH_TOKEN}\", oauth_version=\"1.0\""
+            result=$(curl -s -X POST "https://api.twitter.com/${api_version}/statuses/update.json" --data "status=${message_curl}" --header "Content-Type: application/x-www-form-urlencoded" --header "${header}")
+          when: on_fail
+
   build_one:
     working_directory: /app
     docker:
@@ -54,6 +86,8 @@ workflows:
 
   commit:
     jobs:
+      - shellcheck:
+          context: global
       - build_one:
           context: global
 
