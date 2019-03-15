@@ -61,7 +61,7 @@ main () {
 }
 #
 help () { ## Show this help message
-    printf "%b" "\nUsage:\n  ${GREEN}dapp ${YELLOW}[target] ${BLUE}directory${NC}\n\nTargets:\n"
+    printf "%b" "\nUsage:\n  ${GREEN}dapp ${YELLOW}[target] ${CYAN}directory${NC}\n\nTargets:\n"
     grep -E '^[a-zA-Z_-]+.*{.*?## .*$' ${0} | sort | awk 'BEGIN {FS = "\\(.*?## "}; { printf "  '${GREEN}'%-15s'${YELLOW}'%s'${NC}'\n", $1, $2} '
     printf '\n'
 }
@@ -70,16 +70,16 @@ info () { ## Check if there is a newer application version
     checkbaseimage
     if [[ ! ${APPNEW} ]]; then APPNEW=null; fi
     if [[ ${APPNEW} = ${APPOLD} && ! -f /tmp/MAKE_BASE_UPDATED ]]; then
-        printf '%b' "${GREEN}Build is on latest version ${YELLOW}${APPNEW}${NC}\n"
+        printf '%b' "${YELLOW}${NAME}${GREEN} Build is on latest version ${YELLOW}${APPNEW}${NC}\n"
     else
         if [[ ${APPOLD} = 0 ]]; then
             if [[ ${APPNEW} = "null" ]]; then APPNEW=""; fi
             printf '%b' "${GREEN}Nonexistant in Docker, use ${YELLOW}'dapp upgrade ${NAME}'${GREEN} or ${YELLOW}'dapp build ${NAME}'${GREEN} to generate the latest version ${YELLOW}${APPNEW}${NC}\n"
         else
             if [[ -f /tmp/MAKE_BASE_UPDATED ]]; then
-                printf '%b' "${RED}Base image ${YELLOW}${BASE_IMAGE}${NC} ${GREEN}has been updated\n"
+                printf '%b' "${YELLOW}${NAME}${GREEN} ${RED}Base image ${YELLOW}${BASE_IMAGE}${NC} ${GREEN}has been updated\n"
             else \
-                printf '%b' "${RED}Build is on older version ${YELLOW}${APPOLD}${NC} ${GREEN}current version ${YELLOW}${APPNEW}${NC}\n"
+                printf '%b' "${YELLOW}${NAME}${GREEN} ${RED}Build is on older version ${YELLOW}${APPOLD}${NC} ${GREEN}current version ${YELLOW}${APPNEW}${NC}\n"
             fi
         fi
         touch -f /tmp/MAKE_REBUILD
@@ -97,7 +97,7 @@ upgrade () { ## Upgrade if there is a newer application version
     if [[ -f /tmp/MAKE_REBUILD ]]; then
         build
         push
-        printf '%b' "${GREEN}Rebuilt ${BLUE}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}\n"
+        printf '%b' "${GREEN}Rebuilt ${YELLOW}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}\n"
         rm -f /tmp/MAKE_REBUILD
     fi
 }
@@ -107,9 +107,9 @@ upgrade_all () { ## Upgrade all applications
     all_apps
     for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
-        set +e
         BASE_IMAGE="$(sed -n -e 's/^FROM //p' ${NAME}/Dockerfile 2> /dev/null || true)"
         APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/${NAME}/tags | jq --raw-output '.results|.[0]|.name // 0')"
+        set +e
         eval APPNEW=\$\($(grep -oP '(?<=APPNEW ).*' ${NAME}/Dockerfile 2> /dev/null || true)\)
         set -e
         upgrade
@@ -126,7 +126,7 @@ rebuild_all () { ## Rebuild all applications
         set -e
         build
         push
-        printf '%b' "${GREEN}Built ${BLUE}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}\n"
+        printf '%b' "${GREEN}Built ${YELLOW}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}\n"
     done
 }
 #
@@ -202,15 +202,15 @@ readme () { ## Create readme file
 #
 checkbaseimage () {
     rm -f /tmp/MAKE_BASE_LOG /tmp/MAKE_BASE_UPDATED /tmp/MAKE_REBUILD
-    docker pull ${IMG}:latest || true
-    if [[ ${BASE_IMAGE} ]]; then docker pull ${BASE_IMAGE} 2>&1 | tee /tmp/MAKE_BASE_LOG; fi
+    docker pull ${IMG}:latest > /dev/null 2>&1 || true
+    if [[ ${BASE_IMAGE} ]]; then docker pull ${BASE_IMAGE} > /tmp/MAKE_BASE_LOG; fi
     if [[ -f /tmp/MAKE_BASE_LOG && ! -z "$(grep 'Pull complete' /tmp/MAKE_BASE_LOG)" ]]; then touch -f /tmp/MAKE_BASE_UPDATED; fi
     rm -f /tmp/MAKE_BASE_LOG
 }
 #
 checklocalimage () {
     if ! docker image inspect ${IMG} > /dev/null 2>&1; then
-        docker pull ${IMG}:latest || build
+        docker pull ${IMG}:latest > /dev/null 2>&1 || build
     fi
     if [[ ${NAME} = "chrome" ]]; then
         DOCKER_OPT="$DOCKER_OPT --security-opt seccomp=$HOME/.config/google-chrome/chrome.json"
