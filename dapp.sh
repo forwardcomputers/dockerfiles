@@ -97,7 +97,7 @@ upgrade () { ## Upgrade if there is a newer application version
     if [[ -f /tmp/MAKE_REBUILD ]]; then
         build
         push
-        printf '%b' "${GREEN}Rebuilt to the latest version ${YELLOW}${APPNEW}${NC}\n"
+        printf '%b' "${GREEN}Rebuilt ${BLUE}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}\n"
         rm -f /tmp/MAKE_REBUILD
     fi
 }
@@ -113,7 +113,6 @@ upgrade_all () { ## Upgrade all applications
         eval APPNEW=\$\($(grep -oP '(?<=APPNEW ).*' ${NAME}/Dockerfile 2> /dev/null || true)\)
         set -e
         upgrade
-        printf '%b' "${GREEN}Built ${BLUE}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}\n"
     done
 }
 #
