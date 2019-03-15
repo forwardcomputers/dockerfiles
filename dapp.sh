@@ -189,11 +189,7 @@ desktop () { ## Populate desktop application menu
 readme () { ## Create readme file
     printf '%s\n' "Creating readme file"
     all_apps
-    printf '%s\n' \
-        "# Dockerfiles for forwardcomputers.com" \
-        "---" \
-        "" \
-        "" > README.md
+    rm README.md
     for APP in "${APPS[@]}"; do
         curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://raw.githubusercontent.com/forwardcomputers/dockerfiles/master/${APP}/README.md | \
         sed '/BlockStart/,/BlockEnd/!d;//d' >> README.md

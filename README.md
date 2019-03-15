@@ -1,7 +1,3 @@
-# Dockerfiles for forwardcomputers.com
----
-
-
 [![CircleCI](https://img.shields.io/circleci/project/github/forwardcomputers/audacity.svg?label=audacity)](https://circleci.com/gh/forwardcomputers/audacity)
 [![Github](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/audacity)
 [![Docker](https://img.shields.io/badge/docker--E5E5E5.svg?label=&logo=docker)](https://hub.docker.com/r/forwardcomputers/audacity)
