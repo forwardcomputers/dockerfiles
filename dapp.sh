@@ -3,7 +3,7 @@ set -E              # any trap on ERR is inherited by shell functions
 set -e              # exit if error occurs
 set -u              # treat unset variables and parameters as an error
 set -o pipefail     # fail if pipe failed
-#set -x              # show every commond
+set -x              # show every commond
 #
 GH_API_HEADER="Accept: application/vnd.github.v3+json"
 GH_AUTH_HEADER="Authorization: token ${LP_GITHUB_API_TOKEN}"
@@ -58,7 +58,7 @@ main () {
     TARGET="${1-help}"
 #    NAME="${2}"
 
-    if [[ "${TARGET}" == "help" || ( "${NAME}" == "none" && "${TARGET}" != "build_all" && "${TARGET}" != "upgrade_all" && "${TARGET}" != "readme" ) ]]; then
+    if [[ "${TARGET}" == "help" || ( "${NAME}" == "none" && "${TARGET}" != "rebuild_all" && "${TARGET}" != "upgrade_all" && "${TARGET}" != "readme" ) ]]; then
         help
     else
         if ! type "${TARGET}" >/dev/null 2>&1; then
