@@ -4,7 +4,7 @@ jobs:
   build_one:
     working_directory: /app
     docker:
-      - image: circleci/buildpack-deps:disco
+      - image: circleci/buildpack-deps
         user: root
     steps:
       - checkout
