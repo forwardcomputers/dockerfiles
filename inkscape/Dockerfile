@@ -60,3 +60,4 @@ RUN set -xe \
 USER ${user}
 WORKDIR /home/${user}
 CMD [ "inkscape" ]
+
