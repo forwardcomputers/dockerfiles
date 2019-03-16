@@ -212,7 +212,9 @@ readme () { ## Create readme file
             "[![Microbadger](https://images.microbadger.com/badges/image/forwardcomputers/${APP}.svg)](http://microbadger.com/images/forwardcomputers/${APP} \"Image size\")" \
             "<br/>" >> README.md
     done
-    printf '\n%s\n' "[//]: # (BlockEnd)" >> README.md
+    printf '\n%s\n' \
+        "[//]: # (BlockEnd)" \
+        "This setup is largely based on Jessie Frazelle work [https://github.com/jfrazelle/dockerfiles](https://github.com/jfrazelle/dockerfiles)" >> README.md
 }
 #
 checkbaseimage () {
