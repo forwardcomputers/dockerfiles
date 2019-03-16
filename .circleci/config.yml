@@ -4,12 +4,13 @@ jobs:
   build_one:
     working_directory: /app
     docker:
-      - image: circleci/golang
+      - image: circleci/buildpack-deps:testing
         user: root
         environment:
           USER: root
     steps:
       - checkout
+      - setup_remote_docker
       - run: 
           name: Shellcheck file
           command: |
