@@ -3,7 +3,7 @@ set -E              # any trap on ERR is inherited by shell functions
 set -e              # exit if error occurs
 set -u              # treat unset variables and parameters as an error
 set -o pipefail     # fail if pipe failed
-set -x              # show every commond
+#set -x              # show every commond
 #
 GH_API_HEADER="Accept: application/vnd.github.v3+json"
 GH_AUTH_HEADER="Authorization: token ${LP_GITHUB_API_TOKEN}"
