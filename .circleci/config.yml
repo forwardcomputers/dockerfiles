@@ -3,6 +3,8 @@ version: 2.1
 jobs:
   build_one:
     working_directory: /app
+    environment:
+      TZ: "America/Toronto"
     docker:
       - image: circleci/buildpack-deps:testing
         user: root
@@ -51,6 +53,8 @@ jobs:
 
   build_all:
     working_directory: /app
+    environment:
+      TZ: "America/Toronto"
     docker:
       - image: circleci/golang
         user: root
