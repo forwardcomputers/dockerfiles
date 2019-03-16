@@ -4,7 +4,7 @@ jobs:
   build_one:
     working_directory: /app
     docker:
-      - image: circleci/buildpack-deps
+      - image: circleci/buildpack-deps:testing
         user: root
     steps:
       - checkout
