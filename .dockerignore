@@ -1,8 +1,0 @@
-._*
-.circleci*
-.git*
-*.desktop
-*.md
-*.png
-LICENSE
-makefile*
