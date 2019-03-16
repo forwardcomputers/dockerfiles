@@ -4,7 +4,7 @@ jobs:
   build_one:
     working_directory: /app
     docker:
-      - image: circleci/buildpack-deps:testing
+      - image: circleci/golang
         user: root
         environment:
           USER: root
