@@ -179,7 +179,7 @@ desktop () { ## Populate desktop application menu
     DESKTOP_LOGO="$(grep -oP '(?<=DESKTOP_LOGO ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
     DESKTOP_LOGO_NAME="${NAME}_$(basename "${DESKTOP_LOGO}")"
     curl --silent --location --output ~/.local/share/applications/"${DESKTOP_LOGO_NAME}" "${DESKTOP_LOGO}"
-    printf 
+    printf '%s\n' \
         "[Desktop Entry]" \
         "Version=1.0" \
         "Type=Application" \
@@ -198,11 +198,21 @@ desktop () { ## Populate desktop application menu
 readme () { ## Create readme file
     printf '%s\n' "Creating readme file"
     all_apps
-    rm README.md
+    printf '%s\n' \
+        "# Docker files" \
+        "#### Docker files for various Linux applications." \
+        "---" \
+        "[//]: # (BlockStart)" > README.md
     for APP in "${APPS[@]}"; do
-        curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://raw.githubusercontent.com/forwardcomputers/dockerfiles/master/"${APP}"/README.md | \
-        sed '/BlockStart/,/BlockEnd/!d;//d' >> README.md
+        printf '%s\n' \
+            "[![Docker push](https://img.shields.io/badge/dynamic/json.svg?query=$.Labels.BuildDate&label=${APP}%20pushed%20on&url=https://api.microbadger.com/v1/images/forwardcomputers/${APP})](https://hub.docker.com/r/forwardcomputers/${APP})" \
+            "[![Github](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/${APP})" \
+            "[![Docker](https://img.shields.io/badge/docker--E5E5E5.svg?label=&logo=docker)](https://hub.docker.com/r/forwardcomputers/${APP})" \
+            "[![Docker release](https://img.shields.io/badge/dynamic/json.svg?query=$.results.0.name&label=latest%20tag&url=https://registry.hub.docker.com/v2/repositories/forwardcomputers/${APP}/tags)](https://hub.docker.com/r/forwardcomputers/${APP})" \
+            "[![Microbadger](https://images.microbadger.com/badges/image/forwardcomputers/${APP}.svg)](http://microbadger.com/images/forwardcomputers/${APP} \"Image size\")" \
+            "<br/>" >> README.md
     done
+    printf '\n%s\n' "[//]: # (BlockEnd)" >> README.md
 }
 #
 checkbaseimage () {
@@ -241,9 +251,9 @@ tweet () {
 }
 #
 all_apps () {
-    APPS=( "$( \
+    APPS=( $( \
         curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://api.github.com/repos/forwardcomputers/dockerfiles/contents | \
-        jq -r 'sort_by(.name)[] | select(.type == "dir" and .name != ".circleci") | .name')" \
+        jq -r 'sort_by(.name)[] | select(.type == "dir" and .name != ".circleci") | .name') \
     )
 }
 #
