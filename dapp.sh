@@ -236,7 +236,6 @@ tweet () {
     signature_key="${LP_T_CONSUMER_SECRET}&${LP_T_OAUTH_SECRET}"
     oauth_signature=$(echo -n "${signature_base_string}" | openssl dgst -sha1 -hmac "${signature_key}" -binary | openssl base64 | sed -e s'/+/%2B/g' -e s'/\//%2F/g' -e s'/=/%3D/g')
     header="Authorization: OAuth oauth_consumer_key=\"${LP_T_CONSUMER_KEY}\", oauth_nonce=\"${nonce}\", oauth_signature=\"${oauth_signature}\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"${timestamp}\", oauth_token=\"${LP_T_OAUTH_TOKEN}\", oauth_version=\"1.0\""
-    # shellcheck disable=SC2034
     result=$(curl -s -X POST "https://api.twitter.com/${api_version}/statuses/update.json" --data "status=${message_curl}" --header "Content-Type: application/x-www-form-urlencoded" --header "${header}")
 }
 #
