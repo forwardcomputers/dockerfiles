@@ -199,7 +199,7 @@ readme () { ## Create readme file
     for APP in "${APPS[@]}"; do
         printf '%s\n' \
             "[![Docker push](https://img.shields.io/badge/dynamic/json.svg?query=$.Labels.BuildDate&label=${APP}%20pushed%20on&url=https://api.microbadger.com/v1/images/forwardcomputers/${APP})](https://hub.docker.com/r/forwardcomputers/${APP})" \
-            "[![Github](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/${APP})" \
+            "[![Github](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/dockerfiles/${APP})" \
             "[![Docker](https://img.shields.io/badge/docker--E5E5E5.svg?label=&logo=docker)](https://hub.docker.com/r/forwardcomputers/${APP})" \
             "[![Docker release](https://img.shields.io/badge/dynamic/json.svg?query=$.results.0.name&label=latest%20tag&url=https://registry.hub.docker.com/v2/repositories/forwardcomputers/${APP}/tags)](https://hub.docker.com/r/forwardcomputers/${APP})" \
             "[![Microbadger](https://images.microbadger.com/badges/image/forwardcomputers/${APP}.svg)](http://microbadger.com/images/forwardcomputers/${APP} \"Image size\")" \
