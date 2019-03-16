@@ -10,7 +10,7 @@ GH_AUTH_HEADER="Authorization: token ${LP_GITHUB_API_TOKEN}"
 #
 BUILD_DATE="$(date +'%-d-%-m-%G %r')"
 CO="forwardcomputers"
-NAME="${2-none}"
+NAME=$( echo "${2-none}" | cut -d '/' -f 1 )
 IMG="${CO}/${NAME}"
 BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${NAME}"/Dockerfile 2> /dev/null || true)"
 APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"
@@ -37,22 +37,22 @@ YELLOW=$'\033[1;33m'
 # shellcheck disable=SC2034
 NC=$'\033[0m'
 #
-DOCKER_OPT="--rm --network=host --hostname=docker_${NAME} \
+# shellcheck disable=SC2191
+DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" \
             --env DISPLAY \
             --env GDK_SCALE \
             --env GDK_DPI_SCALE \
-            --env PULSE_SERVER=unix:/run/user/${UID}/pulse/native \
+            --env PULSE_SERVER=unix:/run/user/"${UID}"/pulse/native \
             --env QT_DEVICE_PIXEL_RATIO \
             --device /dev/bus/usb \
             --device /dev/dri \
             --device /dev/snd \
-            --device /dev/usb \
             --volume /dev/shm:/dev/shm \
             --volume /etc/machine-id:/etc/machine-id:ro \
             --volume /media:/media \
-            --volume /run/user/${UID}/pulse:/run/user/1001/pulse \
+            --volume /run/user/"${UID}"/pulse:/run/user/1001/pulse \
             --volume /tmp/.X11-unix:/tmp/.X11-unix:ro \
-            --volume /home/${USER}:/home/duser"
+            --volume /home/"${USER}":/home/duser)
 #
 main () {
     TARGET="${1-help}"
@@ -154,20 +154,13 @@ push () {  ## Push image to Docker Hub
 run () { ## Run the docker application
     printf '%s\n' "Runing ${NAME}"
     checklocalimage
-    docker run --detach \
-                --name "${NAME}" \
-                "${DOCKER_OPT}" \
-                "${IMG}"
+    docker run --detach --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
 }
 #
 shell () { ## Run shell in docker application
     printf '%s\n' "Runing shell in ${NAME}"
     checklocalimage
-    docker run --interactive --tty \
-                --name "${NAME}"_shell \
-                "${DOCKER_OPT}" \
-                "${IMG}" \
-                /bin/bash
+    docker run --interactive --tty --name "${NAME}"_shell "${DOCKER_OPT[@]}" "${IMG}" /bin/bash
 }
 #
 desktop () { ## Populate desktop application menu
@@ -231,7 +224,8 @@ checklocalimage () {
         docker pull "${IMG}":latest > /dev/null 2>&1 || build
     fi
     if [[ "${NAME}" = "chrome" ]]; then
-        DOCKER_OPT="$DOCKER_OPT --security-opt seccomp=$HOME/.config/google-chrome/chrome.json"
+        # shellcheck disable=SC2191
+        DOCKER_OPT+=(--security-opt seccomp="$HOME"/.config/google-chrome/chrome.json)
     fi
 }
 #
