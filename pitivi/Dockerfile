@@ -30,7 +30,6 @@ RUN set -xe \
 	libpulse0 \
 	locales \
 	pitivi \
-	sudo \
 #
 # Clean-up
 #
