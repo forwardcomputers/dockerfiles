@@ -1,5 +1,5 @@
 #
-#APPNEW curl --silent --location --header '"${GH_AUTH_HEADER}"' --header '"${GH_API_HEADER}"' --output - --url https://api.github.com/repos/audacity/audacity/releases/latest | jq -r '.tag_name | split("-")[1]'
+#APPNEW curl --location --header '"${GH_AUTH_HEADER}"' --header '"${GH_API_HEADER}"' --silent --url https://api.github.com/repos/audacity/audacity/releases/latest | jq -r '.tag_name | split("-")[1]'
 #DESKTOP_NAME Audacity
 #DESKTOP_COMMENT Record and edit audio files
 #DESKTOP_CATEGORIES AudioVideo;Audio;AudioVideoEditing;
@@ -16,15 +16,13 @@ LABEL maintainer="Ali Mustakim <alim@forwardcomputers.com>" \
 	  org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
 	  BuildDate="${TEXT}"
 #
-ENV user=duser \
-	uid=1001 \
-	gid=1001 \
-	LANG=C.UTF-8
-#
-# Some docker tweaks
+ENV user="duser" \
+	uid="1001" \
+	gid="1001" \
+	LANG="C.UTF-8"
 #
 RUN set -xe \
-&&  export user=${user} uid=${uid} gid=${gid} LANG=${LANG} \
+&&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install dependencies
 #
@@ -54,10 +52,10 @@ RUN set -xe \
 #
 RUN set -xe \
 &&	locale-gen en_US.UTF-8 || true \
-&&  groupadd --gid ${gid} ${user} \
-&&  useradd --create-home --shell /bin/bash --uid ${uid} --gid ${gid} --groups audio,video --comment ${user} ${user} \
+&&  groupadd --gid "${gid}" "${user}" \
+&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi
 #
-USER ${user}
-WORKDIR /home/${user}
+USER "${user}"
+WORKDIR /home/"${user}"
 CMD [ "audacity" ]

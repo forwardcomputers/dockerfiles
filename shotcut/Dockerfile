@@ -1,5 +1,5 @@
 #
-#APPNEW curl --silent --location --output - --url https://shotcut.org/download/ | perl -nle 'print $1 if /Current Version: (\K[^<]+)/'
+#APPNEW curl --location --silent --url https://shotcut.org/download/ | perl -nle 'print $1 if /Current Version: (\K[^<]+)/'
 #DESKTOP_NAME Shotcut
 #DESKTOP_COMMENT Program for editing and playing video files
 #DESKTOP_CATEGORIES AudioVideo;Video;AudioVideoEditing;
@@ -16,25 +16,24 @@ LABEL maintainer="Ali Mustakim <alim@forwardcomputers.com>" \
 	  org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
 	  BuildDate="${TEXT}"
 #
-ENV user=duser \
-	uid=1001 \
-	gid=1001 \
-	LANG=C.UTF-8
-#
-# Some docker tweaks
+ENV user="duser" \
+	uid="1001" \
+	gid="1001" \
+	LANG="C.UTF-8"
 #
 RUN set -xe \
-&&  export user=${user} uid=${uid} gid=${gid} LANG=${LANG} \
+&&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install dependencies
 #
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
 	bzip2 \
+	ca-certificates \
+	curl \
 	libavcodec-extra58 \
 	libasound2 \
 	libpulse0 \
 	locales \
-	wget \
 	xz-utils \
 	libc6 \
 	libcairo-gobject2 \
@@ -71,21 +70,22 @@ RUN set -xe \
 # Install application
 #
 RUN set -xe \
-&&	appver=$( ( wget --no-check-certificate --quiet --output-document - https://shotcut.org/download/ | \
-	perl -nle 'print $1 if /Current Version: (\K[^<]+)/' ) | tr -d . ) \
-&&  wget --no-check-certificate --progress=dot --quiet --timeout=10 --output-document - \
-	https://github.com/mltframework/shotcut/releases/download/v${VERSION}/shotcut-linux-x86_64-$appver.txz | \
+&&	appverdot=$( curl --location --silent --url https://shotcut.org/download/ | \
+	perl -nle 'print "${1}" if /Current Version: (\K[^<]+)/' ) \
+&&	appver=$( echo "${appverdot}" | tr -d . ) \
+&&  curl --location --silent --url \
+	https://github.com/mltframework/shotcut/releases/download/v"${appverdot}"/shotcut-linux-x86_64-"${appver}".txz | \
 	tar --extract --xz --directory /opt \
-&&  chown --recursive ${uid}:${gid} /opt/Shotcut
+&&  chown --recursive "${uid}:${gid}" /opt/Shotcut
 #
 # Create unprivileged user
 #
 RUN set -xe \
 &&	locale-gen en_US.UTF-8 || true \
-&&  groupadd --gid ${gid} ${user} \
-&&  useradd --create-home --shell /bin/bash --uid ${uid} --gid ${gid} --groups audio,video --comment ${user} ${user} \
+&&  groupadd --gid "${gid}" "${user}" \
+&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi
 #
-USER ${user}
-WORKDIR /home/${user}
+USER "${user}"
+WORKDIR /home/"${user}"
 CMD [ "/opt/Shotcut/Shotcut.app/shotcut" ]

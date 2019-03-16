@@ -253,6 +253,7 @@ tweet () {
 }
 #
 all_apps () {
+    # shellcheck disable=SC2207
     APPS=( $( \
         curl --silent --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --url https://api.github.com/repos/forwardcomputers/dockerfiles/contents | \
         jq -r 'sort_by(.name)[] | select(.type == "dir" and .name != ".circleci") | .name') \

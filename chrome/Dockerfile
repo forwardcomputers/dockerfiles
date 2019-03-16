@@ -1,5 +1,5 @@
 #
-#APPNEW curl --location --silent --output - --url https://omahaproxy.appspot.com/all | perl -nle 'print $1 if /linux,stable,(\K[^,]+)/'
+#APPNEW curl --location --silent --url https://omahaproxy.appspot.com/all | perl -nle 'print $1 if /linux,stable,(\K[^,]+)/'
 #DESKTOP_NAME Google Chrome
 #DESKTOP_COMMENT Access the Internet
 #DESKTOP_CATEGORIES Network;WebBrowser;
@@ -16,15 +16,13 @@ LABEL maintainer="Ali Mustakim <alim@forwardcomputers.com>" \
 	  org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
 	  BuildDate="${TEXT}"
 #
-ENV user=duser \
-	uid=1001 \
-	gid=1001 \
-	LANG=C.UTF-8
-#
-# A few minor docker-specific tweaks
+ENV user="duser" \
+	uid="1001" \
+	gid="1001" \
+	LANG="C.UTF-8"
 #
 RUN set -xe \
-&&  export user=${user} uid=${uid} gid=${gid} LANG=${LANG} \
+&&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install application
 #
@@ -32,6 +30,7 @@ RUN set -xe \
 	libpulse0 \
 	locales \
 	ca-certificates \
+	curl \
 	fonts-liberation \
 	libappindicator3-1 \
 	libasound2 \
@@ -73,15 +72,15 @@ RUN set -xe \
 # Install application
 #
 RUN set -xe \
-&&  wget --no-check-certificate --progress=dot --quiet "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" \
-&&  dpkg --install ./google-chrome*.deb \
+&&  curl --location --output ./google-chrome.deb --silent --url "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" \
+&&  dpkg --install ./google-chrome.deb \
 &&  apt-get install --fix-broken --no-install-recommends --yes \
 #
 # Clean-up
 #
 &&  apt-get autoremove --yes \
 &&  rm --recursive --force \
-	./google-chrome*.deb \
+	./google-chrome.deb \
 	/usr/share/doc/* \
 	/usr/share/man/* \
 	/var/cache/apt/archives/*.deb \
@@ -97,10 +96,10 @@ RUN set -xe \
 #
 RUN set -xe \
 &&	locale-gen en_US.UTF-8 || true \
-&&  groupadd --gid ${gid} ${user} \
-&&  useradd --create-home --shell /bin/bash --uid ${uid} --gid ${gid} --groups audio,video --comment ${user} ${user} \
+&&  groupadd --gid "${gid}" "${user}" \
+&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi
 #
-USER ${user}
-WORKDIR /home/${user}
+USER "${user}"
+WORKDIR /home/"${user}"
 CMD [ "google-chrome-stable" ]

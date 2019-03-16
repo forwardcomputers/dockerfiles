@@ -1,5 +1,5 @@
 #
-#APPNEW curl --silent --location --output - --url https://www.wireshark.org | perl -nle 'print $1 if />Stable Release \((\K[^\)]+)/'
+#APPNEW curl --location ---silent --url https://www.wireshark.org | perl -nle 'print $1 if />Stable Release \((\K[^\)]+)/'
 #DESKTOP_NAME Wireshark
 #DESKTOP_COMMENT Network traffic analyzer
 #DESKTOP_CATEGORIES Network;Monitor;Qt;
@@ -16,15 +16,13 @@ LABEL maintainer="Ali Mustakim <alim@forwardcomputers.com>" \
 	  org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
 	  BuildDate="${TEXT}"
 #
-ENV user=wireshark \
-	uid=1001 \
-	gid=1001 \
-	LANG=C.UTF-8
-#
-# Some docker tweaks
+ENV user="wireshark" \
+	uid="1001" \
+	gid="1001" \
+	LANG="C.UTF-8"
 #
 RUN set -xe \
-&&  export user=${user} uid=${uid} gid=${gid} LANG=${LANG} \
+&&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install dependencies
 #
@@ -51,12 +49,12 @@ RUN set -xe \
 #
 RUN set -xe \
 &&	locale-gen en_US.UTF-8 || true \
-&&  groupadd --gid ${gid} ${user} \
-&&  useradd --create-home --shell /bin/bash --uid ${uid} --gid ${gid} --groups audio,video --comment ${user} ${user} \
-&&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi \
-&&  chown root:${gid} /usr/bin/dumpcap \
+&&  groupadd --gid "${gid}" "${user}" \
+&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
+&&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi
+&&  chown root:"${gid}" /usr/bin/dumpcap \
 &&  setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap
 #
-USER ${user}
-WORKDIR /home/${user}
+USER "${user}"
+WORKDIR /home/"${user}"
 CMD [ "wireshark" ]

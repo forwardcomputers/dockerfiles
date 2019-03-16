@@ -1,5 +1,5 @@
 #
-#APPNEW curl --silent --location --url https://www.torproject.org/projects/torbrowser.html.en | awk -F '[()]' '/GNU\/Linux/ { i++ } i==4 { print $2; exit }'
+#APPNEW curl --location --silent --url https://www.torproject.org/projects/torbrowser.html.en | awk -F '[()]' '/GNU\/Linux/ { i++ } i==4 { print $2; exit }'
 #DESKTOP_NAME Tor browser
 #DESKTOP_COMMENT Tor Browser is +1 for privacy and -1 for mass surveillance
 #DESKTOP_CATEGORIES Network;WebBrowser;Security;
@@ -16,20 +16,20 @@ LABEL maintainer="Ali Mustakim <alim@forwardcomputers.com>" \
 	  org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
 	  BuildDate="${TEXT}"
 #
-ENV user=duser \
-	uid=1001 \
-	gid=1001 \
-	LANG=C.UTF-8
-#
-# Some docker tweaks
+ENV user="duser" \
+	uid="1001" \
+	gid="1001" \
+	LANG="C.UTF-8"
 #
 RUN set -xe \
-&&  export user=${user} uid=${uid} gid=${gid} LANG=${LANG} \
+&&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install dependencies
 #
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
 	bzip2 \
+	ca-certificates \
+	curl \
 	libavcodec-extra58 \
 	libasound2 \
 	libpulse0 \
@@ -84,21 +84,21 @@ RUN set -xe \
 # Install application
 #
 RUN set -xe \
-&&	appver=$( wget --no-check-certificate --quiet --timeout=10 --output-document - https://www.torproject.org/projects/torbrowser.html.en | \
+&&	appver=$( curl --location --silent --url https://www.torproject.org/projects/torbrowser.html.en | \
 	awk -F'[()]' '/GNU\/Linux/ { i++ } i==4 { print $2; exit }' ) \
-&&  wget --no-check-certificate --progress=dot --quiet --output-document - \
-	https://www.torproject.org/dist/torbrowser/${VERSION}/tor-browser-linux64-${appver}_en-US.tar.xz | \
+&&  curl --location --silent --url \
+	https://www.torproject.org/dist/torbrowser/"${appver}"/tor-browser-linux64-"${appver}"_en-US.tar.xz | \
 	tar --extract --xz --directory /opt \
-&&  chown --recursive ${uid}:${gid} /opt/tor-browser_en-US
+&&  chown --recursive "${uid}:${gid}" /opt/tor-browser_en-US
 #
 # Create unprivileged user
 #
 RUN set -xe \
 &&	locale-gen en_US.UTF-8 || true \
-&&  groupadd --gid ${gid} ${user} \
-&&  useradd --create-home --shell /bin/bash --uid ${uid} --gid ${gid} --groups audio,video --comment ${user} ${user} \
+&&  groupadd --gid "${gid}" "${user}" \
+&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi
 #
-USER ${user}
-WORKDIR /home/${user}
+USER "${user}"
+WORKDIR /home/"${user}"
 CMD [ "/opt/tor-browser_en-US/Browser/start-tor-browser" ]

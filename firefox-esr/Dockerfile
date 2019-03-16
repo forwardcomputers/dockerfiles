@@ -1,5 +1,5 @@
 #
-#APPNEW curl --location --silent --output - --url http://www.mozilla.org | perl -nle 'print $1 if /data-esr-versions="(\K[^"]+)/'
+#APPNEW curl --location --silent --url http://www.mozilla.org | perl -nle 'print $1 if /data-esr-versions="(\K[^"]+)/'
 #DESKTOP_NAME Firefox ESR Web Browser
 #DESKTOP_COMMENT Browse the World Wide Web
 #DESKTOP_CATEGORIES GNOME;GTK;Network;WebBrowser;
@@ -16,25 +16,24 @@ LABEL maintainer="Ali Mustakim <alim@forwardcomputers.com>" \
 	  org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
 	  BuildDate="${TEXT}"
 #
-ENV user=duser \
-	uid=1001 \
-	gid=1001 \
-	LANG=C.UTF-8
-#
-# Some docker tweaks
+ENV user="duser" \
+	uid="1001" \
+	gid="1001" \
+	LANG="C.UTF-8"
 #
 RUN set -xe \
-&&  export user=${user} uid=${uid} gid=${gid} LANG=${LANG} \
+&&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install dependencies
 #
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
 	bzip2 \
+	ca-certificates \
+	curl \
 	libavcodec-extra58 \
 	libasound2 \
 	libpulse0 \
 	locales \
-	wget \
 	lsb-release \
 	libatk1.0-0 \
 	libc6 \
@@ -83,20 +82,20 @@ RUN set -xe \
 # Install application
 #
 RUN set -xe \
-&&  wget --no-check-certificate --progress=dot --quiet --output-document - \
+&&  curl --location --silent --url \
 	'https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=linux64&lang=en-US' | \
 	tar --extract --bzip2 --directory /opt \
 &&  ln --symbolic /opt/firefox/firefox /opt/firefox/firefox-esr \
-&&  chown --recursive ${uid}:${gid} /opt/firefox
+&&  chown --recursive "${uid}:${gid}" /opt/firefox
 #
 # Create unprivileged user
 #
 RUN set -xe \
 &&	locale-gen en_US.UTF-8 || true \
-&&  groupadd --gid ${gid} ${user} \
-&&  useradd --create-home --shell /bin/bash --uid ${uid} --gid ${gid} --groups audio,video --comment ${user} ${user} \
+&&  groupadd --gid "${gid}" "${user}" \
+&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi
 #
-USER ${user}
-WORKDIR /home/${user}
+USER "${user}"
+WORKDIR /home/"${user}"
 CMD [ "/opt/firefox/firefox-esr" ]
