@@ -31,6 +31,7 @@ RUN set -xe \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
 	libpulse0 \
 	locales \
+	software-properties-common \
 &&  add-apt-repository --yes ppa:inkscape.dev/stable \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
 	inkscape \
