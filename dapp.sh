@@ -12,17 +12,6 @@ BUILD_DATE="$(date +'%-d-%-m-%G %r')"
 CO="forwardcomputers"
 NAME=$( echo "${2-none}" | cut -d '/' -f 1 )
 IMG="${CO}/${NAME}"
-BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${NAME}"/Dockerfile 2> /dev/null || true)"
-APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"
-APPNEW="$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
-if [[ "${APPNEW}" == "apt" ]]; then
-    ROLLING="$(curl --silent --location --url https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
-    APPNEW="$(curl --silent --location --url https://packages.ubuntu.com/"${ROLLING}"/"${NAME}" | perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' | cut -f 1 -d ' ' | cut -f 1 -d '~' | cut -f 1 -d '+')"
-else
-    set +e
-    eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"\)
-    set -e
-fi
 #
 # shellcheck disable=SC2034
 BLACK=$'\033[30m'
@@ -76,7 +65,7 @@ main () {
 }
 #
 help () { ## Show this help message
-    printf "%b" "\\nUsage:\\n  ${GREEN}dapp ${YELLOW}[target] ${CYAN}directory${NC}\\n\\nTargets:\\n"
+    printf '\n%s\n  %s\n\n%s\n' "Usage:" "${GREEN}dapp ${YELLOW}[target] ${CYAN}directory${NC}" "Targets:"
     grep -E '^[a-zA-Z_-]+.*{.*?## .*$' "${0}" | sort | awk 'BEGIN {FS = "\\(.*?## "}; { printf "  '${GREEN}'%-15s'${YELLOW}'%s'${NC}'\n", $1, $2} '
     printf '\n'
 }
@@ -85,16 +74,16 @@ info () { ## Check if there is a newer application version
     checkbaseimage
     if [[ ! "${APPNEW}" ]]; then APPNEW=null; fi
     if [[ "${APPNEW}" = "${APPOLD}" && ! -f /tmp/MAKE_BASE_UPDATED ]]; then
-        printf '%b' "${YELLOW}${NAME}${GREEN} Build is on latest version ${YELLOW}${APPNEW}${NC}\\n"
+        printf '\r%s\n' "${YELLOW}${NAME}${GREEN} build is on latest version ${YELLOW}${APPNEW}${NC}"
     else
         if [[ ${APPOLD} = 0 ]]; then
             if [[ ${APPNEW} = "null" ]]; then APPNEW=""; fi
-            printf '%b' "${GREEN}Nonexistant in Docker, use ${YELLOW}'dapp upgrade ${NAME}'${GREEN} or ${YELLOW}'dapp build ${NAME}'${GREEN} to generate the latest version ${YELLOW}${APPNEW}${NC}\\n"
+            printf '%s\n' "${YELLOW}${NAME}${GREEN} nonexistant in Docker, use ${YELLOW}'dapp upgrade ${NAME}'${GREEN} or ${YELLOW}'dapp build ${NAME}'${GREEN} to generate the latest version ${YELLOW}${APPNEW}${NC}"
         else
             if [[ -f /tmp/MAKE_BASE_UPDATED ]]; then
-                printf '%b' "${YELLOW}${NAME}${GREEN} ${RED}Base image ${YELLOW}${BASE_IMAGE}${NC} ${GREEN}has been updated\\n"
+                printf '%s\n' "${YELLOW}${NAME}${GREEN} ${RED}base image ${YELLOW}${BASE_IMAGE}${NC} ${GREEN}has been updated"
             else \
-                printf '%b' "${YELLOW}${NAME}${GREEN} ${RED}Build is on older version ${YELLOW}${APPOLD}${NC} ${GREEN}current version ${YELLOW}${APPNEW}${NC}\\n"
+                printf '%s\n' "${YELLOW}${NAME}${GREEN} ${RED}build is on older version ${YELLOW}${APPOLD}${NC} ${GREEN}current version ${YELLOW}${APPNEW}${NC}"
             fi
         fi
         touch -f /tmp/MAKE_REBUILD
@@ -107,12 +96,12 @@ update () {
 }
 #
 upgrade () { ## Upgrade if there is a newer application version
-    printf '%s\n' "Upgrading ${NAME}"
+    printf '%s' "${GREEN}Upgrading ${YELLOW}${NAME}${NC}"
     info
     if [[ -f /tmp/MAKE_REBUILD ]]; then
         build
         push
-        printf '%b' "${GREEN}Rebuilt ${YELLOW}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}\\n"
+        printf '%s\n' "${GREEN}Rebuilt ${YELLOW}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}"
         rm -f /tmp/MAKE_REBUILD
     fi
 }
@@ -122,11 +111,7 @@ upgrade_all () { ## Upgrade all applications
     all_apps
     for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
-        BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${NAME}"/Dockerfile 2> /dev/null || true)"
-        APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"
-        set +e
-        eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"\)
-        set -e
+        appversions
         upgrade
     done
 }
@@ -137,11 +122,11 @@ rebuild_all () { ## Rebuild all applications
     for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
         set +e
-        eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"\)
+        appversions
         set -e
         build
         push
-        printf '%b' "${GREEN}Built ${YELLOW}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}\\n"
+        printf '%s\n' "${GREEN}Built ${YELLOW}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}"
     done
 }
 #
@@ -216,6 +201,20 @@ readme () { ## Create readme file
         "This setup is largely based on Jessie Frazelle work [https://github.com/jfrazelle/dockerfiles](https://github.com/jfrazelle/dockerfiles)" >> README.md
 }
 #
+appversions () {
+    BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${NAME}"/Dockerfile 2> /dev/null || true)"
+    APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"
+    APPNEW="$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
+    if [[ "${APPNEW}" == "apt" ]]; then
+        ROLLING="$(curl --silent --location --url https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
+        APPNEW="$(curl --silent --location --url https://packages.ubuntu.com/"${ROLLING}"/"${NAME}" | perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' | cut -f 1 -d ' ' | cut -f 1 -d '~' | cut -f 1 -d '+')"
+    else
+        set +e
+        eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"\)
+        set -e
+    fi
+}
+#
 checkbaseimage () {
     rm -f /tmp/MAKE_BASE_LOG /tmp/MAKE_BASE_UPDATED /tmp/MAKE_REBUILD
     docker pull "${IMG}":latest > /dev/null 2>&1 || true
@@ -260,4 +259,5 @@ all_apps () {
     )
 }
 #
+appversions
 main "$@"
