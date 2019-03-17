@@ -3,7 +3,7 @@ set -E              # any trap on ERR is inherited by shell functions
 set -e              # exit if error occurs
 set -u              # treat unset variables and parameters as an error
 set -o pipefail     # fail if pipe failed
-set -x              # show every commond
+#set -x              # show every commond
 #
 GH_API_HEADER="Accept: application/vnd.github.v3+json"
 GH_AUTH_HEADER="Authorization: token ${LP_GITHUB_API_TOKEN}"
@@ -207,7 +207,7 @@ appversions () {
     APPNEW="$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
     if [[ "${APPNEW}" == "apt" ]]; then
         ROLLING="$(curl --silent --location --url https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
-        APPNEW="$(curl --silent --location --url https://packages.ubuntu.com/"${ROLLING}"/"${NAME}" | perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' | cut -f 1 -d ' ' | cut -f 1 -d '~' | cut -f 1 -d '+')"
+        APPNEW="$(curl --silent --location --url https://packages.ubuntu.com/"${ROLLING}"/"${NAME}" | perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' | cut -f 1 -d ' ' | cut -f 1 -d '~' | cut -f 1 -d '-' | cut -f 1 -d '+' | cut -f 2 -d ':')"
     else
         set +e
         eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"\)

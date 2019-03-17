@@ -30,13 +30,7 @@ RUN set -xe \
 	libpulse0 \
 	locales \
 	libavcodec-extra \
-	libavcodec-ffmpeg-extra56 \
-	libavdevice-ffmpeg56 \
-	libavformat-ffmpeg56 \
 	libmp3lame0 \
-	libpostproc-ffmpeg53 \
-	libswscale-ffmpeg3 \
-    libx264-142 \
 	libxvidcore4 \
 	kdenlive \
 #
