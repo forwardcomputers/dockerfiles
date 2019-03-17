@@ -56,8 +56,10 @@ jobs:
     environment:
       TZ: "America/Toronto"
     docker:
-      - image: circleci/golang
+      - image: circleci/buildpack-deps:testing
         user: root
+        environment:
+          USER: root
     steps:
       - checkout
       - setup_remote_docker
@@ -85,7 +87,8 @@ workflows:
       - schedule:
           # Times are in UTC, this job is run
           # daily @ 14HRS = 9AM EST, 20HRS = 3PM EST
-          cron: "0 14,20 * * *"
+          # cron: "0 14,20 * * *"
+          cron: "33 17 * * *"
           filters:
             branches:
               only:
