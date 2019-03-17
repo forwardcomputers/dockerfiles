@@ -96,7 +96,7 @@ update () {
 }
 #
 upgrade () { ## Upgrade if there is a newer application version
-    printf '%s' "${GREEN}Upgrading ${YELLOW}${NAME}${NC}"
+    printf '%s' "${GREEN}Upgrading ${YELLOW}${NAME}${NC} - "
     info
     if [[ -f /tmp/MAKE_REBUILD ]]; then
         build
