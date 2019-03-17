@@ -1,10 +1,10 @@
 #
-#APPNEW curl --location --silent --url https://inkscape.org | perl -nle 'print $1 if /Current stable version: (\K[^<]+)/'
-#DESKTOP_NAME Inkscape
-#DESKTOP_COMMENT Create and edit Scalable Vector Graphics images
-#DESKTOP_CATEGORIES Graphics;VectorGraphics;GTK;
-#DESKTOP_MIMETYPES image/svg+xml;image/svg+xml-compressed;application/vnd.corel-draw;application/pdf;application/postscript;image/x-eps;application/illustrator;image/cgm;image/x-wmf;application/x-xccx;application/x-xcgm;application/x-xcdt;application/x-xsk1;application/x-xcmx;image/x-xcdr;application/visio;application/x-visio;application/vnd.visio;application/visio.drawing;application/vsd;application/x-vsd;image/x-vsd;
-#DESKTOP_LOGO https://gitlab.com/inkscape/inkscape/raw/master/share/branding/inkscape.svg
+#APPNEW apt
+#DESKTOP_NAME Openshot
+#DESKTOP_COMMENT Create and edit amazing videos and movies
+#DESKTOP_CATEGORIES GNOME;GTK;AudioVideo;Video;AudioVideoEditing;
+#DESKTOP_MIMETYPES application/vnd.openshot-qt-project;
+#DESKTOP_LOGO https://github.com/OpenShot/openshot-qt/raw/develop/xdg/openshot-qt.svg
 #
 FROM ubuntu:rolling
 ARG REPO
@@ -30,9 +30,9 @@ RUN set -xe \
 	libpulse0 \
 	locales \
 	software-properties-common \
-&&  add-apt-repository --yes ppa:inkscape.dev/stable \
+&&  add-apt-repository --yes ppa:openshot.developers/ppa \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
-	inkscape \
+	openshot-qt \
 #
 # Clean-up
 #
@@ -58,4 +58,4 @@ RUN set -xe \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-CMD [ "inkscape" ]
+CMD [ "openshot" ]

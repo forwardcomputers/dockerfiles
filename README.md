@@ -50,6 +50,12 @@
 [![Docker release](https://img.shields.io/badge/dynamic/json.svg?query=$.results.0.name&label=latest%20tag&url=https://registry.hub.docker.com/v2/repositories/forwardcomputers/kdenlive/tags)](https://hub.docker.com/r/forwardcomputers/kdenlive)
 [![Microbadger](https://images.microbadger.com/badges/image/forwardcomputers/kdenlive.svg)](http://microbadger.com/images/forwardcomputers/kdenlive "Image size")
 <br/>
+[![Docker push](https://img.shields.io/badge/dynamic/json.svg?query=$.Labels.BuildDate&label=openshot%20pushed%20on&url=https://api.microbadger.com/v1/images/forwardcomputers/openshot)](https://hub.docker.com/r/forwardcomputers/openshot)
+[![Github](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/dockerfiles/openshot)
+[![Docker](https://img.shields.io/badge/docker--E5E5E5.svg?label=&logo=docker)](https://hub.docker.com/r/forwardcomputers/openshot)
+[![Docker release](https://img.shields.io/badge/dynamic/json.svg?query=$.results.0.name&label=latest%20tag&url=https://registry.hub.docker.com/v2/repositories/forwardcomputers/openshot/tags)](https://hub.docker.com/r/forwardcomputers/openshot)
+[![Microbadger](https://images.microbadger.com/badges/image/forwardcomputers/openshot.svg)](http://microbadger.com/images/forwardcomputers/openshot "Image size")
+<br/>
 [![Docker push](https://img.shields.io/badge/dynamic/json.svg?query=$.Labels.BuildDate&label=pitivi%20pushed%20on&url=https://api.microbadger.com/v1/images/forwardcomputers/pitivi)](https://hub.docker.com/r/forwardcomputers/pitivi)
 [![Github](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/dockerfiles/pitivi)
 [![Docker](https://img.shields.io/badge/docker--E5E5E5.svg?label=&logo=docker)](https://hub.docker.com/r/forwardcomputers/pitivi)
