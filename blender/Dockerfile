@@ -1,5 +1,5 @@
 #
-#APPNEW curl --location -silent --url http://www.blender.org | perl -nle 'print $1 and last if /Download Blender (\K[^<]+)/'
+#APPNEW apt
 #DESKTOP_NAME Blender
 #DESKTOP_COMMENT 3D modeling, animation, rendering and post-production
 #DESKTOP_CATEGORIES Graphics;3DGraphics;
