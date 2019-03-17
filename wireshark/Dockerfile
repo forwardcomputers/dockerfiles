@@ -1,5 +1,5 @@
 #
-#APPNEW curl --location --silent --url https://www.wireshark.org | perl -nle 'print $1 if />Stable Release \((\K[^\)]+)/'
+#APPNEW apt
 #DESKTOP_NAME Wireshark
 #DESKTOP_COMMENT Network traffic analyzer
 #DESKTOP_CATEGORIES Network;Monitor;Qt;
