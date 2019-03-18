@@ -2,6 +2,12 @@
 #### Docker files for various Linux applications.
 ---
 [//]: # (BlockStart)
+[![Docker push](https://img.shields.io/badge/dynamic/json.svg?query=$.Labels.BuildDate&label=ardour%20pushed%20on&url=https://api.microbadger.com/v1/images/forwardcomputers/ardour)](https://hub.docker.com/r/forwardcomputers/ardour)
+[![Github](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/dockerfiles/ardour)
+[![Docker](https://img.shields.io/badge/docker--E5E5E5.svg?label=&logo=docker)](https://hub.docker.com/r/forwardcomputers/ardour)
+[![Docker release](https://img.shields.io/badge/dynamic/json.svg?query=$.results.0.name&label=latest%20tag&url=https://registry.hub.docker.com/v2/repositories/forwardcomputers/ardour/tags)](https://hub.docker.com/r/forwardcomputers/ardour)
+[![Microbadger](https://images.microbadger.com/badges/image/forwardcomputers/ardour.svg)](http://microbadger.com/images/forwardcomputers/ardour "Image size")
+<br/>
 [![Docker push](https://img.shields.io/badge/dynamic/json.svg?query=$.Labels.BuildDate&label=audacity%20pushed%20on&url=https://api.microbadger.com/v1/images/forwardcomputers/audacity)](https://hub.docker.com/r/forwardcomputers/audacity)
 [![Github](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/dockerfiles/audacity)
 [![Docker](https://img.shields.io/badge/docker--E5E5E5.svg?label=&logo=docker)](https://hub.docker.com/r/forwardcomputers/audacity)
