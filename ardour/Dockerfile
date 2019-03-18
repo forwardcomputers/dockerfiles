@@ -55,4 +55,4 @@ RUN set -xe \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-CMD [ "ardour" ]
+CMD [ "ardour5" ]
