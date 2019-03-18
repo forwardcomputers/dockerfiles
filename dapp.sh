@@ -34,7 +34,7 @@ NC=$'\033[0m'
 #
 # shellcheck disable=SC2191
 DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" \
-            --env DISPLAY \
+            --env DISPLAY=unix$DISPLAY \
             --env GDK_SCALE \
             --env GDK_DPI_SCALE \
             --env PULSE_SERVER=unix:/run/user/"${UID}"/pulse/native \
