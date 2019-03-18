@@ -27,12 +27,14 @@ RUN set -xe \
 # Update Ubuntu repos and install dependencies
 #
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
-	libpulse0 \
-	locales \
+	dbus-x11 \
+	frei0r-plugins \
+	kdenlive \
 	libavcodec-extra \
 	libmp3lame0 \
+	libpulse0 \
 	libxvidcore4 \
-	kdenlive \
+	locales \
 #
 # Clean-up
 #

@@ -39,8 +39,11 @@ RUN set -xe \
 	libcairo-gobject2 \
 	libcairo2 \
 	libgcc1 \
+	libgl1 \
+	libglib2.0-0 \
 	libpango-1.0-0 \
 	libpangocairo-1.0-0 \
+	libstdc++6 \
 	libx11-6 \
 	libx11-xcb1 \
 	libxcb-shm0 \

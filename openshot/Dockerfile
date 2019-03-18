@@ -58,4 +58,4 @@ RUN set -xe \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-CMD [ "openshot" ]
+CMD [ "openshot-qt" ]

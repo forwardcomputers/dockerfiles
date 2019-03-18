@@ -38,7 +38,7 @@ DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" \
             --env GDK_SCALE \
             --env GDK_DPI_SCALE \
             --env PULSE_SERVER=unix:/run/user/"${UID}"/pulse/native \
-            --env QT_DEVICE_PIXEL_RATIO \
+            --env QT_AUTO_SCREEN_SCALE_FACTOR=1 \
             --device /dev/bus/usb \
             --device /dev/dri \
             --device /dev/snd \
