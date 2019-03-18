@@ -202,16 +202,18 @@ readme () { ## Create readme file
 }
 #
 appversions () {
+    ROLLING="$(curl --silent --location --url https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
     BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${NAME}"/Dockerfile 2> /dev/null || true)"
     APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"
     APPNEW="$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
-    if [[ "${APPNEW}" == "apt" ]]; then
-        ROLLING="$(curl --silent --location --url https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
-        APPNEW="$(curl --silent --location --url https://packages.ubuntu.com/"${ROLLING}"/"${NAME}" | perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' | cut -f 1 -d '-' | cut -f 1 -d '+' | cut -f 2 -d ':')"
-    else
-        set +e
-        eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"\)
-        set -e
+    if ! [[ "${APPNEW}" =~ ^[+-]?([0-9]*[.,])?[0-9]+?$ ]]; then
+        if [[ "${APPNEW}" == "apt" ]]; then
+            APPNEW="$(curl --silent --location --url https://packages.ubuntu.com/"${ROLLING}"/"${NAME}" | perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' | cut -f 1 -d '-' | cut -f 1 -d '+' | cut -f 2 -d ':')"
+        else
+            set +e
+            eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"\)
+            set -e
+        fi
     fi
 }
 #
