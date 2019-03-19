@@ -28,7 +28,8 @@ RUN set -xe \
 #
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     bind9-host \
-    cups-bsd \
+    ca-certificates \
+	cups-bsd \
     curl \
     dnsutils \
 	gawk \
@@ -75,13 +76,15 @@ RUN set -xe \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi \
 #
 &&  rm /etc/update-motd.d/60-unminimize \
-&&  mkdir -p /var/run/sshd \
 &&  mkdir -p /etc/cups ; printf '%s\n' 'ServerName laser' > /etc/cups/client.conf \
-&&  sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd \
-&&  sed 's/#Port 22/Port 3222/' -i /etc/ssh/sshd_config
+#
+&&  mkdir -p /run/sshd \
+&&  sed 's/#Port 22/Port 3222/' -i /etc/ssh/sshd_config \
+&&  sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 #
 USER "${user}"
 WORKDIR /home/"${user}"
 EXPOSE 3222
-COPY entrypoint.sh /bin/entrypoint.sh
-CMD [ "/bin/entrypoint.sh" ]
+# COPY entrypoint.sh /bin/entrypoint.sh
+# CMD [ "/bin/entrypoint.sh" ]
+CMD [ "sudo", "/usr/sbin/sshd", "-Dde" ]
