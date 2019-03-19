@@ -71,12 +71,17 @@ RUN set -xe \
 RUN set -xe \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
-&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
+&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,lpadmin,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi \
 #
+&&  rm /etc/update-motd.d/60-unminimize \
+&&  mkdir -p /var/run/sshd \
 &&  mkdir -p /etc/cups ; printf '%s\n' 'ServerName laser' > /etc/cups/client.conf \
+&&  sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd \
 &&  sed 's/#Port 22/Port 3222/' -i /etc/ssh/sshd_config
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-CMD [ "/bin/bash" ]
+EXPOSE 3222
+COPY entrypoint.sh /bin/entrypoint.sh
+CMD [ "/bin/entrypoint.sh" ]
