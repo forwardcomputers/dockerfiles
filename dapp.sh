@@ -47,7 +47,7 @@ DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" \
             --volume /media:/media \
             --volume /run/user/"${UID}"/pulse:/run/user/1001/pulse \
             --volume /tmp/.X11-unix:/tmp/.X11-unix:ro \
-            --volume /home/"${USER}":/home/duser)
+            --volume "${HOME}":/home/duser)
 #
 main () {
     TARGET="${1-help}"

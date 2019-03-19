@@ -75,8 +75,12 @@ RUN set -xe \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,lpadmin,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi \
 #
-&&  rm /etc/update-motd.d/60-unminimize \
+&&  chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/50-motd-news /etc/update-motd.d/60-unminimize \
 &&  mkdir -p /etc/cups ; printf '%s\n' 'ServerName laser' > /etc/cups/client.conf \
+#
+&&  if [ ! -d /home/"${user}"/.ssh ]; then mkdir /home/"${user}"/.ssh; chmod 700 /home/"${user}"/.ssh; chown "${uid}":"${gid}" /home/"${user}"/.ssh; fi \
+&&  curl --silent --location --output /home/"${user}"/.ssh/authorized_keys --url https://github.com/forwardcomputers.keys \
+&&  chmod 600 /home/"${user}"/.ssh/authorized_keys; chown "${uid}":"${gid}" /home/"${user}"/.ssh/authorized_keys \
 #
 &&  mkdir -p /run/sshd \
 &&  sed 's/#Port 22/Port 3222/' -i /etc/ssh/sshd_config \
@@ -87,4 +91,4 @@ WORKDIR /home/"${user}"
 EXPOSE 3222
 # COPY entrypoint.sh /bin/entrypoint.sh
 # CMD [ "/bin/entrypoint.sh" ]
-CMD [ "sudo", "/usr/sbin/sshd", "-Dde" ]
+CMD [ "sudo", "/usr/sbin/sshd", "-D" ]

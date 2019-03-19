@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 #
-sudo /usr/sbin/sshd -De
+sudo /usr/sbin/sshd -D
