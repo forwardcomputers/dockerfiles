@@ -5,6 +5,9 @@ set -u              # treat unset variables and parameters as an error
 set -o pipefail     # fail if pipe failed
 #set -x              # show every commond
 #
+if [ -z ${LP_GITHUB_API_TOKEN+x} ]; then LP_GITHUB_API_TOKEN=""; fi
+if [ -z ${DISPLAY+x} ]; then DISPLAY=0; fi
+#
 GH_API_HEADER="Accept: application/vnd.github.v3+json"
 GH_AUTH_HEADER="Authorization: token ${LP_GITHUB_API_TOKEN}"
 #
@@ -34,7 +37,7 @@ NC=$'\033[0m'
 #
 # shellcheck disable=SC2191
 DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" \
-            --env DISPLAY=unix$DISPLAY \
+            --env DISPLAY=unix"${DISPLAY}" \
             --env GDK_SCALE \
             --env GDK_DPI_SCALE \
             --env PULSE_SERVER=unix:/run/user/"${UID}"/pulse/native \
