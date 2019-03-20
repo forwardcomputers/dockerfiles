@@ -5,8 +5,8 @@ set -u              # treat unset variables and parameters as an error
 set -o pipefail     # fail if pipe failed
 #set -x              # show every commond
 #
-if [ -z ${LP_GITHUB_API_TOKEN+x} ]; then LP_GITHUB_API_TOKEN=""; fi
-if [ -z ${DISPLAY+x} ]; then DISPLAY=0; fi
+if [[ -z ${LP_GITHUB_API_TOKEN+x} ]]; then LP_GITHUB_API_TOKEN=""; fi
+if [[ -z ${DISPLAY+x} ]]; then DISPLAY=0; fi
 #
 GH_API_HEADER="Accept: application/vnd.github.v3+json"
 GH_AUTH_HEADER="Authorization: token ${LP_GITHUB_API_TOKEN}"
@@ -143,6 +143,7 @@ push () {  ## Push image to Docker Hub
     docker push "${IMG}":latest
     docker push "${IMG}":"${APPNEW}"
     tweet
+    readme
 }
 #
 run () { ## Run the docker application

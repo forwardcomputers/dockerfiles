@@ -26,6 +26,12 @@
 [![Docker release](https://img.shields.io/badge/dynamic/json.svg?query=$.results.0.name&label=latest%20tag&url=https://registry.hub.docker.com/v2/repositories/forwardcomputers/chrome/tags)](https://hub.docker.com/r/forwardcomputers/chrome)
 [![Microbadger](https://images.microbadger.com/badges/image/forwardcomputers/chrome.svg)](http://microbadger.com/images/forwardcomputers/chrome "Image size")
 <br/>
+[![Docker push](https://img.shields.io/badge/dynamic/json.svg?query=$.Labels.BuildDate&label=dserver%20pushed%20on&url=https://api.microbadger.com/v1/images/forwardcomputers/dserver)](https://hub.docker.com/r/forwardcomputers/dserver)
+[![Github](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/dockerfiles/dserver)
+[![Docker](https://img.shields.io/badge/docker--E5E5E5.svg?label=&logo=docker)](https://hub.docker.com/r/forwardcomputers/dserver)
+[![Docker release](https://img.shields.io/badge/dynamic/json.svg?query=$.results.0.name&label=latest%20tag&url=https://registry.hub.docker.com/v2/repositories/forwardcomputers/dserver/tags)](https://hub.docker.com/r/forwardcomputers/dserver)
+[![Microbadger](https://images.microbadger.com/badges/image/forwardcomputers/dserver.svg)](http://microbadger.com/images/forwardcomputers/dserver "Image size")
+<br/>
 [![Docker push](https://img.shields.io/badge/dynamic/json.svg?query=$.Labels.BuildDate&label=firefox%20pushed%20on&url=https://api.microbadger.com/v1/images/forwardcomputers/firefox)](https://hub.docker.com/r/forwardcomputers/firefox)
 [![Github](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/dockerfiles/firefox)
 [![Docker](https://img.shields.io/badge/docker--E5E5E5.svg?label=&logo=docker)](https://hub.docker.com/r/forwardcomputers/firefox)

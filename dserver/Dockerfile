@@ -26,7 +26,8 @@ RUN set -xe \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+&&  rm -f /etc/dpkg/dpkg.cfg.d/excludes \
+&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --reinstall --yes \
     bind9-host \
     ca-certificates \
 	cups-bsd \
@@ -46,22 +47,25 @@ RUN set -xe \
 	libpulse0 \
 	locales \
 	lsof \
+	man \
 	net-tools \
 	nfs-common \
 	openssh-server \
 	sudo \
 	traceroute \
 	vim \
+&&  dpkg -S /usr/share/man/ |sed 's|, |\n|g;s|: [^:]*$||' | DEBIAN_FRONTEND=noninteractive xargs apt-get -qq install --reinstall -y \
+&&  rm -f /usr/bin/man \
+&&  dpkg-divert --quiet --remove --rename /usr/bin/man \
 #
 # Clean-up
 #
 &&  rm --recursive --force \
 	/usr/share/doc/* \
-	/usr/share/man/* \
 	/var/cache/apt/archives/*.deb \
 	/var/cache/apt/archives/partial/*.deb \
 	/var/cache/apt/*.bin \
-	/var/cache/debcong/*.old \
+	/var/cache/debconf/*.old \
 	/var/lib/apt/lists/* \
 	/var/lib/dpkg/info/* \
 	/var/log/apt \
