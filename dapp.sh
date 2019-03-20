@@ -76,11 +76,11 @@ help () { ## Show this help message
 info () { ## Check if there is a newer application version
     checkbaseimage
     if [[ ! "${APPNEW}" ]]; then APPNEW=null; fi
-    if [[ "${APPNEW}" = "${APPOLD}" && ! -f /tmp/MAKE_BASE_UPDATED ]]; then
+    if [[ "${APPNEW}" == "${APPOLD}" && ! -f /tmp/MAKE_BASE_UPDATED ]]; then
         printf '\r%s\n' "${YELLOW}${NAME}${GREEN} build is on latest version ${YELLOW}${APPNEW}${NC}"
     else
-        if [[ ${APPOLD} = 0 ]]; then
-            if [[ ${APPNEW} = "null" ]]; then APPNEW=""; fi
+        if [[ ${APPOLD} == 0 ]]; then
+            if [[ ${APPNEW} == "null" ]]; then APPNEW=""; fi
             printf '%s\n' "${YELLOW}${NAME}${GREEN} nonexistant in Docker, use ${YELLOW}'dapp upgrade ${NAME}'${GREEN} or ${YELLOW}'dapp build ${NAME}'${GREEN} to generate the latest version ${YELLOW}${APPNEW}${NC}"
         else
             if [[ -f /tmp/MAKE_BASE_UPDATED ]]; then
@@ -233,7 +233,7 @@ checklocalimage () {
     if ! docker image inspect "${IMG}" > /dev/null 2>&1; then
         docker pull "${IMG}":latest > /dev/null 2>&1 || build
     fi
-    if [[ "${NAME}" = "chrome" ]]; then
+    if [[ "${NAME}" == "chrome" ]]; then
         # shellcheck disable=SC2191
         DOCKER_OPT+=(--security-opt seccomp="$HOME"/.config/google-chrome/chrome.json)
     fi
