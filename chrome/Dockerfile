@@ -86,7 +86,7 @@ RUN set -xe \
 	/var/cache/apt/archives/*.deb \
 	/var/cache/apt/archives/partial/*.deb \
 	/var/cache/apt/*.bin \
-	/var/cache/debcong/*.old \
+	/var/cache/debconf/*.old \
 	/var/lib/apt/lists/* \
 	/var/lib/dpkg/info/* \
 	/var/log/apt \
