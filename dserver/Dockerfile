@@ -30,11 +30,13 @@ RUN set -xe \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --reinstall --yes \
     bind9-host \
     ca-certificates \
+	cifs-utils \
 	cups-bsd \
     curl \
     dnsutils \
 	gawk \
 	gnupg2 \
+	efitools \
 	expect \
 	git \
 	htop \
@@ -50,10 +52,17 @@ RUN set -xe \
 	man \
 	net-tools \
 	nfs-common \
+	nvme-cli \
 	openssh-server \
+	pciutils \
 	sudo \
+	tmux \
 	traceroute \
+	unzip \
+	usbutils \
 	vim \
+	xz-utils \
+	zip \
 &&  dpkg -S /usr/share/man/ |sed 's|, |\n|g;s|: [^:]*$||' | DEBIAN_FRONTEND=noninteractive xargs apt-get -qq install --reinstall -y \
 &&  rm -f /usr/bin/man \
 &&  dpkg-divert --quiet --remove --rename /usr/bin/man \
@@ -76,7 +85,7 @@ RUN set -xe \
 RUN set -xe \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
-&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,lpadmin,video --comment "${user}" "${user}" \
+&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,docker,lpadmin,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi \
 #
 &&  chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/50-motd-news /etc/update-motd.d/60-unminimize \
@@ -90,9 +99,8 @@ RUN set -xe \
 &&  sed 's/#Port 22/Port 3222/' -i /etc/ssh/sshd_config \
 &&  sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 #
-USER "${user}"
-WORKDIR /home/"${user}"
+USER "root"
 EXPOSE 3222
 # COPY entrypoint.sh /bin/entrypoint.sh
 # CMD [ "/bin/entrypoint.sh" ]
-CMD [ "sudo", "/usr/sbin/sshd", "-D" ]
+CMD [ "/usr/sbin/sshd", "-D" ]

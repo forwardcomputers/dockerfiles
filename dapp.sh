@@ -238,6 +238,10 @@ checklocalimage () {
         # shellcheck disable=SC2191
         DOCKER_OPT+=(--security-opt seccomp="$HOME"/.config/google-chrome/chrome.json)
     fi
+    if [[ "${NAME}" == "dserver" ]]; then
+        # shellcheck disable=SC2191
+        DOCKER_OPT+=(--cap-add SYS_ADMIN --cap-add DAC_READ_SEARCH)
+    fi
 }
 #
 tweet () {
