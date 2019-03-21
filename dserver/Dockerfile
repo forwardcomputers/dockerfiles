@@ -12,14 +12,14 @@ ARG VERSION
 ARG TEXT
 #
 LABEL maintainer="Ali Mustakim <alim@forwardcomputers.com>" \
-	  org.label-schema.name="${REPO}" \
-	  org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
-	  BuildDate="${TEXT}"
+      org.label-schema.name="${REPO}" \
+      org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
+      BuildDate="${TEXT}"
 #
 ENV user="duser" \
-	uid="1001" \
-	gid="1001" \
-	LANG="C.UTF-8"
+    uid="1001" \
+    gid="1001" \
+    LANG="C.UTF-8"
 #
 RUN set -e \
 &&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
@@ -30,38 +30,38 @@ RUN set -e \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --reinstall --yes \
     bind9-host \
     ca-certificates \
-	cups-bsd \
+    cups-bsd \
     curl \
     dnsutils \
-	gawk \
-	gnupg2 \
-	efitools \
-	expect \
-	git \
-	htop \
-	iputils-ping \
-	iproute2 \
-	jq \
-	landscape-common \
+    gawk \
+    gnupg2 \
+    efitools \
+    expect \
+    git \
+    htop \
+    iputils-ping \
+    iproute2 \
+    jq \
+    landscape-common \
     lastpass-cli \
     less \
-	libpulse0 \
-	locales \
-	lsof \
-	man \
-	net-tools \
-	nvme-cli \
-	openssh-server \
-	pciutils \
-	sudo \
-	tmux \
-	traceroute \
-	unzip \
-	usbutils \
-	vim \
-	wget \
-	xz-utils \
-	zip \
+    libpulse0 \
+    locales \
+    lsof \
+    man \
+    net-tools \
+    nvme-cli \
+    openssh-server \
+    pciutils \
+    sudo \
+    tmux \
+    traceroute \
+    unzip \
+    usbutils \
+    vim \
+    wget \
+    xz-utils \
+    zip \
 &&  dpkg -S /usr/share/man/ |sed 's|, |\n|g;s|: [^:]*$||' | DEBIAN_FRONTEND=noninteractive xargs apt-get -qq install --reinstall -y 2> /dev/null \
 &&  rm -f /usr/bin/man \
 &&  dpkg-divert --quiet --remove --rename /usr/bin/man \
@@ -69,15 +69,15 @@ RUN set -e \
 # Clean-up
 #
 &&  rm --recursive --force \
-	/usr/share/doc/* \
-	/var/cache/apt/archives/*.deb \
-	/var/cache/apt/archives/partial/*.deb \
-	/var/cache/apt/*.bin \
-	/var/cache/debconf/*.old \
-	/var/lib/apt/lists/* \
-	/var/lib/dpkg/info/* \
-	/var/log/apt \
-	/var/log/*.log
+    /usr/share/doc/* \
+    /var/cache/apt/archives/*.deb \
+    /var/cache/apt/archives/partial/*.deb \
+    /var/cache/apt/*.bin \
+    /var/cache/debconf/*.old \
+    /var/lib/apt/lists/* \
+    /var/lib/dpkg/info/* \
+    /var/log/apt \
+    /var/log/*.log
 #
 # Create unprivileged user
 #
@@ -98,7 +98,7 @@ RUN set -xe \
 &&  sed 's/#Port 22/Port 3222/' -i /etc/ssh/sshd_config \
 &&  sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 #
-USER "root"
+USER root
 EXPOSE 3222
 # COPY entrypoint.sh /bin/entrypoint.sh
 # CMD [ "/bin/entrypoint.sh" ]
