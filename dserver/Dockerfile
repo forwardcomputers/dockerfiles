@@ -59,6 +59,7 @@ RUN set -e \
 	unzip \
 	usbutils \
 	vim \
+	wget \
 	xz-utils \
 	zip \
 &&  dpkg -S /usr/share/man/ |sed 's|, |\n|g;s|: [^:]*$||' | DEBIAN_FRONTEND=noninteractive xargs apt-get -qq install --reinstall -y \
