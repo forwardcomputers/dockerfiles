@@ -100,6 +100,4 @@ RUN set -xe \
 #
 USER root
 EXPOSE 3222
-# COPY entrypoint.sh /bin/entrypoint.sh
-# CMD [ "/bin/entrypoint.sh" ]
 CMD [ "/usr/sbin/sshd", "-D" ]
