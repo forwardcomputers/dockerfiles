@@ -21,7 +21,7 @@ ENV user="duser" \
 	gid="1001" \
 	LANG="C.UTF-8"
 #
-RUN set -xe \
+RUN set -e \
 &&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install dependencies
@@ -30,7 +30,6 @@ RUN set -xe \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --reinstall --yes \
     bind9-host \
     ca-certificates \
-	cifs-utils \
 	cups-bsd \
     curl \
     dnsutils \
@@ -51,7 +50,6 @@ RUN set -xe \
 	lsof \
 	man \
 	net-tools \
-	nfs-common \
 	nvme-cli \
 	openssh-server \
 	pciutils \
@@ -85,11 +83,11 @@ RUN set -xe \
 RUN set -xe \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
-&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,docker,lpadmin,video --comment "${user}" "${user}" \
+&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,lpadmin,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi \
 #
 &&  chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/50-motd-news /etc/update-motd.d/60-unminimize \
-&&  mkdir -p /etc/cups ; printf '%s\n' 'ServerName laser' > /etc/cups/client.conf \
+&&  mkdir -p /etc/cups/ ; printf '%s\n' 'ServerName laser' > /etc/cups/client.conf \
 #
 &&  if [ ! -d /home/"${user}"/.ssh ]; then mkdir /home/"${user}"/.ssh; chmod 700 /home/"${user}"/.ssh; chown "${uid}":"${gid}" /home/"${user}"/.ssh; fi \
 &&  curl --silent --location --output /home/"${user}"/.ssh/authorized_keys --url https://github.com/forwardcomputers.keys \
