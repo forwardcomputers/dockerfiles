@@ -62,7 +62,7 @@ RUN set -e \
 	wget \
 	xz-utils \
 	zip \
-&&  dpkg -S /usr/share/man/ |sed 's|, |\n|g;s|: [^:]*$||' | DEBIAN_FRONTEND=noninteractive xargs apt-get -qq install --reinstall -y \
+&&  dpkg -S /usr/share/man/ |sed 's|, |\n|g;s|: [^:]*$||' | DEBIAN_FRONTEND=noninteractive xargs apt-get -qq install --reinstall -y 2> /dev/null \
 &&  rm -f /usr/bin/man \
 &&  dpkg-divert --quiet --remove --rename /usr/bin/man \
 #
