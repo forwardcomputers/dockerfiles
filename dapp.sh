@@ -240,7 +240,7 @@ checklocalimage () {
     fi
     if [[ "${NAME}" == "dserver" ]]; then
         # shellcheck disable=SC2191
-        DOCKER_OPT+=(--rm --network=host --hostname=docker_"${NAME}" --volume /media:/media)
+        DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" --volume /media:/media)
     fi
 }
 #

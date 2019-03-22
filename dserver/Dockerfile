@@ -80,7 +80,7 @@ RUN set -xe \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups lpadmin --comment "${user}" "${user}" \
-&&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi \
+&&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi \
 #
 &&  chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/50-motd-news /etc/update-motd.d/60-unminimize \
 &&  mkdir -p /etc/cups/ ; printf '%s\n' 'ServerName laser' > /etc/cups/client.conf \
@@ -89,7 +89,7 @@ RUN set -xe \
 &&  sed 's/#Port 22/Port 3222/' -i /etc/ssh/sshd_config \
 &&  sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 #
-USER "${user}" \
+USER "${user}"
 RUN set -xe \
 &&  if [ ! -d ~/.ssh ]; then mkdir ~/.ssh; chmod 700 ~/.ssh; fi \
 &&  curl --silent --location --output ~/.ssh/authorized_keys --url https://github.com/forwardcomputers.keys \
@@ -98,7 +98,7 @@ RUN set -xe \
 &&  mv tmp/.git . \
 &&  rm -rf tmp \
 &&  git reset --hard \
-&&  git remote set-url origin ssh://git@github.com/forwardcomputers/dfiles.git#
+&&  git remote set-url origin ssh://git@github.com/forwardcomputers/dfiles.git
 #
 USER root
 EXPOSE 3222
