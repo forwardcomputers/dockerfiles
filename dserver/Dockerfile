@@ -91,12 +91,13 @@ RUN set -xe \
 #
 USER "${user}"
 RUN set -xe \
-&&  if [ ! -d ~/.ssh ]; then mkdir ~/.ssh; chmod 700 ~/.ssh; fi \
-&&  curl --silent --location --output ~/.ssh/authorized_keys --url https://github.com/forwardcomputers.keys \
-&&  chmod 600 ~/.ssh/authorized_keys \
+&&  cd "${HOME}" \
+&&  if [ ! -d .ssh ]; then mkdir .ssh; chmod 700 .ssh; fi \
+&&  curl --silent --location --output .ssh/authorized_keys --url https://github.com/forwardcomputers.keys \
+&&  chmod 600 .ssh/authorized_keys \
 &&  git clone --recursive https://github.com/forwardcomputers/dfiles.git tmp \
 &&  mv tmp/.git . \
-&&  rm -rf tmp \
+&&  rm -rf tmp/ .profile \
 &&  git reset --hard \
 &&  git remote set-url origin ssh://git@github.com/forwardcomputers/dfiles.git
 #
