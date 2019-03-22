@@ -1,5 +1,5 @@
 #
-#APPNEW 1.0
+#APPNEW 1.1
 #DESKTOP_NAME Docker Server
 #DESKTOP_COMMENT Linux server in Docker
 #DESKTOP_CATEGORIES System;Utility;Network;
@@ -80,6 +80,9 @@ RUN set -xe \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups lpadmin --comment "${user}" "${user}" \
+&&  if [ ! -d /home/"${user}"/.ssh ]; then mkdir /home/"${user}"/.ssh; chmod 700 /home/"${user}"/.ssh; chown "${uid}":"${gid}" /home/"${user}"/.ssh; fi \
+&&  curl --silent --location --output /home/"${user}"/.ssh/authorized_keys --url https://github.com/forwardcomputers.keys \
+&&  chmod 600 /home/"${user}"/.ssh/authorized_keys; chown "${uid}":"${gid}" /home/"${user}"/.ssh/authorized_keys \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi \
 #
 &&  chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/50-motd-news /etc/update-motd.d/60-unminimize \
@@ -89,18 +92,7 @@ RUN set -xe \
 &&  sed 's/#Port 22/Port 3222/' -i /etc/ssh/sshd_config \
 &&  sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 #
-USER "${user}"
-RUN set -xe \
-&&  cd "${HOME}" \
-&&  if [ ! -d .ssh ]; then mkdir .ssh; chmod 700 .ssh; fi \
-&&  curl --silent --location --output .ssh/authorized_keys --url https://github.com/forwardcomputers.keys \
-&&  chmod 600 .ssh/authorized_keys \
-&&  git clone --recursive https://github.com/forwardcomputers/dfiles.git tmp \
-&&  mv tmp/.git . \
-&&  rm -rf tmp/ .profile \
-&&  git reset --hard \
-&&  git remote set-url origin ssh://git@github.com/forwardcomputers/dfiles.git
-#
-USER root
 EXPOSE 3222
-CMD [ "/usr/sbin/sshd", "-D" ]
+COPY entrypoint.sh /bin/entrypoint.sh
+USER "${user}"
+CMD [ "/bin/entrypoint.sh" ]
