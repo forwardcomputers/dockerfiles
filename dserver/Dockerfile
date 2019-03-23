@@ -32,6 +32,7 @@ RUN set -e \
     ca-certificates \
     cups-bsd \
     curl \
+    docker.io \
     dnsutils \
     gawk \
     gnupg2 \
