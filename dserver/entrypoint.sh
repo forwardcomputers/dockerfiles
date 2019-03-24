@@ -11,4 +11,4 @@ if [[ ! -d "${HOME}"/.git ]]; then
     git remote set-url origin ssh://git@github.com/forwardcomputers/dfiles.git > /dev/null 2>&1
 fi
 #
-sudo bash -c '/usr/sbin/sshd -D'
+sudo bash -c '/usr/sbin/sshd -De'

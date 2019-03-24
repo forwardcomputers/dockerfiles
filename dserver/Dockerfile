@@ -90,7 +90,7 @@ RUN set -xe \
 &&  mkdir -p /etc/cups/ ; printf '%s\n' 'ServerName laser' > /etc/cups/client.conf \
 #
 &&  mkdir -p /run/sshd \
-&&  sed 's/#Port 22/Port 3222/' -i /etc/ssh/sshd_config \
+&&  sed 's/^#Port 22/Port 3222/; s/^#PermitRootLogin.*/PermitRootLogin no/; s/^#PasswordAuthentication.*/PasswordAuthentication no/' -i /etc/ssh/sshd_config \
 &&  sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 #
 EXPOSE 3222
