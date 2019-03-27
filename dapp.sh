@@ -11,6 +11,7 @@ if [[ -z ${DISPLAY+x} ]]; then DISPLAY=0; fi
 GH_API_HEADER="Accept: application/vnd.github.v3+json"
 GH_AUTH_HEADER="Authorization: token ${LP_GITHUB_API_TOKEN}"
 #
+ROLLING="$(curl --silent --location --url https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
 BUILD_DATE="$(date +'%-d-%-m-%G %r')"
 CO="forwardcomputers"
 NAME=$( echo "${2-none}" | cut -d '/' -f 1 )
@@ -112,6 +113,7 @@ upgrade () { ## Upgrade if there is a newer application version
 upgrade_all () { ## Upgrade all applications
     printf '%s\n' "Upgrading applications"
     all_apps
+    set -x
     for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
         appversions
@@ -206,7 +208,6 @@ readme () { ## Create readme file
 }
 #
 appversions () {
-    ROLLING="$(curl --silent --location --url https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
     BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${NAME}"/Dockerfile 2> /dev/null || true)"
     APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"
     APPNEW="$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
