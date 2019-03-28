@@ -26,7 +26,7 @@ RUN set -xe \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	libpulse0 \
 	locales \
 	wireshark \

@@ -26,7 +26,7 @@ RUN set -xe \
 #
 # Update Ubuntu repos and install application
 #
-&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	libpulse0 \
 	locales \
 	ca-certificates \
@@ -74,11 +74,11 @@ RUN set -xe \
 RUN set -xe \
 &&  curl --location --output ./google-chrome.deb --silent --url "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" \
 &&  dpkg --install ./google-chrome.deb \
-&&  apt-get install --fix-broken --no-install-recommends --yes \
+&&  apt-get -qq install --fix-broken --no-install-recommends --yes \
 #
 # Clean-up
 #
-&&  apt-get autoremove --yes \
+&&  apt-get -qq autoremove --yes \
 &&  rm --recursive --force \
 	./google-chrome.deb \
 	/usr/share/doc/* \

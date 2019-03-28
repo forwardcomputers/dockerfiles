@@ -1,5 +1,5 @@
 #
-#APPNEW curl --location --silent --url https://www.torproject.org/projects/torbrowser.html.en | awk -F '[()]' '/GNU\/Linux/ { i++ } i==4 { print $2; exit }'
+#APPNEW curl --location --silent --url https://www.torproject.org/download | perl -nle 'print $1 if /linux64-(\K[^_]+)/'
 #DESKTOP_NAME Tor browser
 #DESKTOP_COMMENT Tor Browser is +1 for privacy and -1 for mass surveillance
 #DESKTOP_CATEGORIES Network;WebBrowser;Security;
@@ -26,7 +26,7 @@ RUN set -xe \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	bzip2 \
 	ca-certificates \
 	curl \
@@ -47,7 +47,7 @@ RUN set -xe \
 	libfreetype6 \
 	libgcc1 \
 	libgdk-pixbuf2.0-0 \
-  	libglib2.0-0 \
+  libglib2.0-0 \
 	libgtk-3-0 \
 	libpango-1.0-0 \
 	libpangocairo-1.0-0 \
