@@ -17,7 +17,14 @@ CO="forwardcomputers"
 NAME=$( echo "${2-none}" | cut -d '/' -f 1 )
 IMG="${CO}/${NAME}"
 set +u
-if [[ ! "${CIRCLECI}" ]]; then ROOT="/media/filer/os/dockerfiles/"; else ROOT=""; fi
+if [[ "${CIRCLECI}" ]]; then
+    ROOT=""
+else
+    if ! grep -q 'index.docker.io' "${HOME}"/.docker/config.json; then
+        docker login --username forwardcomputers --password $(lpass show LP_DOCKER_PASSWORD --password) > /dev/null 2>&1
+    fi
+    ROOT="/media/filer/os/dockerfiles/"
+fi
 set -u
 #
 # shellcheck disable=SC2034
@@ -147,7 +154,6 @@ push () {  ## Push image to Docker Hub
     docker push "${IMG}":latest
     docker push "${IMG}":"${APPNEW}"
     tweet
-    readme
 }
 #
 run () { ## Run the docker application
