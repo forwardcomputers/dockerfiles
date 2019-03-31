@@ -30,6 +30,7 @@ RUN set -xe \
 	bzip2 \
 	ca-certificates \
 	curl \
+	adwaita-icon-theme-full \
 	libavcodec-extra58 \
 	libasound2 \
 	libpulse0 \
@@ -45,7 +46,7 @@ RUN set -xe \
 	libfreetype6 \
 	libgcc1 \
 	libgdk-pixbuf2.0-0 \
-  libglib2.0-0 \
+	libglib2.0-0 \
 	libgtk-3-0 \
 	libpango-1.0-0 \
 	libpangocairo-1.0-0 \

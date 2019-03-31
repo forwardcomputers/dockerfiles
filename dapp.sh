@@ -16,6 +16,7 @@ BUILD_DATE="$(date +'%-d-%-m-%G %r')"
 CO="forwardcomputers"
 NAME=$( echo "${2-none}" | cut -d '/' -f 1 )
 IMG="${CO}/${NAME}"
+ROOT="/media/filer/os/dockerfiles"
 #
 # shellcheck disable=SC2034
 BLACK=$'\033[30m'
@@ -162,11 +163,11 @@ shell () { ## Run shell in docker application
 #
 desktop () { ## Populate desktop application menu
     printf '%s\n' "Populating application menu"
-    DESKTOP_NAME="$(grep -oP '(?<=DESKTOP_NAME ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
-    DESKTOP_COMMENT="$(grep -oP '(?<=DESKTOP_COMMENT ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
-    DESKTOP_CATEGORIES="$(grep -oP '(?<=DESKTOP_CATEGORIES ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
-    DESKTOP_MIMETYPES="$(grep -oP '(?<=DESKTOP_MIMETYPES ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
-    DESKTOP_LOGO="$(grep -oP '(?<=DESKTOP_LOGO ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
+    DESKTOP_NAME="$(grep -oP '(?<=DESKTOP_NAME ).*' "${ROOT}"/"${NAME}"/Dockerfile 2> /dev/null || true)"
+    DESKTOP_COMMENT="$(grep -oP '(?<=DESKTOP_COMMENT ).*' "${ROOT}"/"${NAME}"/Dockerfile 2> /dev/null || true)"
+    DESKTOP_CATEGORIES="$(grep -oP '(?<=DESKTOP_CATEGORIES ).*' "${ROOT}"/"${NAME}"/Dockerfile 2> /dev/null || true)"
+    DESKTOP_MIMETYPES="$(grep -oP '(?<=DESKTOP_MIMETYPES ).*' "${ROOT}"/"${NAME}"/Dockerfile 2> /dev/null || true)"
+    DESKTOP_LOGO="$(grep -oP '(?<=DESKTOP_LOGO ).*' "${ROOT}"/"${NAME}"/Dockerfile 2> /dev/null || true)"
     DESKTOP_LOGO_NAME="${NAME}_$(basename "${DESKTOP_LOGO}")"
     curl --silent --location --output ~/.local/share/applications/"${DESKTOP_LOGO_NAME}" "${DESKTOP_LOGO}"
     printf '%s\n' \
@@ -208,15 +209,15 @@ readme () { ## Create readme file
 }
 #
 appversions () {
-    BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${NAME}"/Dockerfile 2> /dev/null || true)"
+    BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${ROOT}"/"${NAME}"/Dockerfile 2> /dev/null || true)"
     APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"
-    APPNEW="$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"
+    APPNEW="$(grep -oP '(?<=APPNEW ).*' "${ROOT}"/"${NAME}"/Dockerfile 2> /dev/null || true)"
     if ! [[ "${APPNEW}" =~ ^[+-]?([0-9]*[.,])?[0-9]+?$ ]]; then
         if [[ "${APPNEW}" == "apt" ]]; then
             APPNEW="$(curl --silent --location --url https://packages.ubuntu.com/"${ROLLING}"/"${NAME}" | perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' | cut -f 1 -d '-' | cut -f 1 -d '+' | cut -f 2 -d ':')"
         else
             set +e
-            eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${NAME}"/Dockerfile 2> /dev/null || true)"\)
+            eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${ROOT}"/"${NAME}"/Dockerfile 2> /dev/null || true)"\)
             set -e
         fi
     fi
