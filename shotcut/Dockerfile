@@ -21,7 +21,7 @@ ENV user="duser" \
 	gid="1001" \
 	LANG="C.UTF-8"
 #
-RUN set -xe \
+RUN set -e \
 &&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install dependencies
@@ -72,7 +72,7 @@ RUN set -xe \
 #
 # Install application
 #
-RUN set -xe \
+RUN set -e \
 &&	appverdot=$( curl --location --silent --url https://shotcut.org/download/ | \
 	perl -nle 'print "${1}" if /Current Version: (\K[^<]+)/' ) \
 &&	appver=$( echo "${appverdot}" | tr -d . ) \
@@ -83,7 +83,7 @@ RUN set -xe \
 #
 # Create unprivileged user
 #
-RUN set -xe \
+RUN set -e \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \

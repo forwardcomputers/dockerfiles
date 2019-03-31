@@ -49,6 +49,7 @@ jobs:
             for APP in "${GH_APP[@]}"; do
               ./dapp.sh build ${APP}
               ./dapp.sh push ${APP}
+              ./dapp.sh readme
             done
 
   build_all:

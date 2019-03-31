@@ -77,7 +77,7 @@ RUN set -e \
 #
 # Create unprivileged user
 #
-RUN set -xe \
+RUN set -e \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups lpadmin --comment "${user}" "${user}" \

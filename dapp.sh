@@ -117,6 +117,7 @@ upgrade () { ## Upgrade if there is a newer application version
         push
         printf '%s\n' "${GREEN}Rebuilt ${YELLOW}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}"
         rm -f /tmp/MAKE_REBUILD
+        readme
     fi
 }
 #

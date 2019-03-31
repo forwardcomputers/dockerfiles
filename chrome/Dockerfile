@@ -21,7 +21,7 @@ ENV user="duser" \
 	gid="1001" \
 	LANG="C.UTF-8"
 #
-RUN set -xe \
+RUN set -e \
 &&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install application
@@ -71,7 +71,7 @@ RUN set -xe \
 #
 # Install application
 #
-RUN set -xe \
+RUN set -e \
 &&  curl --location --output ./google-chrome.deb --silent --url "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" \
 &&  dpkg --install ./google-chrome.deb \
 &&  apt-get -qq install --fix-broken --no-install-recommends --yes \
@@ -94,7 +94,7 @@ RUN set -xe \
 #
 # Create unprivileged user
 #
-RUN set -xe \
+RUN set -e \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
