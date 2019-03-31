@@ -40,16 +40,16 @@ YELLOW=$'\033[1;33m'
 NC=$'\033[0m'
 #
 # shellcheck disable=SC2191
-DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" \
+DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" --shm-size=1gb \
             --env DISPLAY=unix"${DISPLAY}" \
-            --env GDK_SCALE \
-            --env GDK_DPI_SCALE \
+            # --env GDK_SCALE \
+            # --env GDK_DPI_SCALE \
             --env PULSE_SERVER=unix:/run/user/"${UID}"/pulse/native \
-            --env QT_AUTO_SCREEN_SCALE_FACTOR=1 \
+            # --env QT_AUTO_SCREEN_SCALE_FACTOR=1 \
             --device /dev/bus/usb \
             --device /dev/dri \
             --device /dev/snd \
-            --volume /dev/shm:/dev/shm \
+            # --volume /dev/shm:/dev/shm \
             --volume /etc/machine-id:/etc/machine-id:ro \
             --volume /media:/media \
             --volume /run/user/"${UID}"/pulse:/run/user/1001/pulse \

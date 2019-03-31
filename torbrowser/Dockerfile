@@ -21,7 +21,7 @@ ENV user="duser" \
 	gid="1001" \
 	LANG="C.UTF-8"
 #
-RUN set -xe \
+RUN set -e \
 &&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install dependencies
@@ -34,9 +34,8 @@ RUN set -xe \
 	libasound2 \
 	libpulse0 \
 	locales \
-	wget \
 	xz-utils \
-	lsb-release \
+	adwaita-icon-theme-full \
 	libatk1.0-0 \
 	libc6 \
 	libcairo-gobject2 \
@@ -47,7 +46,7 @@ RUN set -xe \
 	libfreetype6 \
 	libgcc1 \
 	libgdk-pixbuf2.0-0 \
-  libglib2.0-0 \
+	libglib2.0-0 \
 	libgtk-3-0 \
 	libpango-1.0-0 \
 	libpangocairo-1.0-0 \
@@ -63,8 +62,11 @@ RUN set -xe \
 	libxfixes3 \
 	libxrender1 \
 	libxt6 \
+	lsb-release \
 	xul-ext-ubufox \
 	libcanberra0 \
+	libdbusmenu-glib4 \
+	libdbusmenu-gtk3-4 \
 	fonts-lyx \
 #
 # Clean-up
@@ -83,7 +85,7 @@ RUN set -xe \
 #
 # Install application
 #
-RUN set -xe \
+RUN set -e \
 &&	appver=$( curl --location --silent --url https://www.torproject.org/projects/torbrowser.html.en | \
 	awk -F'[()]' '/GNU\/Linux/ { i++ } i==4 { print $2; exit }' ) \
 &&  curl --location --silent --url \
@@ -93,7 +95,7 @@ RUN set -xe \
 #
 # Create unprivileged user
 #
-RUN set -xe \
+RUN set -e \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
