@@ -62,8 +62,11 @@ RUN set -xe \
 	libxfixes3 \
 	libxrender1 \
 	libxt6 \
+	lsb-release \
 	xul-ext-ubufox \
 	libcanberra0 \
+	libdbusmenu-glib4 \
+	libdbusmenu-gtk3-4 \
 	fonts-lyx \
 #
 # Clean-up
