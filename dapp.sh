@@ -126,7 +126,9 @@ upgrade_all () { ## Upgrade all applications
     all_apps
     for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
+        set -x
         appversions
+        set +x
         upgrade
     done
 }
@@ -151,7 +153,7 @@ build () { ## Build docker image file
 }
 #
 push () {  ## Push image to Docker Hub
-    printf '%s\n' "Pushing ${NAME} to Docker hub"
+    printf '%s\n' "Pushing ${NAME}-${APPNEW} to Docker hub"
     docker push "${IMG}":latest
     docker push "${IMG}":"${APPNEW}"
     tweet
