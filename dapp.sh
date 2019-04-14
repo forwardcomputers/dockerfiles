@@ -3,7 +3,7 @@ set -E              # any trap on ERR is inherited by shell functions
 set -e              # exit if error occurs
 set -u              # treat unset variables and parameters as an error
 set -o pipefail     # fail if pipe failed
-#set -x              # show every commond
+# set -x              # show every commond
 #
 if [[ -z ${LP_GITHUB_API_TOKEN+x} ]]; then LP_GITHUB_API_TOKEN=""; fi
 if [[ -z ${DISPLAY+x} ]]; then DISPLAY=0; fi
@@ -162,7 +162,8 @@ push () {  ## Push image to Docker Hub
 run () { ## Run the docker application
     printf '%s\n' "Runing ${NAME}"
     checklocalimage
-    docker run --detach --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
+#    docker run --detach --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
+    docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
 }
 #
 shell () { ## Run shell in docker application
@@ -220,11 +221,17 @@ readme () { ## Create readme file
 #
 appversions () {
     BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
-    APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"
+    until APPOLDPAGE=$(curl --fail --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags); do
+        sleep 1
+    done
+    APPOLD="$(jq --raw-output '.results|.[0]|.name // 0' <<< ${APPOLDPAGE})"
     APPNEW="$(grep -oP '(?<=APPNEW ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
     if ! [[ "${APPNEW}" =~ ^[+-]?([0-9]*[.,])?[0-9]+?$ ]]; then
         if [[ "${APPNEW}" == "apt" ]]; then
-            APPNEW="$(curl --silent --location --url https://packages.ubuntu.com/"${ROLLING}"/"${NAME}" | perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' | cut -f 1 -d '-' | cut -f 1 -d '+' | cut -f 2 -d ':')"
+            until APTNEWPAGE=$(curl --fail --silent --location --url https://packages.ubuntu.com/"${ROLLING}"/"${NAME}"); do
+                sleep 1
+            done
+            APPNEW="perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' <<< ${APTNEWPAGE} | cut -f 1 -d '-' | cut -f 1 -d '+' | cut -f 2 -d ':')"
         else
             set +e
             eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"\)
