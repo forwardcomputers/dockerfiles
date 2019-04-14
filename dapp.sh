@@ -231,7 +231,7 @@ appversions () {
             until APTNEWPAGE=$(curl --fail --silent --location --url https://packages.ubuntu.com/"${ROLLING}"/"${NAME}"); do
                 sleep 1
             done
-            APPNEW="perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' <<< ${APTNEWPAGE} | cut -f 1 -d '-' | cut -f 1 -d '+' | cut -f 2 -d ':')"
+            APPNEW="$(echo ${APTNEWPAGE} | perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' | cut -f 1 -d '-' | cut -f 1 -d '+' | cut -f 2 -d ':')"
         else
             set +e
             eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"\)
