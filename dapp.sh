@@ -3,7 +3,7 @@ set -E              # any trap on ERR is inherited by shell functions
 set -e              # exit if error occurs
 set -u              # treat unset variables and parameters as an error
 set -o pipefail     # fail if pipe failed
-# set -x              # show every commond
+#set -x              # show every commond
 #
 if [[ -z ${LP_GITHUB_API_TOKEN+x} ]]; then LP_GITHUB_API_TOKEN=""; fi
 if [[ -z ${DISPLAY+x} ]]; then DISPLAY=0; fi
@@ -126,9 +126,7 @@ upgrade_all () { ## Upgrade all applications
     all_apps
     for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
-        set -x
         appversions
-        set +x
         upgrade
     done
 }
@@ -288,5 +286,4 @@ all_apps () {
     )
 }
 #
-appversions
 main "$@"
