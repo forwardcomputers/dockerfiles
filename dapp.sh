@@ -85,6 +85,7 @@ help () { ## Show this help message
 }
 #
 info () { ## Check if there is a newer application version
+    appversions
     checkbaseimage
     if [[ ! "${APPNEW}" ]]; then APPNEW=null; fi
     if [[ "${APPNEW}" == "${APPOLD}" && ! -f /tmp/MAKE_BASE_UPDATED ]]; then
