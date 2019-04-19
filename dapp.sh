@@ -207,11 +207,11 @@ readme () { ## Create readme file
         "| --- | --- | :---: | :---: | :--- | :---: | :---: |" > README.md
     for APP in "${APPS[@]}"; do
         printf '%s' \
-            "| [![](https://img.shields.io/badge/${APP}-grey.svg))](https://hub.docker.com/r/forwardcomputers/${APP}) " \
+            "| [![](https://img.shields.io/badge/${APP}-grey.svg)](https://hub.docker.com/r/forwardcomputers/${APP}) " \
             "| [![](https://img.shields.io/badge/dynamic/json.svg?query=$.Labels.BuildDate&label=&url=https://api.microbadger.com/v1/images/forwardcomputers/${APP})](https://hub.docker.com/r/forwardcomputers/${APP}) " \
             "| [![](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/dockerfiles/${APP}) " \
             "| [![](https://img.shields.io/badge/docker--E5E5E5.svg?label=&logo=docker)](https://hub.docker.com/r/forwardcomputers/${APP}) " \
-            "| [![](https://img.shields.io/badge/dynamic/json.svg?query=$.results.0.name&label=latest%20tag&url=https://registry.hub.docker.com/v2/repositories/forwardcomputers/${APP}/tags)](https://hub.docker.com/r/forwardcomputers/${APP}) " \
+            "| [![](https://img.shields.io/badge/dynamic/json.svg?query=$.results.0.name&label=&url=https://registry.hub.docker.com/v2/repositories/forwardcomputers/${APP}/tags)](https://hub.docker.com/r/forwardcomputers/${APP}) " \
             "| [![](https://img.shields.io/microbadger/image-size/forwardcomputers/${APP}.svg?label=)](http://microbadger.com/images/forwardcomputers/${APP}) " \
             "| [![](https://img.shields.io/microbadger/layers/forwardcomputers/${APP}.svg?label=)](http://microbadger.com/images/forwardcomputers/${APP}) " \
             "|" >> README.md
