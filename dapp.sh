@@ -133,7 +133,7 @@ upgrade_all () { ## Upgrade all applications
     all_apps
     for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
-#        appversions
+        appversions
         upgrade
     done
 }
@@ -144,7 +144,7 @@ rebuild_all () { ## Rebuild all applications
     for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
         set +e
-#        appversions
+        appversions
         set -e
         build
         push
