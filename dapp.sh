@@ -5,6 +5,11 @@ set -u              # treat unset variables and parameters as an error
 set -o pipefail     # fail if pipe failed
 #set -x              # show every commond
 #
+DOCKER_PASSTHOUGH=""
+set +u
+if [[ ! -z "$3" ]]; then DOCKER_PASSTHOUGH="$3"; fi
+set -u
+#
 if [[ -z ${LP_GITHUB_API_TOKEN+x} ]]; then LP_GITHUB_API_TOKEN=""; fi
 if [[ -z ${DISPLAY+x} ]]; then DISPLAY=0; fi
 #
@@ -163,14 +168,18 @@ push () {  ## Push image to Docker Hub
 run () { ## Run the docker application
     printf '%s\n' "Runing ${NAME}"
     checklocalimage
-#    docker run --detach --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
-    docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
+    if [[ "${DOCKER_PASSTHOUGH}" ]]; then
+        docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}" "${DOCKER_PASSTHOUGH}"
+    else
+#        docker run --detach --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
+        docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
+    fi
 }
 #
 shell () { ## Run shell in docker application
     printf '%s\n' "Runing shell in ${NAME}"
     checklocalimage
-    docker run --interactive --tty --name "${NAME}"_shell "${DOCKER_OPT[@]}" "${IMG}" /bin/bash
+    docker run --interactive --tty --name "${NAME}"_shell --entrypoint  /bin/bash "${DOCKER_OPT[@]}" "${IMG}"
 }
 #
 desktop () { ## Populate desktop application menu
