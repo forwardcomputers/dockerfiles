@@ -23,4 +23,4 @@
 
 [//]: # (BlockEnd)
 
-This setup is largely based on Jessie Frazelle work [https://github.com/jfrazelle/dockerfiles](https://github.com/jfrazelle/dockerfiles)
+The dockerfiles setup is based on Jessie Frazelle work [https://github.com/jfrazelle/dockerfiles](https://github.com/jfrazelle/dockerfiles)
