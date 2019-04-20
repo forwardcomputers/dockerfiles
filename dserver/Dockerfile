@@ -96,4 +96,4 @@ RUN set -e \
 EXPOSE 3222
 COPY entrypoint.sh /bin/entrypoint.sh
 USER "${user}"
-CMD [ "/bin/entrypoint.sh" ]
+ENTRYPOINT [ "/bin/entrypoint.sh" ]

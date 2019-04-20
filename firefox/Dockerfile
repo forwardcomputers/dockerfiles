@@ -100,4 +100,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-CMD [ "/opt/firefox/firefox" ]
+ENTRYPOINT [ "/opt/firefox/firefox" ]

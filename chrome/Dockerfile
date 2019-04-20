@@ -102,4 +102,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-CMD [ "google-chrome-stable" ]
+ENTRYPOINT [ "google-chrome-stable" ]

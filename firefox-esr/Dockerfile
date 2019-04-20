@@ -101,4 +101,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-CMD [ "/opt/firefox/firefox-esr" ]
+ENTRYPOINT [ "/opt/firefox/firefox-esr" ]

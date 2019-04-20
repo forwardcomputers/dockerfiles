@@ -91,4 +91,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-CMD [ "/opt/Shotcut/Shotcut.app/shotcut" ]
+ENTRYPOINT [ "/opt/Shotcut/Shotcut.app/shotcut" ]

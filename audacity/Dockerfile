@@ -58,4 +58,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-CMD [ "audacity" ]
+ENTRYPOINT [ "audacity" ]

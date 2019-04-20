@@ -103,4 +103,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-CMD [ "/opt/tor-browser_en-US/Browser/start-tor-browser" ]
+ENTRYPOINT [ "/opt/tor-browser_en-US/Browser/start-tor-browser" ]

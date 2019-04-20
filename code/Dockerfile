@@ -86,4 +86,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-CMD [ "/usr/share/code/code" ]
+ENTRYPOINT [ "/usr/share/code/code" ]
