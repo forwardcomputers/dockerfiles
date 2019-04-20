@@ -26,6 +26,7 @@ if [[ "${CIRCLECI}" ]]; then
     ROOT=""
 else
     if ! grep -q 'index.docker.io' "${HOME}"/.docker/config.json; then
+        # shellcheck disable=SC2046
         docker login --username forwardcomputers --password $(lpass show LP_DOCKER_PASSWORD --password) > /dev/null 2>&1
     fi
     ROOT="/media/filer/os/dockerfiles/"
@@ -242,7 +243,7 @@ appversions () {
             until APTNEWPAGE=$(curl --fail --silent --location --url https://packages.ubuntu.com/"${ROLLING}"/"${NAME}"); do
                 sleep 1
             done
-            APPNEW="$(echo ${APTNEWPAGE} | perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' | cut -f 1 -d '-' | cut -f 1 -d '+' | cut -f 2 -d ':')"
+            APPNEW="$(echo "${APTNEWPAGE}" | perl -nle 'print $1 if /Package: '"${NAME}"' \((\K[^\)]+)/' | cut -f 1 -d '-' | cut -f 1 -d '+' | cut -f 2 -d ':')"
         else
             set +e
             eval APPNEW=\$\("$(grep -oP '(?<=APPNEW ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"\)
