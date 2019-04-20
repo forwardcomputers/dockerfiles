@@ -85,13 +85,13 @@ help () { ## Show this help message
 }
 #
 info () { ## Check if there is a newer application version
-    appversions
+#    appversions
     checkbaseimage
     if [[ ! "${APPNEW}" ]]; then APPNEW=null; fi
     if [[ "${APPNEW}" == "${APPOLD}" && ! -f /tmp/MAKE_BASE_UPDATED ]]; then
         printf '\r%s\n' "${YELLOW}${NAME}${GREEN} build is on latest version ${YELLOW}${APPNEW}${NC}"
     else
-        if [[ ${APPOLD} == 0 ]]; then
+        if [[ ${APPOLD} -eq 0 ]]; then
             if [[ ${APPNEW} == "null" ]]; then APPNEW=""; fi
             printf '%s\n' "${YELLOW}${NAME}${GREEN} nonexistant in Docker, use ${YELLOW}'dapp upgrade ${NAME}'${GREEN} or ${YELLOW}'dapp build ${NAME}'${GREEN} to generate the latest version ${YELLOW}${APPNEW}${NC}"
         else
@@ -127,7 +127,7 @@ upgrade_all () { ## Upgrade all applications
     all_apps
     for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
-        appversions
+#        appversions
         upgrade
     done
 }
@@ -138,16 +138,18 @@ rebuild_all () { ## Rebuild all applications
     for NAME in "${APPS[@]}"; do
         IMG="${CO}/${NAME}"
         set +e
-        appversions
+#        appversions
         set -e
         build
         push
         printf '%s\n' "${GREEN}Built ${YELLOW}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}"
     done
+    readme
 }
 #
 build () { ## Build docker image file
     printf '%s\n' "Buildng ${NAME}"
+#    appversions
     docker build --rm --force-rm --compress --label "${IMG}" --tag "${IMG}" --tag "${IMG}":"${APPNEW}" --build-arg REPO="${NAME}" --build-arg VERSION="${APPNEW}" --build-arg TEXT="${BUILD_DATE}" "${ROOT}${NAME}"
 }
 #
@@ -224,10 +226,7 @@ readme () { ## Create readme file
 #
 appversions () {
     BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
-    until APPOLDPAGE=$(curl --fail --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags); do
-        sleep 1
-    done
-    APPOLD="$(jq --raw-output '.results|.[0]|.name // 0' <<< ${APPOLDPAGE})"
+    APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"
     APPNEW="$(grep -oP '(?<=APPNEW ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
     if ! [[ "${APPNEW}" =~ ^[+-]?([0-9]*[.,])?[0-9]+?$ ]]; then
         if [[ "${APPNEW}" == "apt" ]]; then
@@ -291,4 +290,5 @@ all_apps () {
     )
 }
 #
+appversions
 main "$@"
