@@ -30,7 +30,7 @@ RUN set -e \
 	bzip2 \
 	ca-certificates \
 	curl \
-	libavcodec-extra58 \
+	libavcodec-extra \
 	libasound2 \
 	libpulse0 \
 	locales \
