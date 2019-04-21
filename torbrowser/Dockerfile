@@ -87,7 +87,8 @@ RUN set -e \
 #
 RUN set -e \
 &&	appver=$( curl --location --silent --url https://www.torproject.org/projects/torbrowser.html.en | \
-	awk -F'[()]' '/GNU\/Linux/ { i++ } i==4 { print $2; exit }' ) \
+	tac | \
+	awk -F'/' '/linux64/ { print $6; exit }' ) \
 &&  curl --location --silent --url \
 	https://www.torproject.org/dist/torbrowser/"${appver}"/tor-browser-linux64-"${appver}"_en-US.tar.xz | \
 	tar --extract --xz --directory /opt \
