@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES image/bmp;image/g3fax;image/gif;image/x-fits;image/x-pcx;image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;image/x-psd;image/x-sgi;image/x-tga;image/x-xbitmap;image/x-xwindowdump;image/x-xcf;image/x-compressed-xcf;image/x-gimp-gbr;image/x-gimp-pat;image/x-gimp-gih;image/tiff;
 #DESKTOP_LOGO https://gitlab.gnome.org/GNOME/gimp/raw/master/desktop/48x48/gimp.png
 #
-FROM ubuntu:rolling
+FROM ubuntu:latest
 ARG REPO
 ARG VERSION
 ARG TEXT

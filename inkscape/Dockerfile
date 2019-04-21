@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES image/svg+xml;image/svg+xml-compressed;application/vnd.corel-draw;application/pdf;application/postscript;image/x-eps;application/illustrator;image/cgm;image/x-wmf;application/x-xccx;application/x-xcgm;application/x-xcdt;application/x-xsk1;application/x-xcmx;image/x-xcdr;application/visio;application/x-visio;application/vnd.visio;application/visio.drawing;application/vsd;application/x-vsd;image/x-vsd;
 #DESKTOP_LOGO https://gitlab.com/inkscape/inkscape/raw/master/share/branding/inkscape.svg
 #
-FROM ubuntu:rolling
+FROM ubuntu:latest
 ARG REPO
 ARG VERSION
 ARG TEXT

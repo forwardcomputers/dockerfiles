@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES application/x-blender;
 #DESKTOP_LOGO https://developer.blender.org/diffusion/B/browse/master/release/freedesktop/icons/scalable/apps/blender.svg
 #
-FROM ubuntu:rolling
+FROM ubuntu:latest
 ARG REPO
 ARG VERSION
 ARG TEXT

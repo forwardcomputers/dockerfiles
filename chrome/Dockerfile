@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES text/html;text/xml;application/xhtml_xml;image/webp;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
 #DESKTOP_LOGO https://github.com/forwardcomputers/dockerfiles/chrome/raw/master/chrome.png
 #
-FROM ubuntu:rolling
+FROM ubuntu:latest
 ARG REPO
 ARG VERSION
 ARG TEXT

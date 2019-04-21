@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES text/x-xges;text/x-xptv;
 #DESKTOP_LOGO https://gitlab.gnome.org/GNOME/pitivi/raw/master/data/icons/hicolor/scalable/apps/org.pitivi.Pitivi.svg
 #
-FROM ubuntu:rolling
+FROM ubuntu:latest
 ARG REPO
 ARG VERSION
 ARG TEXT

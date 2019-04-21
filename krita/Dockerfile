@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES application/x-krita;image/openraster;application/x-krita-paintoppreset;
 #DESKTOP_LOGO https://raw.githubusercontent.com/KDE/krita/master/pics/calligrakrita-base.svg
 #
-FROM ubuntu:rolling
+FROM ubuntu:latest
 ARG REPO
 ARG VERSION
 ARG TEXT

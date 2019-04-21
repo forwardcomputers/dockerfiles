@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES 
 #DESKTOP_LOGO https://github.com/tmux/tmux/raw/master/logo/tmux-logomark.svg
 #
-FROM ubuntu:rolling
+FROM ubuntu:latest
 ARG REPO
 ARG VERSION
 ARG TEXT

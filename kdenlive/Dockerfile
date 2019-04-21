@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES application/x-kdenlive;
 #DESKTOP_LOGO https://github.com/KDE/kdenlive/raw/master/data/icons/48-apps-kdenlive.png
 #
-FROM ubuntu:rolling
+FROM ubuntu:latest
 ARG REPO
 ARG VERSION
 ARG TEXT

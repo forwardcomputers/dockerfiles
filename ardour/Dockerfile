@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES application/x-ardour;
 #DESKTOP_LOGO https://github.com/Ardour/ardour/raw/master/gtk2_ardour/icons/ardour-app-icon_osx.png
 #
-FROM ubuntu:rolling
+FROM ubuntu:latest
 ARG REPO
 ARG VERSION
 ARG TEXT
