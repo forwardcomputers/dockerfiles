@@ -279,6 +279,14 @@ checklocalimage () {
         # shellcheck disable=SC2191
         DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" --volume /media:/media)
     fi
+    if [[ "${NAME}" == "gparted" ]]; then
+        if [[ ! "${DOCKER_PASSTHOUGH}" ]]; then
+            printf '\r%s\n' "${YELLOW}Drive not defined${NC}"
+            exit
+        fi
+        # shellcheck disable=SC2191
+        DOCKER_OPT+=(--device "${DOCKER_PASSTHOUGH}":"${DOCKER_PASSTHOUGH}" --privileged)
+    fi
 }
 #
 tweet () {
