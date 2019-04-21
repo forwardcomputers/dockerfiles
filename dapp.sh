@@ -138,6 +138,13 @@ upgrade_all () { ## Upgrade all applications
     done
 }
 #
+rebuild () { ## Rebuild application
+    printf '%s' "${GREEN}Rebuilding ${YELLOW}${NAME}${NC} - "
+    build
+    push
+    printf '%s\n' "${GREEN}Rebuilt ${YELLOW}${NAME}${GREEN} to the latest version ${YELLOW}${APPNEW}${NC}"
+}
+#
 rebuild_all () { ## Rebuild all applications
     printf '%s\n' "Rebuilding all applications"
     all_apps

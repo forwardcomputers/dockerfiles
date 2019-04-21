@@ -31,7 +31,7 @@ RUN set -e \
 	ca-certificates \
 	curl \
 	adwaita-icon-theme-full \
-	libavcodec-extra58 \
+	libavcodec-extra \
 	libasound2 \
 	libpulse0 \
 	locales \
