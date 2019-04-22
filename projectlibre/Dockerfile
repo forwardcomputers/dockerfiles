@@ -1,10 +1,10 @@
 #
-#APPNEW apt
-#DESKTOP_NAME Ardour
-#DESKTOP_COMMENT Digital Audio Workstation
-#DESKTOP_CATEGORIES AudioVideo;AudioEditing;Audio;Recorder;X-Recorders;X-Multitrack;X-Jack;
-#DESKTOP_MIMETYPES application/x-ardour;
-#DESKTOP_LOGO https://github.com/Ardour/ardour/raw/master/gtk2_ardour/icons/ardour-app-icon_osx.png
+#APPNEW curl --location --silent --url https://sourceforge.net/projects/projectlibre/files | perl -nle 'print $1 if /\/ProjectLibre\/(\K[^\/]+)/' | head -1
+#DESKTOP_NAME ProjectLibre
+#DESKTOP_COMMENT Free and open-source project management software 
+#DESKTOP_CATEGORIES 
+#DESKTOP_MIMETYPES 
+#DESKTOP_LOGO 
 #
 FROM ubuntu:devel
 ARG REPO
@@ -24,18 +24,30 @@ ENV user="duser" \
 RUN set -e \
 &&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
-# Update Ubuntu repos and install dependencies
+# Update Ubuntu repos and install application
 #
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	libpulse0 \
 	locales \
-	ardour \
-	dbus-x11 \
-	pulseaudio-module-jack \
+	ca-certificates \
+	curl \
+	openjdk-13-jre
+#
+# Install application
+#
+RUN set -e \
+&&  appdeb=$( curl --location --silent --user-agent 'Mozilla/5.0 (X11; Linux x86_64; rv:9.0.1) Gecko/ /9.0.1' --url https://sourceforge.net/projects/projectlibre/files | \
+	perl -nle 'print $1 if /\/ProjectLibre\/(\K[^d]+)/' | \
+	head -1 ) \
+&&  curl --location --output ./projectlibre.deb --silent --url https://sourceforge.net/projects/projectlibre/files/ProjectLibre/"${appdeb}"deb/download \
+&&  dpkg --install ./projectlibre.deb \
+&&  apt-get -qq install --fix-broken --no-install-recommends --yes \
 #
 # Clean-up
 #
+&&  apt-get -qq autoremove --yes \
 &&  rm --recursive --force \
+	./google-chrome.deb \
 	/usr/share/doc/* \
 	/usr/share/man/* \
 	/var/cache/apt/archives/*.deb \
@@ -57,4 +69,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-ENTRYPOINT [ "ardour5" ]
+ENTRYPOINT [ "projectlibre" ]

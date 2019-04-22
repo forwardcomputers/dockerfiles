@@ -57,12 +57,11 @@ DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" --shm-size=1gb \
             --env DISPLAY=unix"${DISPLAY}" \
             # --env GDK_SCALE \
             # --env GDK_DPI_SCALE \
-            --env PULSE_SERVER=unix:/run/user/"${UID}"/pulse/native \
             # --env QT_AUTO_SCREEN_SCALE_FACTOR=1 \
+            --env PULSE_SERVER=unix:/run/user/"${UID}"/pulse/native \
             --device /dev/bus/usb \
             --device /dev/dri \
             --device /dev/snd \
-            # --volume /dev/shm:/dev/shm \
             --volume /etc/machine-id:/etc/machine-id:ro \
             --volume /media:/media \
             --volume /run/user/"${UID}"/pulse:/run/user/1001/pulse \
