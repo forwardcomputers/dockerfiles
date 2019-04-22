@@ -176,18 +176,22 @@ push () {  ## Push image to Docker Hub
 run () { ## Run the docker application
     printf '%s\n' "Runing ${NAME}"
     checklocalimage
+    xhost +local:"${NAME}"
     if [[ "${DOCKER_PASSTHOUGH}" ]]; then
-        docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}" "${DOCKER_PASSTHOUGH}"
+        docker run --hostname "${NAME}" --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}" "${DOCKER_PASSTHOUGH}"
     else
-#        docker run --detach --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
-        docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
+#        docker run --detach --hostname "${NAME}" --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
+        docker run --hostname "${NAME}" --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
     fi
+    xhost -local:"${NAME}"
 }
 #
 shell () { ## Run shell in docker application
     printf '%s\n' "Runing shell in ${NAME}"
     checklocalimage
-    docker run --interactive --tty --name "${NAME}"_shell --entrypoint  /bin/bash "${DOCKER_OPT[@]}" "${IMG}"
+    xhost +local:"${NAME}"_shell
+    docker run --interactive --tty -hostname "${NAME}"_shell --name "${NAME}"_shell --entrypoint  /bin/bash "${DOCKER_OPT[@]}" "${IMG}"
+    xhost -local:"${NAME}"_shell
 }
 #
 desktop () { ## Populate desktop application menu
