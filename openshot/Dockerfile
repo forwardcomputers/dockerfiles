@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES application/vnd.openshot-qt-project;
 #DESKTOP_LOGO https://github.com/OpenShot/openshot-qt/raw/develop/xdg/openshot-qt.svg
 #
-FROM ubuntu:latest
+FROM ubuntu:devel
 ARG REPO
 ARG VERSION
 ARG TEXT

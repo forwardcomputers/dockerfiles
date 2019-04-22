@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES 
 #DESKTOP_LOGO https://github.com/GNOME/gparted/raw/master/data/icons/hicolor_apps_48x48_gparted.png
 #
-FROM ubuntu:latest
+FROM ubuntu:devel
 ARG REPO
 ARG VERSION
 ARG TEXT

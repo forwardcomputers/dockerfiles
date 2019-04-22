@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES text/plain;inode/directory;
 #DESKTOP_LOGO https://github.com/forwardcomputers/dockerfiles/vscode/raw/master/code.png
 #
-FROM ubuntu:latest
+FROM ubuntu:devel
 ARG REPO
 ARG VERSION
 ARG TEXT

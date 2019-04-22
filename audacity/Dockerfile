@@ -1,12 +1,12 @@
 #
-#APPNEW curl --location --header '"${GH_AUTH_HEADER}"' --header '"${GH_API_HEADER}"' --silent --url https://api.github.com/repos/audacity/audacity/releases/latest | jq -r '.tag_name | split("-")[1]'
+#APPNEW curl --location --header '"${GH_AUTH_HEADER}"' --header '"${GH_API_HEADER}"' --silent --url https://api.github.com/repos/audacity/audacity/releases/devel | jq -r '.tag_name | split("-")[1]'
 #DESKTOP_NAME Audacity
 #DESKTOP_COMMENT Record and edit audio files
 #DESKTOP_CATEGORIES AudioVideo;Audio;AudioVideoEditing;
 #DESKTOP_MIMETYPES application/x-audacity-project;
 #DESKTOP_LOGO https://github.com/audacity/audacity/raw/master/images/AudacityLogo.png
 #
-FROM ubuntu:latest
+FROM ubuntu:devel
 ARG REPO
 ARG VERSION
 ARG TEXT

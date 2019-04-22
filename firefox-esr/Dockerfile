@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPES text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;x-scheme-handler/chrome;video/webm;application/x-xpinstall;
 #DESKTOP_LOGO https://dxr.mozilla.org/mozilla-release/raw/browser/branding/official/default48.png
 #
-FROM ubuntu:latest
+FROM ubuntu:devel
 ARG REPO
 ARG VERSION
 ARG TEXT
@@ -86,7 +86,7 @@ RUN set -e \
 #
 RUN set -e \
 &&  curl --location --silent --url \
-	'https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=linux64&lang=en-US' | \
+	'https://download.mozilla.org/?product=firefox-esr-devel-ssl&os=linux64&lang=en-US' | \
 	tar --extract --bzip2 --directory /opt \
 &&  ln --symbolic /opt/firefox/firefox /opt/firefox/firefox-esr \
 &&  chown --recursive "${uid}:${gid}" /opt/firefox
