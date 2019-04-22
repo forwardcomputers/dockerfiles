@@ -66,7 +66,7 @@ DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" --shm-size=1gb \
             --volume /media:/media \
             --volume /run/user/"${UID}"/pulse:/run/user/1001/pulse \
             --volume /tmp/.X11-unix:/tmp/.X11-unix:ro \
-            --volume "${XDG_RUNTIME_DIR}":/home/duser/.dbus \
+            --volume "${XDG_RUNTIME_DIR}":~/.dbus \
             --volume "${HOME}":/home/duser)
 #
 main () {
