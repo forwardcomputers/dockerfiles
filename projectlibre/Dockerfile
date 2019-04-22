@@ -1,10 +1,10 @@
 #
 #APPNEW curl --location --silent --url https://sourceforge.net/projects/projectlibre/files | perl -nle 'print $1 if /\/ProjectLibre\/(\K[^\/]+)/' | head -1
 #DESKTOP_NAME ProjectLibre
-#DESKTOP_COMMENT Free and open-source project management software 
-#DESKTOP_CATEGORIES 
-#DESKTOP_MIMETYPES 
-#DESKTOP_LOGO 
+#DESKTOP_COMMENT Project Management
+#DESKTOP_CATEGORIES Office;ProjectManagement;
+#DESKTOP_MIMETYPES application/x-projectlibre;
+#DESKTOP_LOGO https://sourceforge.net/p/projectlibre/code/ci/master/tree/projectlibre_build/resources/projectlibre.png?format=raw
 #
 FROM ubuntu:devel
 ARG REPO
