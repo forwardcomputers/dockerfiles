@@ -159,7 +159,7 @@ rebuild_all () { ## Rebuild all applications
 }
 #
 build () { ## Build docker image file
-    printf '%s\n' "Buildng ${NAME}"
+    printf '%s\n' "Building ${NAME}"
 #    appversions
     docker build --rm --force-rm --compress --label "${IMG}" --tag "${IMG}" --tag "${IMG}":"${APPNEW}" --build-arg REPO="${NAME}" --build-arg VERSION="${APPNEW}" --build-arg TEXT="${BUILD_DATE}" "${ROOT}${NAME}"
 }
