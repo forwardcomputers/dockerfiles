@@ -1,10 +1,10 @@
 #
-#APPNEW curl --location --silent --url https://sourceforge.net/projects/projectlibre/files | perl -nle 'print $1 if /\/ProjectLibre\/(\K[^\/]+)/' | head -1
-#DESKTOP_NAME ProjectLibre
+#APPNEW curl --location --silent --url https://www.ganttproject.biz/download/upgrade#linux | grep '/lin' | perl -nle 'print $1 if /\/dl\/(\K[^\/]+)/'
+#DESKTOP_NAME GanttProject
 #DESKTOP_COMMENT Project Management
-#DESKTOP_CATEGORIES Office;ProjectManagement;
-#DESKTOP_MIMETYPE application/x-projectlibre;
-#DESKTOP_LOGO https://sourceforge.net/p/projectlibre/code/ci/master/tree/projectlibre_build/resources/projectlibre.png?format=raw
+#DESKTOP_CATEGORIES Office;
+#DESKTOP_MIMETYPE application/x-ganttproject;
+#DESKTOP_LOGO https://github.com/bardsoftware/ganttproject/raw/master/ganttproject-builder/ganttproject.svg
 #
 FROM ubuntu:devel
 ARG REPO
@@ -31,23 +31,26 @@ RUN set -e \
 	locales \
 	ca-certificates \
 	curl \
-	openjdk-13-jre
+	openjdk-11-jre \
+	libcanberra-gtk-module \
+    libcanberra-gtk3-module 
+
 #
 # Install application
 #
 RUN set -e \
-&&  appdeb=$( curl --location --silent --user-agent 'Mozilla/5.0 (X11; Linux x86_64; rv:9.0.1) Gecko/ /9.0.1' --url https://sourceforge.net/projects/projectlibre/files | \
-	perl -nle 'print $1 if /\/ProjectLibre\/(\K[^d]+)/' | \
-	head -1 ) \
-&&  curl --location --output ./projectlibre.deb --silent --url https://sourceforge.net/projects/projectlibre/files/ProjectLibre/"${appdeb}"deb/download \
-&&  dpkg --install ./projectlibre.deb \
+&&  appdeb=$( curl --location --silent --url https://www.ganttproject.biz/download/upgrade#linux | \
+	grep '/lin' | \
+	perl -nle 'print $1 if /\/dl\/(\K[^\/]+)/' ) \
+&&  curl --location --output ./ganttproject.deb --silent --url https://www.ganttproject.biz/dl/"${appdeb}"/lin \
+&&  dpkg --install ./ganttproject.deb \
 &&  apt-get -qq install --fix-broken --no-install-recommends --yes \
 #
 # Clean-up
 #
 &&  apt-get -qq autoremove --yes \
 &&  rm --recursive --force \
-	./projectlibre.deb \
+	./ganttproject.deb \
 	/usr/share/doc/* \
 	/usr/share/man/* \
 	/var/cache/apt/archives/*.deb \
@@ -69,4 +72,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-ENTRYPOINT [ "projectlibre" ]
+ENTRYPOINT [ "/usr/bin/ganttproject" ]
