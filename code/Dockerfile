@@ -4,7 +4,7 @@
 #DESKTOP_COMMENT Code Editing. Redefined.
 #DESKTOP_CATEGORIES Utility;TextEditor;Development;IDE;
 #DESKTOP_MIMETYPE text/plain;inode/directory;
-#DESKTOP_LOGO https://github.com/forwardcomputers/dockerfiles/vscode/raw/master/code.png
+#DESKTOP_LOGO https://github.com/forwardcomputers/dockerfiles/raw/master/code/code.png
 #
 FROM ubuntu:devel
 ARG REPO

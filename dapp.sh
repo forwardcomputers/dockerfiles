@@ -296,7 +296,7 @@ checklocalimage () {
 tweet () {
     printf '%s\n' "Tweet ${NAME} push"
     # Code bits from - https://github.com/moebiuscurve/tweetExperiments/tree/master/curlTweets
-    message="Pushed ${NAME}"
+    message="Pushed ${NAME}-${APPNEW}"
     message_string=$(echo -n "${message}"|sed -e s'/ /%2520/g')
     message_curl=$(echo -n "${message}"|sed -e s'/ /+/g')
     timestamp=$(date +%s)

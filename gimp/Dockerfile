@@ -4,7 +4,7 @@
 #DESKTOP_COMMENT Create images and edit photographs
 #DESKTOP_CATEGORIES Graphics;2DGraphics;RasterGraphics;GTK;
 #DESKTOP_MIMETYPE image/bmp;image/g3fax;image/gif;image/x-fits;image/x-pcx;image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;image/x-psd;image/x-sgi;image/x-tga;image/x-xbitmap;image/x-xwindowdump;image/x-xcf;image/x-compressed-xcf;image/x-gimp-gbr;image/x-gimp-pat;image/x-gimp-gih;image/tiff;
-#DESKTOP_LOGO https://gitlab.gnome.org/GNOME/gimp/raw/master/desktop/48x48/gimp.png
+#DESKTOP_LOGO https://gitlab.gnome.org/GNOME/gimp/raw/master/desktop/256x256/gimp.png
 #
 FROM ubuntu:devel
 ARG REPO

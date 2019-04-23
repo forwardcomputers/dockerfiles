@@ -4,7 +4,7 @@
 #DESKTOP_COMMENT Network traffic analyzer
 #DESKTOP_CATEGORIES Network;Monitor;Qt;
 #DESKTOP_MIMETYPE application/vnd.tcpdump.pcap;application/x-pcapng;application/x-snoop;application/x-iptrace;application/x-lanalyzer;application/x-nettl;application/x-radcom;application/x-etherpeek;application/x-visualnetworks;application/x-netinstobserver;application/x-5view;application/x-tektronix-rf5;application/x-micropross-mplog;application/x-apple-packetlogger;application/x-endace-erf;application/ipfix;application/x-ixia-vwr;
-#DESKTOP_LOGO https://github.com/wireshark/wireshark/raw/master/image/wsicon48.png
+#DESKTOP_LOGO https://github.com/wireshark/wireshark/raw/master/image/wsicon256.png 
 #
 FROM ubuntu:devel
 ARG REPO

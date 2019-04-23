@@ -4,7 +4,7 @@
 #DESKTOP_COMMENT Nonlinear video editor by KDE
 #DESKTOP_CATEGORIES Qt;KDE;AudioVideo;AudioVideoEditing;
 #DESKTOP_MIMETYPE application/x-kdenlive;
-#DESKTOP_LOGO https://github.com/KDE/kdenlive/raw/master/data/icons/48-apps-kdenlive.png
+#DESKTOP_LOGO https://github.com/KDE/kdenlive/raw/master/data/icons/256-apps-kdenlive.png
 #
 FROM ubuntu:devel
 ARG REPO
