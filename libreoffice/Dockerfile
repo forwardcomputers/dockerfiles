@@ -1,10 +1,48 @@
 #
 #APPNEW apt
-#DESKTOP_NAME GNU Image Manipulation Program
-#DESKTOP_COMMENT Create images and edit photographs
-#DESKTOP_CATEGORIES Graphics;2DGraphics;RasterGraphics;GTK;
-#DESKTOP_MIMETYPE image/bmp;image/g3fax;image/gif;image/x-fits;image/x-pcx;image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;image/x-psd;image/x-sgi;image/x-tga;image/x-xbitmap;image/x-xwindowdump;image/x-xcf;image/x-compressed-xcf;image/x-gimp-gbr;image/x-gimp-pat;image/x-gimp-gih;image/tiff;
-#DESKTOP_LOGO https://gitlab.gnome.org/GNOME/gimp/raw/master/desktop/48x48/gimp.png
+#DESKTOP_COUNT 7
+#1DESKTOP_NAME LibreOffice
+#1DESKTOP_COMMENT The office productivity suite compatible to the open and standardized ODF document format. Supported by The Document Foundation.
+#1DESKTOP_CATEGORIES Office;X-Red-Hat-Base;X-SuSE-Core-Office;X-MandrivaLinux-Office-Other;
+#1DESKTOP_MIMETYPE application/vnd.openofficeorg.extension;x-scheme-handler/vnd.libreoffice.cmis;
+#1DESKTOP_LOGO https://github.com/LibreOffice/core/raw/master/sysui/desktop/icons/hicolor/scalable/apps/startcenter.svg
+#1DESKTOP_EXEC libreoffice
+#2DESKTOP_NAME LibreOffice Base
+#2DESKTOP_COMMENT Manage databases, create queries and reports to track and manage your information by using Base.
+#2DESKTOP_CATEGORIES Office;Database;X-Red-Hat-Base;X-MandrivaLinux-MoreApplications-Databases;
+#2DESKTOP_MIMETYPE application/vnd.oasis.opendocument.database;application/vnd.sun.xml.base;
+#2DESKTOP_LOGO https://github.com/LibreOffice/core/raw/master/sysui/desktop/icons/hicolor/scalable/apps/base.svg
+#2DESKTOP_EXEC libreoffice --base
+#3DESKTOP_NAME LibreOffice Calc
+#3DESKTOP_COMMENT Perform calculations, analyze information and manage lists in spreadsheets by using Calc.
+#3DESKTOP_CATEGORIES Office;Spreadsheet;X-Red-Hat-Base;X-MandrivaLinux-Office-Spreadsheets;
+#3DESKTOP_MIMETYPE application/vnd.oasis.opendocument.spreadsheet;application/vnd.oasis.opendocument.spreadsheet-template;application/vnd.sun.xml.calc;application/vnd.sun.xml.calc.template;application/msexcel;application/vnd.ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.ms-excel.sheet.macroEnabled.12;application/vnd.openxmlformats-officedocument.spreadsheetml.template;application/vnd.ms-excel.template.macroEnabled.12;application/vnd.ms-excel.sheet.binary.macroEnabled.12;text/csv;application/x-dbf;text/spreadsheet;application/csv;application/excel;application/tab-separated-values;application/vnd.lotus-1-2-3;application/vnd.oasis.opendocument.chart;application/vnd.oasis.opendocument.chart-template;application/x-dbase;application/x-dos_ms_excel;application/x-excel;application/x-msexcel;application/x-ms-excel;application/x-quattropro;application/x-123;text/comma-separated-values;text/tab-separated-values;text/x-comma-separated-values;text/x-csv;application/vnd.oasis.opendocument.spreadsheet-flat-xml;application/vnd.ms-works;application/clarisworks;application/x-iwork-numbers-sffnumbers;application/x-starcalc;
+#3DESKTOP_LOGO https://github.com/LibreOffice/core/raw/master/sysui/desktop/icons/hicolor/scalable/apps/calc.svg
+#3DESKTOP_EXEC libreoffice --calc
+#4DESKTOP_NAME LibreOffice Draw
+#4DESKTOP_COMMENT Create and edit drawings, flow charts and logos by using Draw.
+#4DESKTOP_CATEGORIES Office;FlowChart;Graphics;2DGraphics;VectorGraphics;X-Red-Hat-Base;X-MandrivaLinux-Office-Drawing;
+#4DESKTOP_MIMETYPE application/vnd.oasis.opendocument.graphics;application/vnd.oasis.opendocument.graphics-flat-xml;application/vnd.oasis.opendocument.graphics-template;application/vnd.sun.xml.draw;application/vnd.sun.xml.draw.template;application/vnd.visio;application/x-wpg;application/vnd.corel-draw;application/vnd.ms-publisher;image/x-freehand;application/clarisworks;application/x-pagemaker;application/pdf;application/x-stardraw;image/x-emf;image/x-wmf;
+#4DESKTOP_LOGO https://github.com/LibreOffice/core/raw/master/sysui/desktop/icons/hicolor/scalable/apps/draw.svg
+#4DESKTOP_EXEC libreoffice --draw
+#5DESKTOP_NAME LibreOffice Impress
+#5DESKTOP_COMMENT Create and edit presentations for slideshows, meeting and Web pages by using Impress.
+#5DESKTOP_CATEGORIES Office;Presentation;X-Red-Hat-Base;X-MandrivaLinux-Office-Presentations;
+#5DESKTOP_MIMETYPE application/vnd.oasis.opendocument.presentation;application/vnd.oasis.opendocument.presentation-template;application/vnd.sun.xml.impress;application/vnd.sun.xml.impress.template;application/mspowerpoint;application/vnd.ms-powerpoint;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.ms-powerpoint.presentation.macroEnabled.12;application/vnd.openxmlformats-officedocument.presentationml.template;application/vnd.ms-powerpoint.template.macroEnabled.12;application/vnd.openxmlformats-officedocument.presentationml.slide;application/vnd.openxmlformats-officedocument.presentationml.slideshow;application/vnd.ms-powerpoint.slideshow.macroEnabled.12;application/vnd.oasis.opendocument.presentation-flat-xml;application/x-iwork-keynote-sffkey;
+#5DESKTOP_LOGO https://github.com/LibreOffice/core/raw/master/sysui/desktop/icons/hicolor/scalable/apps/impress.svg
+#5DESKTOP_EXEC libreoffice --impress
+#6DESKTOP_NAME LibreOffice Math
+#6DESKTOP_COMMENT Create and edit scientific formulas and equations by using Math.
+#6DESKTOP_CATEGORIES Office;Spreadsheet;Education;Science;Math;X-Red-Hat-Base;X-MandrivaLinux-Office-Other;
+#6DESKTOP_MIMETYPE application/vnd.oasis.opendocument.formula;application/vnd.sun.xml.math;application/vnd.oasis.opendocument.formula-template;text/mathml;application/mathml+xml;
+#6DESKTOP_LOGO https://github.com/LibreOffice/core/raw/master/sysui/desktop/icons/hicolor/scalable/apps/math.svg
+#6DESKTOP_EXEC libreoffice --math
+#7DESKTOP_NAME LibreOffice Writer
+#7DESKTOP_COMMENT Create and edit text and graphics in letters, reports, documents and Web pages by using Writer.
+#7DESKTOP_CATEGORIES Office;WordProcessor;X-Red-Hat-Base;X-MandrivaLinux-Office-Wordprocessors;
+#7DESKTOP_MIMETYPE application/vnd.oasis.opendocument.text;application/vnd.oasis.opendocument.text-template;application/vnd.oasis.opendocument.text-web;application/vnd.oasis.opendocument.text-master;application/vnd.oasis.opendocument.text-master-template;application/vnd.sun.xml.writer;application/vnd.sun.xml.writer.template;application/vnd.sun.xml.writer.global;application/msword;application/vnd.ms-word;application/x-doc;application/x-hwp;application/rtf;text/rtf;application/vnd.wordperfect;application/wordperfect;application/vnd.lotus-wordpro;application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.ms-word.document.macroEnabled.12;application/vnd.openxmlformats-officedocument.wordprocessingml.template;application/vnd.ms-word.template.macroEnabled.12;application/vnd.ms-works;application/vnd.stardivision.writer-global;application/x-extension-txt;application/x-t602;text/plain;application/vnd.oasis.opendocument.text-flat-xml;application/x-fictionbook+xml;application/macwriteii;application/x-aportisdoc;application/prs.plucker;application/vnd.palm;application/clarisworks;application/x-sony-bbeb;application/x-abiword;application/x-iwork-pages-sffpages;application/x-mswrite;application/x-starwriter;
+#7DESKTOP_LOGO https://github.com/LibreOffice/core/raw/master/sysui/desktop/icons/hicolor/scalable/apps/writer.svg
+#7DESKTOP_EXEC libreoffice --writer
 #
 FROM ubuntu:devel
 ARG REPO
@@ -12,7 +50,7 @@ ARG VERSION
 ARG TEXT
 #
 LABEL maintainer="Ali Mustakim <alim@forwardcomputers.com>" \
-	  org.label-schema.name="${REPO}" \
+      org.label-schema.name="${REPO}" \
 	  org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
 	  BuildDate="${TEXT}"
 #

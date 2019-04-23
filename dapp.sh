@@ -194,27 +194,39 @@ shell () { ## Run shell in docker application
 #
 desktop () { ## Populate desktop application menu
     printf '%s\n' "Populating application menu"
-    DESKTOP_NAME="$(grep -oP '(?<=DESKTOP_NAME ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
-    DESKTOP_COMMENT="$(grep -oP '(?<=DESKTOP_COMMENT ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
-    DESKTOP_CATEGORIES="$(grep -oP '(?<=DESKTOP_CATEGORIES ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
-    DESKTOP_MIMETYPE="$(grep -oP '(?<=DESKTOP_MIMETYPE ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
-    DESKTOP_LOGO="$(grep -oP '(?<=DESKTOP_LOGO ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
-    DESKTOP_LOGO_NAME="${NAME}_$(basename "${DESKTOP_LOGO}")"
-    curl --silent --location --output ~/.local/share/applications/"${DESKTOP_LOGO_NAME}" "${DESKTOP_LOGO}"
-    printf '%s\n' \
-        "[Desktop Entry]" \
-        "Version=1.0" \
-        "Type=Application" \
-        "Terminal=false" \
-        "Encoding=UTF-8" \
-        "StartupNotify=true" \
-        "Name=${DESKTOP_NAME}" \
-        "Comment=${DESKTOP_COMMENT}" \
-        "Categories=${DESKTOP_CATEGORIES}" \
-        "MimeType=${DESKTOP_MIMETYPE}" \
-        "Exec=${ROOT}/dapp.sh run ${NAME}" \
-        "Icon=${HOME}/.local/share/applications/${DESKTOP_LOGO_NAME}" > ~/.local/share/applications/"${NAME}".desktop
-    printf '%s\n' "${DESKTOP_MIMETYPE}=${NAME}.desktop;" >> ~/.local/share/applications/mimeapps.list
+    DESKTOP_DOCKERFILE=$( < "${ROOT}${NAME}"/Dockerfile )
+    DESKTOP_COUNT="$( grep -oP '(?<=DESKTOP_COUNT ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || echo '999' )"
+    for ((i=1; i<="${DESKTOP_COUNT}"; i++)); do
+        [[ "${DESKTOP_COUNT}" = 999 ]] && i=''
+        DESKTOP_NAME="$(grep -oP '(?<='${i}'DESKTOP_NAME ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+        DESKTOP_COMMENT="$(grep -oP '(?<='${i}'DESKTOP_COMMENT ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+        DESKTOP_CATEGORIES="$(grep -oP '(?<='${i}'DESKTOP_CATEGORIES ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+        DESKTOP_MIMETYPE="$(grep -oP '(?<='${i}'DESKTOP_MIMETYPE ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+        DESKTOP_LOGO="$(grep -oP '(?<='${i}'DESKTOP_LOGO ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+        DESKTOP_LOGO_NAME="${NAME}_$(basename $( sed 's/?format.*//' <<< ${DESKTOP_LOGO}))"
+        DESKTOP_EXEC="$(grep -oP '(?<='${i}'DESKTOP_EXEC ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+        [[ "${DESKTOP_EXEC}" ]] || DESKTOP_EXEC="${NAME}"
+        curl --silent --location --output ~/.local/share/applications/"${DESKTOP_LOGO_NAME}" "${DESKTOP_LOGO}"
+        if [[ "${DESKTOP_LOGO}" == *?format=TEXT* ]]; then
+            mv ~/.local/share/applications/"${DESKTOP_LOGO_NAME}" /tmp
+            base64 --decode /tmp/"${DESKTOP_LOGO_NAME}" > ~/.local/share/applications/"${DESKTOP_LOGO_NAME}"
+        fi
+        printf '%s\n' \
+            "[Desktop Entry]" \
+            "Version=1.0" \
+            "Type=Application" \
+            "Terminal=false" \
+            "Encoding=UTF-8" \
+            "StartupNotify=true" \
+            "Name=${DESKTOP_NAME}" \
+            "Comment=${DESKTOP_COMMENT}" \
+            "Categories=${DESKTOP_CATEGORIES}" \
+            "MimeType=${DESKTOP_MIMETYPE}" \
+            "Exec=${ROOT}dapp.sh run ${DESKTOP_EXEC}" \
+            "Icon=${HOME}/.local/share/applications/${DESKTOP_LOGO_NAME}" > ~/.local/share/applications/"${NAME}${i}".desktop
+        printf '%s\n' "${DESKTOP_MIMETYPE}=${NAME}.desktop;" >> ~/.local/share/applications/mimeapps.list
+        [[ "${i}" == '' ]] && break
+    done
 }
 #
 readme () { ## Create readme file

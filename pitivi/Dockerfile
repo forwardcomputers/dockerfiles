@@ -4,7 +4,7 @@
 #DESKTOP_COMMENT Create and edit your own movies
 #DESKTOP_CATEGORIES GNOME;GTK;AudioVideo;Video;AudioVideoEditing;
 #DESKTOP_MIMETYPE text/x-xges;text/x-xptv;
-#DESKTOP_LOGO https://gitlab.gnome.org/GNOME/pitivi/raw/master/data/icons/hicolor/scalable/apps/org.pitivi.Pitivi.svg
+#DESKTOP_LOGO https://gitlab.gnome.org/GNOME/pitivi/raw/master/data/pixmaps/pitivi.png
 #
 FROM ubuntu:devel
 ARG REPO

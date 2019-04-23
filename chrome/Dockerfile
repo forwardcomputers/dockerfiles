@@ -4,7 +4,7 @@
 #DESKTOP_COMMENT Access the Internet
 #DESKTOP_CATEGORIES Network;WebBrowser;
 #DESKTOP_MIMETYPE text/html;text/xml;application/xhtml_xml;image/webp;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
-#DESKTOP_LOGO https://github.com/forwardcomputers/dockerfiles/raw/master/chrome/chrome.icns
+#DESKTOP_LOGO https://chromium.googlesource.com/chromium/reference_builds/chrome_mac/+/refs/heads/master/Google%20Chrome.app/Contents/Resources/app.icns?format=TEXT
 #
 FROM ubuntu:devel
 ARG REPO
