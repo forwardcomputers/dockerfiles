@@ -3,7 +3,7 @@
 #DESKTOP_NAME Blender
 #DESKTOP_COMMENT 3D modeling, animation, rendering and post-production
 #DESKTOP_CATEGORIES Graphics;3DGraphics;
-#DESKTOP_MIMETYPES application/x-blender;
+#DESKTOP_MIMETYPE application/x-blender;
 #DESKTOP_LOGO https://developer.blender.org/diffusion/B/browse/master/release/freedesktop/icons/scalable/apps/blender.svg
 #
 FROM ubuntu:devel

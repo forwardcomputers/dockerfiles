@@ -3,7 +3,7 @@
 #DESKTOP_NAME Ardour
 #DESKTOP_COMMENT Digital Audio Workstation
 #DESKTOP_CATEGORIES AudioVideo;AudioEditing;Audio;Recorder;X-Recorders;X-Multitrack;X-Jack;
-#DESKTOP_MIMETYPES application/x-ardour;
+#DESKTOP_MIMETYPE application/x-ardour;
 #DESKTOP_LOGO https://github.com/Ardour/ardour/raw/master/gtk2_ardour/icons/ardour-app-icon_osx.png
 #
 FROM ubuntu:devel

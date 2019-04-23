@@ -3,7 +3,7 @@
 #DESKTOP_NAME ProjectLibre
 #DESKTOP_COMMENT Project Management
 #DESKTOP_CATEGORIES Office;ProjectManagement;
-#DESKTOP_MIMETYPES application/x-projectlibre;
+#DESKTOP_MIMETYPE application/x-projectlibre;
 #DESKTOP_LOGO https://sourceforge.net/p/projectlibre/code/ci/master/tree/projectlibre_build/resources/projectlibre.png?format=raw
 #
 FROM ubuntu:devel

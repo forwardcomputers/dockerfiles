@@ -3,7 +3,7 @@
 #DESKTOP_NAME Audacity
 #DESKTOP_COMMENT Record and edit audio files
 #DESKTOP_CATEGORIES AudioVideo;Audio;AudioVideoEditing;
-#DESKTOP_MIMETYPES application/x-audacity-project;
+#DESKTOP_MIMETYPE application/x-audacity-project;
 #DESKTOP_LOGO https://github.com/audacity/audacity/raw/master/images/AudacityLogo.png
 #
 FROM ubuntu:devel

@@ -3,7 +3,7 @@
 #DESKTOP_NAME Krita
 #DESKTOP_COMMENT Digital Painting
 #DESKTOP_CATEGORIES Qt;KDE;Graphics;
-#DESKTOP_MIMETYPES application/x-krita;image/openraster;application/x-krita-paintoppreset;
+#DESKTOP_MIMETYPE application/x-krita;image/openraster;application/x-krita-paintoppreset;
 #DESKTOP_LOGO https://raw.githubusercontent.com/KDE/krita/master/pics/calligrakrita-base.svg
 #
 FROM ubuntu:devel

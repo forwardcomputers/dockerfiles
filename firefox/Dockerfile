@@ -3,7 +3,7 @@
 #DESKTOP_NAME Firefox Web Browser
 #DESKTOP_COMMENT Browse the World Wide Web
 #DESKTOP_CATEGORIES GNOME;GTK;Network;WebBrowser;
-#DESKTOP_MIMETYPES text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;x-scheme-handler/chrome;video/webm;application/x-xpinstall;
+#DESKTOP_MIMETYPE text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;x-scheme-handler/chrome;video/webm;application/x-xpinstall;
 #DESKTOP_LOGO https://dxr.mozilla.org/mozilla-release/raw/browser/branding/official/default48.png
 #
 FROM ubuntu:devel

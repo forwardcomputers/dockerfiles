@@ -3,7 +3,7 @@
 #DESKTOP_NAME Google Chrome
 #DESKTOP_COMMENT Access the Internet
 #DESKTOP_CATEGORIES Network;WebBrowser;
-#DESKTOP_MIMETYPES text/html;text/xml;application/xhtml_xml;image/webp;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
+#DESKTOP_MIMETYPE text/html;text/xml;application/xhtml_xml;image/webp;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
 #DESKTOP_LOGO https://github.com/forwardcomputers/dockerfiles/chrome/raw/master/chrome.png
 #
 FROM ubuntu:devel

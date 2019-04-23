@@ -3,7 +3,7 @@
 #DESKTOP_NAME Tor browser
 #DESKTOP_COMMENT Tor Browser is +1 for privacy and -1 for mass surveillance
 #DESKTOP_CATEGORIES Network;WebBrowser;Security;
-#DESKTOP_MIMETYPES 
+#DESKTOP_MIMETYPE 
 #DESKTOP_LOGO https://gitweb.torproject.org/torbrowser.git/plain/build-scripts/branding/default48.png
 #
 FROM ubuntu:devel

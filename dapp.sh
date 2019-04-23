@@ -197,7 +197,7 @@ desktop () { ## Populate desktop application menu
     DESKTOP_NAME="$(grep -oP '(?<=DESKTOP_NAME ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
     DESKTOP_COMMENT="$(grep -oP '(?<=DESKTOP_COMMENT ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
     DESKTOP_CATEGORIES="$(grep -oP '(?<=DESKTOP_CATEGORIES ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
-    DESKTOP_MIMETYPES="$(grep -oP '(?<=DESKTOP_MIMETYPES ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
+    DESKTOP_MIMETYPE="$(grep -oP '(?<=DESKTOP_MIMETYPE ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
     DESKTOP_LOGO="$(grep -oP '(?<=DESKTOP_LOGO ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
     DESKTOP_LOGO_NAME="${NAME}_$(basename "${DESKTOP_LOGO}")"
     curl --silent --location --output ~/.local/share/applications/"${DESKTOP_LOGO_NAME}" "${DESKTOP_LOGO}"
@@ -211,10 +211,10 @@ desktop () { ## Populate desktop application menu
         "Name=${DESKTOP_NAME}" \
         "Comment=${DESKTOP_COMMENT}" \
         "Categories=${DESKTOP_CATEGORIES}" \
-        "MimeType=${DESKTOP_MIMETYPES}" \
-        "Exec=${DOCKER_FILES}/dapp.sh run ${NAME}" \
+        "MimeType=${DESKTOP_MIMETYPE}" \
+        "Exec=${ROOT}/dapp.sh run ${NAME}" \
         "Icon=${HOME}/.local/share/applications/${DESKTOP_LOGO_NAME}" > ~/.local/share/applications/"${NAME}".desktop
-    printf '%s\n' "${DESKTOP_MIMETYPES}=${NAME}.desktop;" >> ~/.local/share/applications/mimeapps.list
+    printf '%s\n' "${DESKTOP_MIMETYPE}=${NAME}.desktop;" >> ~/.local/share/applications/mimeapps.list
 }
 #
 readme () { ## Create readme file
@@ -283,12 +283,13 @@ checklocalimage () {
         DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" --volume /media:/media)
     fi
     if [[ "${NAME}" == "gparted" ]]; then
-        if [[ ! "${DOCKER_PASSTHOUGH}" ]]; then
-            printf '\r%s\n' "${YELLOW}Drive not defined${NC}"
-            exit
-        fi
+        # if [[ ! "${DOCKER_PASSTHOUGH}" ]]; then
+        #     printf '\r%s\n' "${YELLOW}Drive not defined${NC}"
+        #     exit
+        # fi
         # shellcheck disable=SC2191
-        DOCKER_OPT+=(--device "${DOCKER_PASSTHOUGH}":"${DOCKER_PASSTHOUGH}" --privileged)
+        # DOCKER_OPT+=(--device "${DOCKER_PASSTHOUGH}":"${DOCKER_PASSTHOUGH}" --privileged)
+        DOCKER_OPT+=(--privileged)
     fi
 }
 #

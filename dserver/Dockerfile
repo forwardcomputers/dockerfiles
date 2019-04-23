@@ -3,7 +3,7 @@
 #DESKTOP_NAME Docker Server
 #DESKTOP_COMMENT Linux server in Docker
 #DESKTOP_CATEGORIES System;Utility;Network;
-#DESKTOP_MIMETYPES 
+#DESKTOP_MIMETYPE 
 #DESKTOP_LOGO https://github.com/tmux/tmux/raw/master/logo/tmux-logomark.svg
 #
 FROM ubuntu:devel

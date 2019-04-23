@@ -1,10 +1,10 @@
 #
 #APPNEW apt
-#DESKTOP_NAME gparted
+#DESKTOP_NAME GParted
 #DESKTOP_COMMENT Create, reorganize, and delete partitions
 #DESKTOP_CATEGORIES GNOME;System;Filesystem;
-#DESKTOP_MIMETYPES 
-#DESKTOP_LOGO https://github.com/GNOME/gparted/raw/master/data/icons/hicolor_apps_48x48_gparted.png
+#DESKTOP_MIMETYPE 
+#DESKTOP_LOGO https://github.com/GNOME/gparted/raw/master/data/icons/hicolor_apps_scalable_gparted.svg
 #
 FROM ubuntu:devel
 ARG REPO
@@ -23,7 +23,25 @@ RUN set -e \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
     dosfstools \
     gparted \
+    at-spi2-core \
+    dbus-x11 \
+    dmraid \
+    dmsetup \
+    dosfstools \
+    gpart \
+    jfsutils \
+    kpartx \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module \
+    mtools \
+    ntfs-3g \
+    reiserfsprogs \
+    reiser4progs \
+    systemd \
     udev \
+    udftools \
+    xfsprogs \
+    yelp \
 #
 # Clean-up
 #

@@ -3,7 +3,7 @@
 #DESKTOP_NAME Pitivi
 #DESKTOP_COMMENT Create and edit your own movies
 #DESKTOP_CATEGORIES GNOME;GTK;AudioVideo;Video;AudioVideoEditing;
-#DESKTOP_MIMETYPES text/x-xges;text/x-xptv;
+#DESKTOP_MIMETYPE text/x-xges;text/x-xptv;
 #DESKTOP_LOGO https://gitlab.gnome.org/GNOME/pitivi/raw/master/data/icons/hicolor/scalable/apps/org.pitivi.Pitivi.svg
 #
 FROM ubuntu:devel

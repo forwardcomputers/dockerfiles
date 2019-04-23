@@ -3,7 +3,7 @@
 #DESKTOP_NAME Kdenlive
 #DESKTOP_COMMENT Nonlinear video editor by KDE
 #DESKTOP_CATEGORIES Qt;KDE;AudioVideo;AudioVideoEditing;
-#DESKTOP_MIMETYPES application/x-kdenlive;
+#DESKTOP_MIMETYPE application/x-kdenlive;
 #DESKTOP_LOGO https://github.com/KDE/kdenlive/raw/master/data/icons/48-apps-kdenlive.png
 #
 FROM ubuntu:devel

@@ -3,7 +3,7 @@
 #DESKTOP_NAME Openshot
 #DESKTOP_COMMENT Create and edit amazing videos and movies
 #DESKTOP_CATEGORIES GNOME;GTK;AudioVideo;Video;AudioVideoEditing;
-#DESKTOP_MIMETYPES application/vnd.openshot-qt-project;
+#DESKTOP_MIMETYPE application/vnd.openshot-qt-project;
 #DESKTOP_LOGO https://github.com/OpenShot/openshot-qt/raw/develop/xdg/openshot-qt.svg
 #
 FROM ubuntu:devel
