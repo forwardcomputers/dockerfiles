@@ -1,10 +1,10 @@
 #
-#APPNEW curl --location --silent --url https://sourceforge.net/projects/projectlibre/files | perl -nle 'print $1 if /\/ProjectLibre\/(\K[^\/]+)/' | head -1
-#DESKTOP_NAME ProjectLibre
+#APPNEW apt
+#DESKTOP_NAME Planner
 #DESKTOP_COMMENT Project Management
-#DESKTOP_CATEGORIES Office;ProjectManagement;
-#DESKTOP_MIMETYPE application/x-projectlibre;
-#DESKTOP_LOGO https://sourceforge.net/p/projectlibre/code/ci/master/tree/projectlibre_build/resources/projectlibre.png?format=raw
+#DESKTOP_CATEGORIES GNOME;GTK;Office;ProjectManagement;
+#DESKTOP_MIMETYPE application/x-planner;
+#DESKTOP_LOGO https://github.com/GNOME/planner/raw/master/data/images/gnome-planner.svg
 #
 FROM ubuntu:devel
 ARG REPO
@@ -24,30 +24,23 @@ ENV user="duser" \
 RUN set -e \
 &&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
-# Update Ubuntu repos and install application
+# Update Ubuntu repos and install dependencies
 #
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	libpulse0 \
 	locales \
-	ca-certificates \
-	curl \
-	openjdk-13-jre
-#
-# Install application
-#
-RUN set -e \
-&&  appdeb=$( curl --location --silent --user-agent 'Mozilla/5.0 (X11; Linux x86_64; rv:9.0.1) Gecko/ /9.0.1' --url https://sourceforge.net/projects/projectlibre/files | \
-	perl -nle 'print $1 if /\/ProjectLibre\/(\K[^d]+)/' | \
-	head -1 ) \
-&&  curl --location --output ./projectlibre.deb --silent --url https://sourceforge.net/projects/projectlibre/files/ProjectLibre/"${appdeb}"deb/download \
-&&  dpkg --install ./projectlibre.deb \
-&&  apt-get -qq install --fix-broken --no-install-recommends --yes \
+	planner \
+    at-spi2-core \
+	dbus-x11 \
+	gconf2 \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module \
+	planner-doc \
+	yelp \
 #
 # Clean-up
 #
-&&  apt-get -qq autoremove --yes \
 &&  rm --recursive --force \
-	./projectlibre.deb \
 	/usr/share/doc/* \
 	/usr/share/man/* \
 	/var/cache/apt/archives/*.deb \
@@ -69,4 +62,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-ENTRYPOINT [ "projectlibre" ]
+ENTRYPOINT [ "planner" ]

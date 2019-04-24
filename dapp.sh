@@ -178,8 +178,8 @@ run () { ## Run the docker application
     if [[ "${DOCKER_PASSTHOUGH}" ]]; then
         docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}" "${DOCKER_PASSTHOUGH}"
     else
-#        docker run --detach --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
-        docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
+        docker run --detach --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
+#        docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
     fi
     xhost -LOCAL:
 }
