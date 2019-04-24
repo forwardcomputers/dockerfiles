@@ -188,7 +188,7 @@ shell () { ## Run shell in docker application
     printf '%s\n' "Runing shell in ${NAME}"
     checklocalimage
     xhost +LOCAL:
-    docker run --interactive --tty --name "${NAME}"_shell --entrypoint  /bin/bash "${DOCKER_OPT[@]}" "${IMG}"
+    docker run --interactive --tty --privileged --name "${NAME}"_shell --entrypoint  /bin/bash "${DOCKER_OPT[@]}" "${IMG}"
     xhost -LOCAL:
 }
 #
@@ -295,12 +295,6 @@ checklocalimage () {
         DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" --volume /media:/media)
     fi
     if [[ "${NAME}" == "gparted" ]]; then
-        # if [[ ! "${DOCKER_PASSTHOUGH}" ]]; then
-        #     printf '\r%s\n' "${YELLOW}Drive not defined${NC}"
-        #     exit
-        # fi
-        # shellcheck disable=SC2191
-        # DOCKER_OPT+=(--device "${DOCKER_PASSTHOUGH}":"${DOCKER_PASSTHOUGH}" --privileged)
         DOCKER_OPT+=(--privileged)
     fi
 }

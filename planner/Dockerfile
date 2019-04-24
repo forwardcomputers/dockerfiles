@@ -36,8 +36,17 @@ RUN set -e \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
 	planner-doc \
-	systemd \
+	# systemd \
 	yelp \
+	xdg-utils \
+	sudo \
+#
+&&	printf '%s\n' \
+		"[MIME Cache]" \
+		"x-scheme-handler/ghelp=yelp.desktop;" \
+		"x-scheme-handler/help=yelp.desktop;" \
+		"x-scheme-handler/info=yelp.desktop;" \
+		"x-scheme-handler/man=yelp.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #

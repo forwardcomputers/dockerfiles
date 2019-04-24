@@ -1,5 +1,6 @@
 #
-#APPNEW curl --location --header '"${GH_AUTH_HEADER}"' --header '"${GH_API_HEADER}"' --silent --url https://api.github.com/repos/audacity/audacity/releases/latest | jq -r '.tag_name | split("-")[1]'
+#aPPNEW curl --location --header '"${GH_AUTH_HEADER}"' --header '"${GH_API_HEADER}"' --silent --url https://api.github.com/repos/audacity/audacity/releases/latest | jq -r '.tag_name | split("-")[1]'
+#APPNEW apt
 #DESKTOP_NAME Audacity
 #DESKTOP_COMMENT Record and edit audio files
 #DESKTOP_CATEGORIES AudioVideo;Audio;AudioVideoEditing;
@@ -26,13 +27,18 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
+# 	software-properties-common \
+# &&  add-apt-repository --yes ppa:ubuntuhandbook1/audacity \
+# &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	libpulse0 \
 	locales \
-	software-properties-common \
-&&  add-apt-repository --yes ppa:ubuntuhandbook1/audacity \
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	audacity \
+	ca-certificates \
+	dbus-x11 \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module \
+	multimedia-audio-plugins \
 #
 # Clean-up
 #
