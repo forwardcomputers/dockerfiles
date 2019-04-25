@@ -31,8 +31,7 @@ else
     fi
     ROOT="/media/filer/os/dockerfiles/"
 fi
-DESKTOP_DOCKERFILE=$( < "${ROOT}${NAME}"/Dockerfile )
-set -u
+[[ -f "${ROOT}${NAME}"/Dockerfile ]] && DESKTOP_DOCKERFILE=$( < "${ROOT}${NAME}"/Dockerfile )
 #
 # shellcheck disable=SC2034
 BLACK=$'\033[30m'
@@ -81,7 +80,6 @@ if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "-" ]]; then
         DOCKER_OPT=("${DOCKER_OPT[@]/$i}")
     done
 fi
-exit
 #
 main () {
     TARGET="${1-help}"
