@@ -68,10 +68,14 @@ DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" --shm-size=1gb \
             --volume /run/user/"${UID}"/pulse:/run/user/1001/pulse \
             --volume /tmp/.X11-unix:/tmp/.X11-unix:ro \
             --volume "${HOME}":/home/duser)
-IFS=' ' read -a DOCKERFILE_DOCKER_OPT <<< "$(grep -oP '(?<=DOCKER_OPT ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+# shellcheck disable=SC2162
+IFS=' ' read -a DOCKERFILE_DOCKER_OPT <<< "$(grep -oP '(?<=DOCKER_OPT ).*' <<< "${DESKTOP_DOCKERFILE}" 2> /dev/null || true)"
 unset IFS
+# shellcheck disable=SC2206
 if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "+" ]]; then DOCKER_OPT+=(${DOCKERFILE_DOCKER_OPT[@]:1}) ; fi
+# shellcheck disable=SC2206
 if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "=" ]]; then DOCKER_OPT=(${DOCKERFILE_DOCKER_OPT[@]:1}) ; fi
+# shellcheck disable=SC2206
 if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "-" ]]; then
     for i in "${DOCKERFILE_DOCKER_OPT[@]:1}"; do
         DOCKER_OPT=("${DOCKER_OPT[@]/$i}")
@@ -205,15 +209,23 @@ shell () { ## Run shell in docker application
 #
 desktop () { ## Populate desktop application menu
     printf '%s\n' "Populating application menu"
+    # shellcheck disable=SC2086
     DESKTOP_COUNT="$( grep -oP '(?<=DESKTOP_COUNT ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || echo '999' )"
     for ((i=1; i<="${DESKTOP_COUNT}"; i++)); do
         [[ "${DESKTOP_COUNT}" = 999 ]] && i=''
+        # shellcheck disable=SC2086
         DESKTOP_NAME="$(grep -oP '(?<='${i}'DESKTOP_NAME ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+        # shellcheck disable=SC2086
         DESKTOP_COMMENT="$(grep -oP '(?<='${i}'DESKTOP_COMMENT ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+        # shellcheck disable=SC2086
         DESKTOP_CATEGORIES="$(grep -oP '(?<='${i}'DESKTOP_CATEGORIES ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+        # shellcheck disable=SC2086
         DESKTOP_MIMETYPE="$(grep -oP '(?<='${i}'DESKTOP_MIMETYPE ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+        # shellcheck disable=SC2086
         DESKTOP_LOGO="$(grep -oP '(?<='${i}'DESKTOP_LOGO ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+        # shellcheck disable=SC2046,SC2086
         DESKTOP_LOGO_NAME="${NAME}_$(basename $( sed 's/?format.*//' <<< ${DESKTOP_LOGO}))"
+        # shellcheck disable=SC2086
         DESKTOP_EXEC="$(grep -oP '(?<='${i}'DESKTOP_EXEC ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
         [[ "${DESKTOP_EXEC}" ]] || DESKTOP_EXEC="${NAME}"
         curl --silent --location --output ~/.local/share/applications/"${DESKTOP_LOGO_NAME}" "${DESKTOP_LOGO}"
@@ -325,4 +337,3 @@ all_apps () {
 #
 appversions
 main "$@"
-
