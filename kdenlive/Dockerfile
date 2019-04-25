@@ -27,14 +27,26 @@ RUN set -e \
 # Update Ubuntu repos and install dependencies
 #
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+	libpulse0 \
+	locales \
+	kdenlive \
 	dbus-x11 \
 	frei0r-plugins \
-	kdenlive \
 	libavcodec-extra \
 	libmp3lame0 \
-	libpulse0 \
 	libxvidcore4 \
-	locales \
+	netsurf \
+	swh-plugins \
+	xdg-utils \
+#
+# Add mimetypes
+#
+&&	printf '%s\n' \
+		"[MIME Cache]" \
+		"text/html=netsurf-gtk.desktop;" \
+		"text/xml=netsurf-gtk.desktop;" \
+		"x-scheme-handler/http=netsurf-gtk.desktop;" \
+		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #

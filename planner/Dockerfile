@@ -30,23 +30,25 @@ RUN set -e \
 	libpulse0 \
 	locales \
 	planner \
-    at-spi2-core \
 	dbus-x11 \
-	gconf2 \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
 	planner-doc \
-	# systemd \
+	netsurf \
 	yelp \
-	xdg-utils \
-	sudo \
+#
+# Add mimetypes
 #
 &&	printf '%s\n' \
 		"[MIME Cache]" \
 		"x-scheme-handler/ghelp=yelp.desktop;" \
 		"x-scheme-handler/help=yelp.desktop;" \
 		"x-scheme-handler/info=yelp.desktop;" \
-		"x-scheme-handler/man=yelp.desktop;" > /usr/share/applications/mimeinfo.cache \
+		"x-scheme-handler/man=yelp.desktop;" \
+		"text/html=netsurf-gtk.desktop;" \
+		"text/xml=netsurf-gtk.desktop;" \
+		"x-scheme-handler/http=netsurf-gtk.desktop;" \
+		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #

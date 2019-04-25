@@ -31,6 +31,7 @@ else
     fi
     ROOT="/media/filer/os/dockerfiles/"
 fi
+DESKTOP_DOCKERFILE=$( < "${ROOT}${NAME}"/Dockerfile )
 set -u
 #
 # shellcheck disable=SC2034
@@ -67,6 +68,16 @@ DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" --shm-size=1gb \
             --volume /run/user/"${UID}"/pulse:/run/user/1001/pulse \
             --volume /tmp/.X11-unix:/tmp/.X11-unix:ro \
             --volume "${HOME}":/home/duser)
+IFS=' ' read -a DOCKERFILE_DOCKER_OPT <<< "$(grep -oP '(?<=DOCKER_OPT ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || true)"
+unset IFS
+if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "+" ]]; then DOCKER_OPT+=(${DOCKERFILE_DOCKER_OPT[@]:1}) ; fi
+if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "=" ]]; then DOCKER_OPT=(${DOCKERFILE_DOCKER_OPT[@]:1}) ; fi
+if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "-" ]]; then
+    for i in "${DOCKERFILE_DOCKER_OPT[@]:1}"; do
+        DOCKER_OPT=("${DOCKER_OPT[@]/$i}")
+    done
+fi
+exit
 #
 main () {
     TARGET="${1-help}"
@@ -188,13 +199,12 @@ shell () { ## Run shell in docker application
     printf '%s\n' "Runing shell in ${NAME}"
     checklocalimage
     xhost +LOCAL:
-    docker run --interactive --tty --privileged --name "${NAME}"_shell --entrypoint  /bin/bash "${DOCKER_OPT[@]}" "${IMG}"
+    docker run --interactive --tty --name "${NAME}"_shell --entrypoint  /bin/bash "${DOCKER_OPT[@]}" "${IMG}"
     xhost -LOCAL:
 }
 #
 desktop () { ## Populate desktop application menu
     printf '%s\n' "Populating application menu"
-    DESKTOP_DOCKERFILE=$( < "${ROOT}${NAME}"/Dockerfile )
     DESKTOP_COUNT="$( grep -oP '(?<=DESKTOP_COUNT ).*' <<< ${DESKTOP_DOCKERFILE} 2> /dev/null || echo '999' )"
     for ((i=1; i<="${DESKTOP_COUNT}"; i++)); do
         [[ "${DESKTOP_COUNT}" = 999 ]] && i=''
@@ -242,7 +252,7 @@ readme () { ## Create readme file
         printf '%s' \
             "| [![](https://img.shields.io/badge/${APP}-grey.svg)](https://hub.docker.com/r/forwardcomputers/${APP}) " \
             "| [![](https://img.shields.io/badge/dynamic/json.svg?query=$.Labels.BuildDate&label=&url=https://api.microbadger.com/v1/images/forwardcomputers/${APP})](https://hub.docker.com/r/forwardcomputers/${APP}) " \
-            "| [![](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/dockerfiles/${APP}) " \
+            "| [![](https://img.shields.io/badge/github--grey.svg?label=&logo=github&logoColor=white)](https://github.com/forwardcomputers/dockerfiles/tree/master/${APP}) " \
             "| [![](https://img.shields.io/badge/docker--E5E5E5.svg?label=&logo=docker)](https://hub.docker.com/r/forwardcomputers/${APP}) " \
             "| [![](https://img.shields.io/badge/dynamic/json.svg?query=$.results.0.name&label=&url=https://registry.hub.docker.com/v2/repositories/forwardcomputers/${APP}/tags)](https://hub.docker.com/r/forwardcomputers/${APP}) " \
             "| [![](https://img.shields.io/microbadger/image-size/forwardcomputers/${APP}.svg?label=)](http://microbadger.com/images/forwardcomputers/${APP}) " \
@@ -285,17 +295,6 @@ checkbaseimage () {
 checklocalimage () {
     if ! docker image inspect "${IMG}" > /dev/null 2>&1; then
         docker pull "${IMG}":latest > /dev/null 2>&1 || build
-    fi
-    if [[ "${NAME}" == "chrome" ]]; then
-        # shellcheck disable=SC2191
-        DOCKER_OPT+=(--security-opt seccomp="$HOME"/.config/google-chrome/chrome.json)
-    fi
-    if [[ "${NAME}" == "dserver" ]]; then
-        # shellcheck disable=SC2191
-        DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" --volume /media:/media)
-    fi
-    if [[ "${NAME}" == "gparted" ]]; then
-        DOCKER_OPT+=(--privileged)
     fi
 }
 #

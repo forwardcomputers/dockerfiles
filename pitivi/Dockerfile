@@ -30,6 +30,25 @@ RUN set -e \
 	libpulse0 \
 	locales \
 	pitivi \
+	dbus-x11 \
+	frei0r-plugins \
+	gir1.2-notify \
+	gir1.2-gsound \
+	gstreamer1.0-plugins-ugly \
+	gstreamer1.0-libav \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module \
+	netsurf \
+	yaru-theme-icon \
+#
+# Add mimetypes
+#
+&&	printf '%s\n' \
+		"[MIME Cache]" \
+		"text/html=netsurf-gtk.desktop;" \
+		"text/xml=netsurf-gtk.desktop;" \
+		"x-scheme-handler/http=netsurf-gtk.desktop;" \
+		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #

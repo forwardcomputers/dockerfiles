@@ -29,10 +29,21 @@ RUN set -e \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	libpulse0 \
 	locales \
+	netsurf \
 	software-properties-common \
+    xdg-utils \
 &&  add-apt-repository --yes ppa:openshot.developers/ppa \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	openshot-qt \
+#
+# Add mimetypes
+#
+&&	printf '%s\n' \
+		"[MIME Cache]" \
+		"text/html=netsurf-gtk.desktop;" \
+		"text/xml=netsurf-gtk.desktop;" \
+		"x-scheme-handler/http=netsurf-gtk.desktop;" \
+		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #

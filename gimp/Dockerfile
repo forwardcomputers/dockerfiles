@@ -30,6 +30,23 @@ RUN set -e \
 	libpulse0 \
 	locales \
 	gimp \
+	gimp-data-extras \
+	gimp-help-en \
+	dbus-x11 \
+	gtk2-engines-pixbuf \
+	iso-codes \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module \
+	netsurf \
+#
+# Add mimetypes
+#
+&&	printf '%s\n' \
+		"[MIME Cache]" \
+		"text/html=netsurf-gtk.desktop;" \
+		"text/xml=netsurf-gtk.desktop;" \
+		"x-scheme-handler/http=netsurf-gtk.desktop;" \
+		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #

@@ -1,5 +1,6 @@
 #
-#APPNEW curl --location --silent --url https://inkscape.org | perl -nle 'print $1 if /Current stable version: (\K[^<]+)/'
+#aPPNEW curl --location --silent --url https://inkscape.org | perl -nle 'print $1 if /Current stable version: (\K[^<]+)/'
+#APPNEW apt
 #DESKTOP_NAME Inkscape
 #DESKTOP_COMMENT Create and edit Scalable Vector Graphics images
 #DESKTOP_CATEGORIES Graphics;VectorGraphics;GTK;
@@ -29,10 +30,29 @@ RUN set -e \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	libpulse0 \
 	locales \
-	software-properties-common \
-&&  add-apt-repository --yes ppa:inkscape.dev/stable \
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	inkscape \
+	inkscape-tutorials \
+	aspell \
+	dbus-x11 \
+	fig2dev \
+	imagemagick \
+	libcanberra-gtk-module \
+    libcanberra-gtk3-module \
+	libimage-magick-perl \
+	libwmf-bin \
+	netsurf \
+	python-lxml \
+	python-numpy \
+	python-scour \
+#
+# Add mimetypes
+#
+&&	printf '%s\n' \
+		"[MIME Cache]" \
+		"text/html=netsurf-gtk.desktop;" \
+		"text/xml=netsurf-gtk.desktop;" \
+		"x-scheme-handler/http=netsurf-gtk.desktop;" \
+		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #

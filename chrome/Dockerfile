@@ -5,6 +5,7 @@
 #DESKTOP_CATEGORIES Network;WebBrowser;
 #DESKTOP_MIMETYPE text/html;text/xml;application/xhtml_xml;image/webp;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
 #DESKTOP_LOGO https://chromium.googlesource.com/chromium/reference_builds/chrome_mac/+/refs/heads/master/Google%20Chrome.app/Contents/Resources/app.icns?format=TEXT
+#DOCKER_OPT + --security-opt seccomp="$HOME"/.config/google-chrome/chrome.json
 #
 FROM ubuntu:devel
 ARG REPO

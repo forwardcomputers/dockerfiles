@@ -43,6 +43,8 @@ RUN set -e \
 	libasound2 \
 	libatk1.0-0 \
 	libcairo2 \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module \
 	libcups2 \
 	libexpat1 \
 	libfontconfig1 \
@@ -60,7 +62,18 @@ RUN set -e \
 	libxrender1 \
 	libxss1 \
 	libxtst6 \
+	netsurf \
 	openssh-client \
+	xdg-utils \
+#
+# Add mimetypes
+#
+&&	printf '%s\n' \
+		"[MIME Cache]" \
+		"text/html=netsurf-gtk.desktop;" \
+		"text/xml=netsurf-gtk.desktop;" \
+		"x-scheme-handler/http=netsurf-gtk.desktop;" \
+		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #

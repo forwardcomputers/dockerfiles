@@ -38,6 +38,8 @@ RUN set -e \
 	libc6 \
 	libcairo-gobject2 \
 	libcairo2 \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module \
 	libgcc1 \
 	libgl1 \
 	libglib2.0-0 \
@@ -55,6 +57,17 @@ RUN set -e \
 	libxrender1 \
 	libxt6 \
 	libjack-jackd2-0 \
+	netsurf \
+	xdg-utils \
+#
+# Add mimetypes
+#
+&&	printf '%s\n' \
+		"[MIME Cache]" \
+		"text/html=netsurf-gtk.desktop;" \
+		"text/xml=netsurf-gtk.desktop;" \
+		"x-scheme-handler/http=netsurf-gtk.desktop;" \
+		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #

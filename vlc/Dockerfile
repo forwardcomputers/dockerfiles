@@ -29,8 +29,23 @@ RUN set -e \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
     libpulse0 \
     locales \
-    dbus-x11 \
     vlc \
+    vlc-plugin-notify \
+    vlc-plugin-samba \
+    dbus-x11 \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module \
+	netsurf \
+    xdg-utils \
+#
+# Add mimetypes
+#
+&&	printf '%s\n' \
+		"[MIME Cache]" \
+		"text/html=netsurf-gtk.desktop;" \
+		"text/xml=netsurf-gtk.desktop;" \
+		"x-scheme-handler/http=netsurf-gtk.desktop;" \
+		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #

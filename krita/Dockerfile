@@ -29,16 +29,27 @@ RUN set -e \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
     libpulse0 \
     locales \
-	ca-certificates \
     krita \
+	ca-certificates \
+    dbus-x11 \
+	netsurf \
     python3-pyqt5 \
     python3-sip \
     qml-module-qtquick2 \
     subversion \
+    xdg-utils \
 &&  svn export https://github.com/adobe-fonts/source-sans-pro/trunk/TTF /usr/share/fonts/source-sans-pro \
 &&  apt-get -qq purge \
-	ca-certificates \
     subversion \
+#
+# Add mimetypes
+#
+&&	printf '%s\n' \
+		"[MIME Cache]" \
+		"text/html=netsurf-gtk.desktop;" \
+		"text/xml=netsurf-gtk.desktop;" \
+		"x-scheme-handler/http=netsurf-gtk.desktop;" \
+		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #
