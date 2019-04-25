@@ -325,3 +325,4 @@ all_apps () {
 #
 appversions
 main "$@"
+
