@@ -5,6 +5,7 @@
 #DESKTOP_CATEGORIES GNOME;GTK;AudioVideo;Video;AudioVideoEditing;
 #DESKTOP_MIMETYPE text/x-xges;text/x-xptv;
 #DESKTOP_LOGO https://gitlab.gnome.org/GNOME/pitivi/raw/master/data/pixmaps/pitivi.png
+#DOCKER_OPT + --security-opt apparmor=unconfined
 #
 FROM ubuntu:devel
 ARG REPO

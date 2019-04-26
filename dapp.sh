@@ -19,8 +19,6 @@ GH_AUTH_HEADER="Authorization: token ${LP_GITHUB_API_TOKEN}"
 ROLLING="$(curl --silent --location --url https://raw.githubusercontent.com/tianon/docker-brew-ubuntu-core/master/rolling)"
 BUILD_DATE="$(date +'%-d-%-m-%G %r')"
 CO="forwardcomputers"
-NAME=$( echo "${2-none}" | cut -d '/' -f 1 )
-IMG="${CO}/${NAME}"
 set +u
 if [[ "${CIRCLECI}" ]]; then
     ROOT=""
@@ -31,6 +29,9 @@ else
     fi
     ROOT="/media/filer/os/dockerfiles/"
 fi
+NAME=$( echo "${2-none}" | cut -d '/' -f 1 )
+[[ -h "${ROOT}${NAME}" ]] && NAME=$(readlink --quiet --silent "${ROOT}${NAME}")
+IMG="${CO}/${NAME}"
 [[ -f "${ROOT}${NAME}"/Dockerfile ]] && DESKTOP_DOCKERFILE=$( < "${ROOT}${NAME}"/Dockerfile )
 #
 # shellcheck disable=SC2034
@@ -191,8 +192,8 @@ run () { ## Run the docker application
     if [[ "${DOCKER_PASSTHOUGH}" ]]; then
         docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}" "${DOCKER_PASSTHOUGH}"
     else
-        docker run --detach --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
-#        docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
+#        docker run --detach --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
+        docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
     fi
     xhost -LOCAL:
 }

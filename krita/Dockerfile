@@ -5,6 +5,7 @@
 #DESKTOP_CATEGORIES Qt;KDE;Graphics;
 #DESKTOP_MIMETYPE application/x-krita;image/openraster;application/x-krita-paintoppreset;
 #DESKTOP_LOGO https://raw.githubusercontent.com/KDE/krita/master/pics/calligrakrita-base.svg
+#DOCKER_OPT + --security-opt apparmor=unconfined
 #
 FROM ubuntu:devel
 ARG REPO

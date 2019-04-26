@@ -1,10 +1,10 @@
 #
-#APPNEW apt
-#DESKTOP_NAME Openshot
-#DESKTOP_COMMENT Create and edit amazing videos and movies
-#DESKTOP_CATEGORIES GNOME;GTK;AudioVideo;Video;AudioVideoEditing;
-#DESKTOP_MIMETYPE application/vnd.openshot-qt-project;
-#DESKTOP_LOGO https://github.com/OpenShot/openshot-qt/raw/develop/xdg/openshot-qt.svg
+#APPNEW curl --location --header "${GH_AUTH_HEADER}" --header "${GH_API_HEADER}" --silent --url https://api.github.com/repos/DamirPorobic/ksnip/releases/latest | jq -r '.tag_name | split("v")[1]'
+#DESKTOP_NAME ksnip
+#DESKTOP_COMMENT Cross-platform screenshot tool that provides many annotation features for your screenshots.
+#DESKTOP_CATEGORIES Utility;
+#DESKTOP_MIMETYPE
+#DESKTOP_LOGO https://github.com/DamirPorobic/ksnip/raw/master/desktop/ksnip.svg
 #DOCKER_OPT + --security-opt apparmor=unconfined
 #
 FROM ubuntu:devel
@@ -30,17 +30,39 @@ RUN set -e \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	libpulse0 \
 	locales \
+	# adwaita-icon-theme-full \
+	# adwaita-qt \
+	dbus-x11 \
+ 	ca-certificates \
+ 	curl \
+	jq \
+	libqt5core5a \
+	libqt5dbus5 \
+	libqt5gui5 \
+	libqt5network5 \
+	libqt5printsupport5 \
+	libqt5widgets5 \
+	libqt5x11extras5 \
+	libqt5xml5 \
 	netsurf \
-	software-properties-common \
+	yelp \
     xdg-utils \
-&&  add-apt-repository --yes ppa:openshot.developers/ppa \
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
-	openshot-qt \
+#
+# Install application
+#
+#RUN set -e \
+&&  curl --location --output ./ksnip.deb --silent --url https://github.com/DamirPorobic/ksnip/releases/download/v"${VERSION}"/ksnip-"${VERSION}".deb \
+&&  dpkg --install ./ksnip.deb \
+&&  apt-get -qq install --fix-broken --no-install-recommends --yes \
 #
 # Add mimetypes
 #
 &&	printf '%s\n' \
 		"[MIME Cache]" \
+		"x-scheme-handler/ghelp=yelp.desktop;" \
+		"x-scheme-handler/help=yelp.desktop;" \
+		"x-scheme-handler/info=yelp.desktop;" \
+		"x-scheme-handler/man=yelp.desktop;" \
 		"text/html=netsurf-gtk.desktop;" \
 		"text/xml=netsurf-gtk.desktop;" \
 		"x-scheme-handler/http=netsurf-gtk.desktop;" \
@@ -49,6 +71,7 @@ RUN set -e \
 # Clean-up
 #
 &&  rm --recursive --force \
+	./ksnip.deb \
 	/usr/share/doc/* \
 	/usr/share/man/* \
 	/var/cache/apt/archives/*.deb \
@@ -70,4 +93,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-ENTRYPOINT [ "openshot-qt" ]
+ENTRYPOINT [ "ksnip" ]

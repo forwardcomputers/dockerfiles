@@ -5,6 +5,7 @@
 #DESKTOP_CATEGORIES Qt;KDE;AudioVideo;AudioVideoEditing;
 #DESKTOP_MIMETYPE application/x-kdenlive;
 #DESKTOP_LOGO https://github.com/KDE/kdenlive/raw/master/data/icons/256-apps-kdenlive.png
+#DOCKER_OPT + --security-opt apparmor=unconfined
 #
 FROM ubuntu:devel
 ARG REPO
