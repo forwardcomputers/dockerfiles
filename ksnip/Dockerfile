@@ -5,7 +5,7 @@
 #DESKTOP_CATEGORIES Utility;
 #DESKTOP_MIMETYPE
 #DESKTOP_LOGO https://github.com/DamirPorobic/ksnip/raw/master/desktop/ksnip.svg
-#DOCKER_OPT + --security-opt apparmor=unconfined
+##DOCKER_OPT + --security-opt apparmor=unconfined
 #
 FROM ubuntu:devel
 ARG REPO

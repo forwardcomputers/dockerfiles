@@ -1,10 +1,10 @@
 #
 #APPNEW apt
-#DESKTOP_NAME Openshot
-#DESKTOP_COMMENT Create and edit amazing videos and movies
-#DESKTOP_CATEGORIES GNOME;GTK;AudioVideo;Video;AudioVideoEditing;
-#DESKTOP_MIMETYPE application/vnd.openshot-qt-project;
-#DESKTOP_LOGO https://github.com/OpenShot/openshot-qt/raw/develop/xdg/openshot-qt.svg
+#DESKTOP_NAME Remmina
+#DESKTOP_COMMENT Connect to remote desktops
+#DESKTOP_CATEGORIES GTK;GNOME;X-GNOME-NetworkSettings;Network;
+#DESKTOP_MIMETYPE application/x-remmina;
+#DESKTOP_LOGO https://gitlab.com/Remmina/Remmina/raw/master/data/desktop/scalable/apps/org.remmina.Remmina.svg
 ##DOCKER_OPT + --security-opt apparmor=unconfined
 #
 FROM ubuntu:devel
@@ -30,12 +30,13 @@ RUN set -e \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 	libpulse0 \
 	locales \
+	remmina \
+	remmina-plugin-rdp \
+	remmina-plugin-vnc \
+	remmina-plugin-secret \
+	remmina-plugin-xdmcp
+	dbus-x11 \
 	netsurf \
-	software-properties-common \
-    xdg-utils \
-&&  add-apt-repository --yes ppa:openshot.developers/ppa \
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
-	openshot-qt \
 #
 # Add mimetypes
 #
@@ -70,4 +71,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-ENTRYPOINT [ "openshot-qt" ]
+ENTRYPOINT [ "pitivi" ]
