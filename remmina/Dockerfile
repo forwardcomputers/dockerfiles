@@ -5,7 +5,6 @@
 #DESKTOP_CATEGORIES GTK;GNOME;X-GNOME-NetworkSettings;Network;
 #DESKTOP_MIMETYPE application/x-remmina;
 #DESKTOP_LOGO https://gitlab.com/Remmina/Remmina/raw/master/data/desktop/scalable/apps/org.remmina.Remmina.svg
-##DOCKER_OPT + --security-opt apparmor=unconfined
 #
 FROM ubuntu:devel
 ARG REPO
@@ -33,10 +32,18 @@ RUN set -e \
 	remmina \
 	remmina-plugin-rdp \
 	remmina-plugin-vnc \
-	remmina-plugin-secret \
-	remmina-plugin-xdmcp
+	remmina-plugin-xdmcp \
+	avahi-daemon \
+	dbus \
 	dbus-x11 \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module \
 	netsurf \
+	sudo \
+#
+# Disable IPv6 in Avahi
+#
+&&  sed 's/^#\?use-ipv6.*/use-ipv6=no/' -i /etc/avahi/avahi-daemon.conf \
 #
 # Add mimetypes
 #
@@ -59,11 +66,10 @@ RUN set -e \
 	/var/lib/apt/lists/* \
 	/var/lib/dpkg/info/* \
 	/var/log/apt \
-	/var/log/*.log
+	/var/log/*.log \
 #
 # Create unprivileged user
 #
-RUN set -e \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
@@ -71,4 +77,4 @@ RUN set -e \
 #
 USER "${user}"
 WORKDIR /home/"${user}"
-ENTRYPOINT [ "pitivi" ]
+ENTRYPOINT [ "/bin/bash", "-c", "sudo service dbus restart && sudo service avahi-daemon restart && remmina" ]
