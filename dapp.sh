@@ -266,7 +266,6 @@ readme () { ## Create readme file
         printf '\n' >> README.md
     done
     printf '\n%s\n' \
-        "[//]: # (BlockEnd)" \
         "This setup is largely based on Jessie Frazelle work [https://github.com/jfrazelle/dockerfiles](https://github.com/jfrazelle/dockerfiles)" >> README.md
 }
 #
