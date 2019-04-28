@@ -72,9 +72,9 @@ DOCKER_OPT=(--rm --network=host --hostname=docker_"${NAME}" --shm-size=1gb \
 IFS=' ' read -a DOCKERFILE_DOCKER_OPT <<< "$(grep -oP '(?<=^#DOCKER_OPT ).*' <<< "${DESKTOP_DOCKERFILE}" 2> /dev/null || true)"
 unset IFS
 # shellcheck disable=SC2206
-if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "+" ]]; then DOCKER_OPT+=(${DOCKERFILE_DOCKER_OPT[@]:1}) ; fi
+if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "+" ]]; then eval DOCKER_OPT+=("${DOCKERFILE_DOCKER_OPT[@]:1}") ; fi
 # shellcheck disable=SC2206
-if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "=" ]]; then DOCKER_OPT=(${DOCKERFILE_DOCKER_OPT[@]:1}) ; fi
+if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "=" ]]; then eval DOCKER_OPT=("${DOCKERFILE_DOCKER_OPT[@]:1}") ; fi
 # shellcheck disable=SC2206
 if [[ "${DOCKERFILE_DOCKER_OPT[0]}" == "-" ]]; then
     for i in "${DOCKERFILE_DOCKER_OPT[@]:1}"; do
@@ -184,13 +184,12 @@ push () {  ## Push image to Docker Hub
 run () { ## Run the docker application
     printf '%s\n' "Runing ${NAME}"
     checklocalimage
-    xhost +LOCAL:
+    xhost +LOCAL: > /dev/null 2>&1
     if [[ "${DOCKER_PASSTHOUGH}" ]]; then
         docker run --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}" "${DOCKER_PASSTHOUGH}"
     else
         docker run --detach --name "${NAME}" "${DOCKER_OPT[@]}" "${IMG}"
     fi
-    xhost -LOCAL:
 }
 #
 shell () { ## Run shell in docker application

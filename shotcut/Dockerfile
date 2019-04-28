@@ -12,14 +12,14 @@ ARG VERSION
 ARG TEXT
 #
 LABEL maintainer="Ali Mustakim <alim@forwardcomputers.com>" \
-	  org.label-schema.name="${REPO}" \
-	  org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
-	  BuildDate="${TEXT}"
+      org.label-schema.name="${REPO}" \
+      org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
+      BuildDate="${TEXT}"
 #
 ENV user="duser" \
-	uid="1001" \
-	gid="1001" \
-	LANG="C.UTF-8"
+    uid="1001" \
+    gid="1001" \
+    LANG="C.UTF-8"
 #
 RUN set -e \
 &&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
@@ -27,71 +27,70 @@ RUN set -e \
 # Update Ubuntu repos and install dependencies
 #
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
-	bzip2 \
-	ca-certificates \
-	curl \
-	libavcodec-extra \
-	libasound2 \
-	libpulse0 \
-	locales \
-	xz-utils \
-	libc6 \
-	libcairo-gobject2 \
-	libcairo2 \
+    bzip2 \
+    ca-certificates \
+    curl \
+    libavcodec-extra \
+    libasound2 \
+    libpulse0 \
+    locales \
+    xz-utils \
+    libc6 \
+    libcairo-gobject2 \
+    libcairo2 \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
-	libgcc1 \
-	libgl1 \
-	libglib2.0-0 \
-	libpango-1.0-0 \
-	libpangocairo-1.0-0 \
-	libstdc++6 \
-	libx11-6 \
-	libx11-xcb1 \
-	libxcb-shm0 \
-	libxcb1 \
-	libxcomposite1 \
-	libxdamage1 \
-	libxext6 \
-	libxfixes3 \
-	libxrender1 \
-	libxt6 \
-	libjack-jackd2-0 \
-	netsurf \
-	xdg-utils \
+    libgcc1 \
+    libgl1 \
+    libglib2.0-0 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libstdc++6 \
+    libx11-6 \
+    libx11-xcb1 \
+    libxcb-shm0 \
+    libxcb1 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxrender1 \
+    libxt6 \
+    libjack-jackd2-0 \
+    netsurf \
+    xdg-utils \
 #
 # Add mimetypes
 #
 &&	printf '%s\n' \
-		"[MIME Cache]" \
-		"text/html=netsurf-gtk.desktop;" \
-		"text/xml=netsurf-gtk.desktop;" \
-		"x-scheme-handler/http=netsurf-gtk.desktop;" \
-		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
+    "[MIME Cache]" \
+    "text/html=netsurf-gtk.desktop;" \
+    "text/xml=netsurf-gtk.desktop;" \
+    "x-scheme-handler/http=netsurf-gtk.desktop;" \
+    "x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #
 &&  rm --recursive --force \
-	/usr/share/doc/* \
-	/usr/share/man/* \
-	/var/cache/apt/archives/*.deb \
-	/var/cache/apt/archives/partial/*.deb \
-	/var/cache/apt/*.bin \
-	/var/cache/debconf/*.old \
-	/var/lib/apt/lists/* \
-	/var/lib/dpkg/info/* \
-	/var/log/apt \
-	/var/log/*.log
+    /usr/share/doc/* \
+    /usr/share/man/* \
+    /var/cache/apt/archives/*.deb \
+    /var/cache/apt/archives/partial/*.deb \
+    /var/cache/apt/*.bin \
+    /var/cache/debconf/*.old \
+    /var/lib/apt/lists/* \
+    /var/lib/dpkg/info/* \
+    /var/log/apt \
+    /var/log/*.log \
 #
 # Install application
 #
-RUN set -e \
 &&	appverdot=$( curl --location --silent --url https://shotcut.org/download/ | \
-	perl -nle 'print "${1}" if /Current Version: (\K[^<]+)/' ) \
+    perl -nle 'print "${1}" if /Current Version: (\K[^<]+)/' ) \
 &&	appver=$( echo "${appverdot}" | tr -d . ) \
 &&  curl --location --silent --url \
-	https://github.com/mltframework/shotcut/releases/download/v"${appverdot}"/shotcut-linux-x86_64-"${appver}".txz | \
-	tar --extract --xz --directory /opt \
+    https://github.com/mltframework/shotcut/releases/download/v"${appverdot}"/shotcut-linux-x86_64-"${appver}".txz | \
+    tar --extract --xz --directory /opt \
 &&  chown --recursive "${uid}:${gid}" /opt/Shotcut
 #
 # Create unprivileged user

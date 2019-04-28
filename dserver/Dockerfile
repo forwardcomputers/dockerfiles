@@ -74,11 +74,10 @@ RUN set -e \
     /var/lib/apt/lists/* \
     /var/lib/dpkg/info/* \
     /var/log/apt \
-    /var/log/*.log
+    /var/log/*.log \
 #
 # Create unprivileged user
 #
-RUN set -e \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups lpadmin --comment "${user}" "${user}" \

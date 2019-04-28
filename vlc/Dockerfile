@@ -36,17 +36,17 @@ RUN set -e \
     dbus-x11 \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
-	netsurf \
+    netsurf \
     xdg-utils \
 #
 # Add mimetypes
 #
 &&	printf '%s\n' \
-		"[MIME Cache]" \
-		"text/html=netsurf-gtk.desktop;" \
-		"text/xml=netsurf-gtk.desktop;" \
-		"x-scheme-handler/http=netsurf-gtk.desktop;" \
-		"x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
+    "[MIME Cache]" \
+    "text/html=netsurf-gtk.desktop;" \
+    "text/xml=netsurf-gtk.desktop;" \
+    "x-scheme-handler/http=netsurf-gtk.desktop;" \
+    "x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
 #
 # Clean-up
 #
@@ -60,11 +60,10 @@ RUN set -e \
     /var/lib/apt/lists/* \
     /var/lib/dpkg/info/* \
     /var/log/apt \
-    /var/log/*.log
+    /var/log/*.log \
 #
 # Create unprivileged user
 #
-RUN set -e \
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
