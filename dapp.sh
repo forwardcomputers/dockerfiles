@@ -195,9 +195,16 @@ run () { ## Run the docker application
 shell () { ## Run shell in docker application
     printf '%s\n' "Runing shell in ${NAME}"
     checklocalimage
-    xhost +LOCAL:
-    docker run --interactive --tty --name "${NAME}"_shell --entrypoint  /bin/bash "${DOCKER_OPT[@]}" "${IMG}"
-    xhost -LOCAL:
+    xhost +LOCAL: > /dev/null 2>&1
+    docker run --interactive --tty --name "${NAME}"_shell --entrypoint /bin/bash "${DOCKER_OPT[@]}" "${IMG}"
+}
+#
+#
+root () { ## Run shell in docker application as root
+    printf '%s\n' "Runing shell in ${NAME}"
+    checklocalimage
+    xhost +LOCAL: > /dev/null 2>&1
+    docker run --interactive --tty --user root --workdir /root --name "${NAME}"_shell --entrypoint /bin/bash "${DOCKER_OPT[@]}" "${IMG}"
 }
 #
 desktop () { ## Populate desktop application menu
