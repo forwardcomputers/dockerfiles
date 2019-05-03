@@ -102,12 +102,13 @@ help () { ## Show this help message
 }
 #
 info () { ## Check if there is a newer application version
+    set -x
     checkbaseimage
     if [[ ! "${APPNEW}" ]]; then APPNEW=null; fi
-    if [[ "${APPNEW}" == "${APPOLD}" && ! -f /tmp/MAKE_BASE_UPDATED ]]; then
+    if [[ "${APPNEW}" == ${APPOLD} && ! -f /tmp/MAKE_BASE_UPDATED ]]; then
         printf '\r%s\n' "${YELLOW}${NAME}${GREEN} build is on latest version ${YELLOW}${APPNEW}${NC}"
     else
-        if [[ ${APPOLD} -eq 0 ]]; then
+        if [[ ${APPOLD} == 0 ]]; then
             if [[ ${APPNEW} == "null" ]]; then APPNEW=""; fi
             printf '%s\n' "${YELLOW}${NAME}${GREEN} nonexistant in Docker, use ${YELLOW}'dapp upgrade ${NAME}'${GREEN} or ${YELLOW}'dapp build ${NAME}'${GREEN} to generate the latest version ${YELLOW}${APPNEW}${NC}"
         else
@@ -120,6 +121,7 @@ info () { ## Check if there is a newer application version
         touch -f /tmp/MAKE_REBUILD
     fi
     rm -f /tmp/MAKE_BASE_UPDATED
+    set +x
 }
 #
 update () {
@@ -277,8 +279,11 @@ readme () { ## Create readme file
 }
 #
 appversions () {
+    set -x
     BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
-    APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"
+    until APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"; do
+        sleep 1
+    done
     APPNEW="$(grep -oP '(?<=APPNEW ).*' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
     if ! [[ "${APPNEW}" =~ ^[+-]?([0-9]*[.,])?[0-9]+?$ ]]; then
         if [[ "${APPNEW}" == "apt" ]]; then
@@ -292,6 +297,7 @@ appversions () {
             set -e
         fi
     fi
+    set +x
 }
 #
 checkbaseimage () {
