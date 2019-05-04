@@ -102,7 +102,6 @@ help () { ## Show this help message
 }
 #
 info () { ## Check if there is a newer application version
-    set -x
     checkbaseimage
     if [[ ! "${APPNEW}" ]]; then APPNEW=null; fi
     if [[ "${APPNEW}" == ${APPOLD} && ! -f /tmp/MAKE_BASE_UPDATED ]]; then
@@ -121,7 +120,6 @@ info () { ## Check if there is a newer application version
         touch -f /tmp/MAKE_REBUILD
     fi
     rm -f /tmp/MAKE_BASE_UPDATED
-    set +x
 }
 #
 update () {
@@ -279,7 +277,6 @@ readme () { ## Create readme file
 }
 #
 appversions () {
-    set -x
     BASE_IMAGE="$(sed -n -e 's/^FROM //p' "${ROOT}${NAME}"/Dockerfile 2> /dev/null || true)"
     until APPOLD="$(curl --silent --location --url https://registry.hub.docker.com/v2/repositories/forwardcomputers/"${NAME}"/tags | jq --raw-output '.results|.[0]|.name // 0')"; do
         sleep 1
@@ -297,7 +294,6 @@ appversions () {
             set -e
         fi
     fi
-    set +x
 }
 #
 checkbaseimage () {

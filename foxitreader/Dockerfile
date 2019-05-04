@@ -63,6 +63,7 @@ RUN set -e \
     xdg-utils \
 #
 # Install application
+# Done with the help from the arch repository @ https://aur.archlinux.org/packages/foxitreader/
 #
 &&  mkdir --parents /opt/foxittemp \
 &&  cd /opt/foxittemp \
