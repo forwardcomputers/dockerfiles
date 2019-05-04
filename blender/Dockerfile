@@ -4,7 +4,7 @@
 #DESKTOP_COMMENT 3D modeling, animation, rendering and post-production
 #DESKTOP_CATEGORIES Graphics;3DGraphics;
 #DESKTOP_MIMETYPE application/x-blender;
-#DESKTOP_LOGO https://developer.blender.org/diffusion/B/browse/master/release/freedesktop/icons/scalable/apps/blender.svg
+#DESKTOP_LOGO https://dev-files.blender.org/file/download/fkclrydgsqtfnb4jyjtf/PHID-FILE-etgo52x6ydb4mchv22xh/blender.svg
 #
 FROM ubuntu:devel
 ARG REPO
