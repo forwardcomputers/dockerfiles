@@ -13,11 +13,6 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: 
-          name: Shellcheck file
-          command: |
-            apt-get update && apt-get install -y shellcheck
-            shellcheck /app/dapp.sh && echo "[OK]: successfully linted dapp.sh"
       - run:
           name: Tweet on Failure
           command: |
@@ -38,6 +33,7 @@ jobs:
           name: Build and push to docker
           command: |
             docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+            curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/dotfiles/raw/master/bin/dapp
             GH_SHA=$( \
               curl --silent --location --url https://api.github.com/repos/forwardcomputers/dockerfiles/commits | \
               jq -r '.[0].sha' \
@@ -47,9 +43,9 @@ jobs:
               jq --raw-output '[.files | .[] | select( .status == "added" or .status == "modified" and ( .filename | contains(".circleci") | not ) and ( .filename | contains("/") ) ) | .filename | split("/")[0]] | unique[]') \
             )
             for APP in "${GH_APP[@]}"; do
-              ./dapp.sh build ${APP}
-              ./dapp.sh push ${APP}
-              ./dapp.sh readme
+              ~/dapp build ${APP}
+              ~/dapp push ${APP}
+              ~/dapp readme
             done
 
   build_all:
@@ -67,13 +63,14 @@ jobs:
       - run: 
           name: Build and push to docker
           command: |
+            curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/dotfiles/raw/master/bin/dapp
             mkdir -p /go/src/github.com/forwardcomputers
             mv -f /app /go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}
             echo "USER=root" >> $BASH_ENV
             echo "export CIRCLE_WORKING_DIRECTORY=/go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}" >> $BASH_ENV
             source $BASH_ENV
             docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-            ./dapp.sh upgrade_all
+            ~/dapp upgrade_all
 
 workflows:
   version: 2.1
