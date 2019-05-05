@@ -65,6 +65,7 @@ jobs:
           name: Build and push to docker
           command: |
             curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/dotfiles/raw/master/bin/dapp
+            chmod +x ~/dapp
             mkdir -p /go/src/github.com/forwardcomputers
             mv -f /app /go/src/github.com/forwardcomputers/${CIRCLE_PROJECT_REPONAME}
             echo "USER=root" >> $BASH_ENV
