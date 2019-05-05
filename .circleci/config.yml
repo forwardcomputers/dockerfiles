@@ -34,6 +34,7 @@ jobs:
           command: |
             docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
             curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/dotfiles/raw/master/bin/dapp
+            chmod +x ~/dapp
             GH_SHA=$( \
               curl --silent --location --url https://api.github.com/repos/forwardcomputers/dockerfiles/commits | \
               jq -r '.[0].sha' \
