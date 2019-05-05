@@ -1,6 +1,6 @@
 #
 #APPNEW curl --location --silent --url https://aur.archlinux.org/cgit/aur.git/plain/.SRCINFO?h=foxitreader | perl -nle 'print $1 if /pkgver = (\K[^ ]+)/'
-#DESKTOP_NAME foxitreader
+#DESKTOP_NAME Foxit Reader
 #DESKTOP_COMMENT View PDF documents
 #DESKTOP_CATEGORIES Application;Office;Viewer;X-Red-Hat-Base;
 #DESKTOP_MIMETYPE application/pdf;application/ppdf;
