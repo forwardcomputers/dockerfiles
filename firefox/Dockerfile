@@ -71,7 +71,7 @@ RUN set -e \
 # Install application
 #
 &&  curl --location --silent --url \
-    'https://download.mozilla.org/?product=firefox-devel-ssl&os=linux64&lang=en-US' | \
+    'https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US' | \
     tar --extract --bzip2 --directory /opt \
 &&  chown --recursive "${uid}:${gid}" /opt/firefox \
 #

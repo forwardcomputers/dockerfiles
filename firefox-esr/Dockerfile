@@ -70,9 +70,8 @@ RUN set -e \
 #
 # Install application
 #
-RUN set -e \
 &&  curl --location --silent --url \
-    'https://download.mozilla.org/?product=firefox-esr-devel-ssl&os=linux64&lang=en-US' | \
+    'https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=linux64&lang=en-US' | \
     tar --extract --bzip2 --directory /opt \
 &&  ln --symbolic /opt/firefox/firefox /opt/firefox/firefox-esr \
 &&  chown --recursive "${uid}:${gid}" /opt/firefox \
