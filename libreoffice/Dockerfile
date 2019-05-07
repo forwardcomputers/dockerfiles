@@ -44,7 +44,7 @@
 #7DESKTOP_LOGO https://github.com/LibreOffice/core/raw/master/sysui/desktop/icons/hicolor/scalable/apps/writer.svg
 #7DESKTOP_EXEC libreoffice --writer
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

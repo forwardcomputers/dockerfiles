@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://github.com/tmux/tmux/raw/master/logo/tmux-logomark.svg
 #DOCKER_OPT = --rm --network=host --hostname=docker_"${NAME}" --volume /media:/media
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

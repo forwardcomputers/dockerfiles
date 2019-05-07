@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPE application/x-planner;
 #DESKTOP_LOGO https://github.com/GNOME/planner/raw/master/data/images/gnome-planner.svg
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

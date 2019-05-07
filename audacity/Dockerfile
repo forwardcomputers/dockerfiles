@@ -7,7 +7,7 @@
 #DESKTOP_MIMETYPE application/x-audacity-project;
 #DESKTOP_LOGO https://github.com/audacity/audacity/raw/master/images/audacity.svg
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

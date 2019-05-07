@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPE text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;x-scheme-handler/chrome;video/webm;application/x-xpinstall;
 #DESKTOP_LOGO https://dxr.mozilla.org/mozilla-release/raw/browser/branding/official/default256.png
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

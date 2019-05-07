@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPE application/x-blender;
 #DESKTOP_LOGO https://dev-files.blender.org/file/download/fkclrydgsqtfnb4jyjtf/PHID-FILE-etgo52x6ydb4mchv22xh/blender.svg
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

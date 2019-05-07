@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://chromium.googlesource.com/chromium/reference_builds/chrome_mac/+/refs/heads/master/Google%20Chrome.app/Contents/Resources/app.icns?format=TEXT
 #DOCKER_OPT + --security-opt seccomp="$HOME"/.config/google-chrome/chrome.json
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

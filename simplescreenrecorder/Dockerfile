@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://github.com/MaartenBaert/ssr/raw/master/data/icons/scalable/simplescreenrecorder.svg
 #DOCKER_OPT + --ipc=host
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

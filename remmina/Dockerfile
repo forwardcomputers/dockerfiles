@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPE application/x-remmina;
 #DESKTOP_LOGO https://gitlab.com/Remmina/Remmina/raw/master/data/desktop/scalable/apps/org.remmina.Remmina.svg
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

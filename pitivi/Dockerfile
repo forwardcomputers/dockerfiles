@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://gitlab.gnome.org/GNOME/pitivi/raw/master/data/pixmaps/pitivi.png
 ##DOCKER_OPT + --security-opt apparmor=unconfined
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

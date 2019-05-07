@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://github.com/videolan/vlc/raw/master/extras/package/macosx/asset_sources/vlc_app_icon.svg
 ##DOCKER_OPT + --security-opt apparmor=unconfined
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPE 
 #DESKTOP_LOGO https://gitweb.torproject.org/torbrowser.git/plain/build-scripts/branding/default256.png
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

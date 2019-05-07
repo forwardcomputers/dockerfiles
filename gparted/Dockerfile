@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://github.com/GNOME/gparted/raw/master/data/icons/hicolor_apps_scalable_gparted.svg
 #DOCKER_OPT + --privileged
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

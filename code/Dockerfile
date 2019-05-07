@@ -6,7 +6,7 @@
 #DESKTOP_MIMETYPE text/plain;inode/directory;
 #DESKTOP_LOGO https://github.com/forwardcomputers/dockerfiles/raw/master/code/code.png
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

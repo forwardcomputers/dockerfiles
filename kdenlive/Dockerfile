@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://github.com/KDE/kdenlive/raw/master/data/icons/256-apps-kdenlive.png
 ##DOCKER_OPT + --security-opt apparmor=unconfined
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

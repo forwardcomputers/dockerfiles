@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://raw.githubusercontent.com/KDE/krita/master/pics/calligrakrita-base.svg
 ##DOCKER_OPT + --security-opt apparmor=unconfined
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT

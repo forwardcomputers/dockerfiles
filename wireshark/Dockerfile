@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://github.com/wireshark/wireshark/raw/master/image/wsicon256.png 
 #DOCKER_OPT + --cap-add NET_ADMIN
 #
-FROM ubuntu:devel
+FROM ubuntu:rolling
 ARG REPO
 ARG VERSION
 ARG TEXT
