@@ -68,7 +68,7 @@ RUN set -e \
 #
 # Add mimetypes
 #
-&&	printf '%s\n' \
+&&  printf '%s\n' \
     "[MIME Cache]" \
     "text/html=netsurf-gtk.desktop;" \
     "text/xml=netsurf-gtk.desktop;" \
@@ -91,7 +91,7 @@ RUN set -e \
 #
 # Create unprivileged user
 #
-&&	locale-gen en_US.UTF-8 || true \
+&&  locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi

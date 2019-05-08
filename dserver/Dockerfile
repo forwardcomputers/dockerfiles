@@ -78,7 +78,7 @@ RUN set -e \
 #
 # Create unprivileged user
 #
-&&	locale-gen en_US.UTF-8 || true \
+&&  locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups docker,lpadmin --comment "${user}" "${user}" \
 &&  if [ ! -d /home/"${user}"/.ssh ]; then mkdir /home/"${user}"/.ssh; chmod 700 /home/"${user}"/.ssh; chown "${uid}":"${gid}" /home/"${user}"/.ssh; fi \

@@ -72,7 +72,7 @@ RUN set -e \
 # Install application
 #
 RUN set -e \
-&&	appver=$( curl --location --silent --url https://www.torproject.org/projects/torbrowser.html.en | \
+&&  appver=$( curl --location --silent --url https://www.torproject.org/projects/torbrowser.html.en | \
     tac | \
     awk -F'/' '/linux64/ { print $6; exit }' ) \
 &&  curl --location --silent --url \
@@ -96,7 +96,7 @@ RUN set -e \
 #
 # Create unprivileged user
 #
-&&	locale-gen en_US.UTF-8 || true \
+&&  locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi

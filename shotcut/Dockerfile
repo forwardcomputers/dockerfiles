@@ -62,7 +62,7 @@ RUN set -e \
 #
 # Add mimetypes
 #
-&&	printf '%s\n' \
+&&  printf '%s\n' \
     "[MIME Cache]" \
     "text/html=netsurf-gtk.desktop;" \
     "text/xml=netsurf-gtk.desktop;" \
@@ -85,9 +85,9 @@ RUN set -e \
 #
 # Install application
 #
-&&	appverdot=$( curl --location --silent --url https://shotcut.org/download/ | \
+&&  appverdot=$( curl --location --silent --url https://shotcut.org/download/ | \
     perl -nle 'print "${1}" if /Current Version: (\K[^<]+)/' ) \
-&&	appver=$( echo "${appverdot}" | tr -d . ) \
+&&  appver=$( echo "${appverdot}" | tr -d . ) \
 &&  curl --location --silent --url \
     https://github.com/mltframework/shotcut/releases/download/v"${appverdot}"/shotcut-linux-x86_64-"${appver}".txz | \
     tar --extract --xz --directory /opt \
@@ -96,7 +96,7 @@ RUN set -e \
 # Create unprivileged user
 #
 RUN set -e \
-&&	locale-gen en_US.UTF-8 || true \
+&&  locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi

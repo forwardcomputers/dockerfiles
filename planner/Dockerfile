@@ -39,7 +39,7 @@ RUN set -e \
 #
 # Add mimetypes
 #
-&&	printf '%s\n' \
+&&  printf '%s\n' \
     "[MIME Cache]" \
     "x-scheme-handler/ghelp=yelp.desktop;" \
     "x-scheme-handler/help=yelp.desktop;" \
@@ -66,7 +66,7 @@ RUN set -e \
 #
 # Create unprivileged user
 #
-&&	locale-gen en_US.UTF-8 || true \
+&&  locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi

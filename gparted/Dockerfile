@@ -47,7 +47,7 @@ RUN set -e \
 #
 # Add mimetypes
 #
-&&	printf '%s\n' \
+&&  printf '%s\n' \
     "[MIME Cache]" \
     "text/html=netsurf-gtk.desktop;" \
     "text/xml=netsurf-gtk.desktop;" \

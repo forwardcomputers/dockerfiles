@@ -27,7 +27,7 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-# 	software-properties-common \
+# software-properties-common \
 # &&  add-apt-repository --yes ppa:ubuntuhandbook1/audacity \
 # &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
@@ -44,7 +44,7 @@ RUN set -e \
 #
 # Add mimetypes
 #
-&&	printf '%s\n' \
+&&  printf '%s\n' \
     "[MIME Cache]" \
     "text/html=netsurf-gtk.desktop;" \
     "text/xml=netsurf-gtk.desktop;" \
@@ -67,7 +67,7 @@ RUN set -e \
 #
 # Create unprivileged user
 #
-&&	locale-gen en_US.UTF-8 || true \
+&&  locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi
