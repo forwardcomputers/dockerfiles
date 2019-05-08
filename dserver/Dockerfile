@@ -1,5 +1,5 @@
 #
-#APPNEW 1.1
+#APPNEW 1.2
 #DESKTOP_NAME Docker Server
 #DESKTOP_COMMENT Linux server in Docker
 #DESKTOP_CATEGORIES System;Utility;Network;
@@ -80,7 +80,7 @@ RUN set -e \
 #
 &&	locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
-&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups lpadmin --comment "${user}" "${user}" \
+&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups docker,lpadmin --comment "${user}" "${user}" \
 &&  if [ ! -d /home/"${user}"/.ssh ]; then mkdir /home/"${user}"/.ssh; chmod 700 /home/"${user}"/.ssh; chown "${uid}":"${gid}" /home/"${user}"/.ssh; fi \
 &&  curl --silent --location --output /home/"${user}"/.ssh/authorized_keys --url https://github.com/forwardcomputers.keys \
 &&  chmod 600 /home/"${user}"/.ssh/authorized_keys; chown "${uid}":"${gid}" /home/"${user}"/.ssh/authorized_keys \
