@@ -5,7 +5,7 @@
 #DESKTOP_CATEGORIES Network;Monitor;Qt;
 #DESKTOP_MIMETYPE application/vnd.tcpdump.pcap;application/x-pcapng;application/x-snoop;application/x-iptrace;application/x-lanalyzer;application/x-nettl;application/x-radcom;application/x-etherpeek;application/x-visualnetworks;application/x-netinstobserver;application/x-5view;application/x-tektronix-rf5;application/x-micropross-mplog;application/x-apple-packetlogger;application/x-endace-erf;application/ipfix;application/x-ixia-vwr;
 #DESKTOP_LOGO https://github.com/wireshark/wireshark/raw/master/image/wsicon256.png 
-#DOCKER_OPT + --cap-add NET_ADMIN
+#DOCKER_OPT + --user root --workdir /root --privileged
 #
 FROM ubuntu:rolling
 ARG REPO
@@ -52,9 +52,6 @@ RUN set -e \
 #
 # Create wireshark group
 #
-&&  addgroup --system wireshark \
-&&  chgrp wireshark /usr/bin/dumpcap \
-&&  chmod o-rx /usr/bin/dumpcap \
-&&  setcap cap_net_raw,cap_net_admin+eip /usr/bin/dumpcap
+#&&  setcap cap_net_raw,cap_net_admin+eip /usr/bin/dumpcap
 #
 ENTRYPOINT [ "wireshark" ]
