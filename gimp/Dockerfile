@@ -17,13 +17,11 @@ LABEL maintainer="Ali Mustakim <alim@forwardcomputers.com>" \
       BuildDate="${TEXT}"
 #
 RUN set -e \
-&&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install dependencies
 #
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
     libpulse0 \
-    locales \
     gimp \
     gimp-data-extras \
     gimp-help-en \
@@ -56,9 +54,5 @@ RUN set -e \
     /var/lib/dpkg/info/* \
     /var/log/apt \
     /var/log/*.log \
-#
-# Create locales
-#
-&&  locale-gen en_US.UTF-8 || true
 #
 ENTRYPOINT [ "gimp" ]

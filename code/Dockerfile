@@ -16,13 +16,7 @@ LABEL maintainer="Ali Mustakim <alim@forwardcomputers.com>" \
       org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${REPO}" \
       BuildDate="${TEXT}"
 #
-ENV user="duser" \
-    uid="1001" \
-    gid="1001" \
-    LANG="C.UTF-8"
-#
 RUN set -e \
-&&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install dependencies
 #
@@ -32,7 +26,6 @@ RUN set -e \
     curl \
     gnupg2 \
     libpulse0 \
-    locales \
     software-properties-common \
 &&  curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /tmp/microsoft.gpg \
 &&  install -o root -g root -m 644 /tmp/microsoft.gpg /etc/apt/trusted.gpg.d/ \
@@ -89,13 +82,4 @@ RUN set -e \
     /var/log/apt \
     /var/log/*.log \
 #
-# Create unprivileged user
-#
-&&  locale-gen en_US.UTF-8 || true \
-&&  groupadd --gid "${gid}" "${user}" \
-&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups audio,video --comment "${user}" "${user}" \
-&&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/duser; fi
-#
-USER "${user}"
-WORKDIR /home/"${user}"
 ENTRYPOINT [ "/usr/share/code/code" ]
