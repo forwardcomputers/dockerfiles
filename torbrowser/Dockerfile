@@ -70,7 +70,7 @@ RUN set -e \
     libcanberra0 \
     libdbusmenu-glib4 \
     libdbusmenu-gtk3-4 \
-    fonts-lyx \
+    fonts-lyx
 #
 # Install application
 #
