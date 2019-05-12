@@ -54,7 +54,7 @@ RUN set -e \
 #
 # Install application
 #
-&&  curl --location --output ./ksnip.deb --silent --url https://github.com/DamirPorobic/ksnip/releases/download/v"${VERSION}"/ksnip-"${VERSION}".deb \
+&&  curl --location --output ./ksnip.deb --silent --url https://github.com/DamirPorobic/ksnip/releases/download/v"${APPNEW}"/ksnip-"${APPNEW}".deb \
 &&  dpkg --install ./ksnip.deb \
 &&  apt-get -qq install --fix-broken --no-install-recommends --yes \
 #
