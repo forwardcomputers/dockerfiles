@@ -67,6 +67,6 @@ RUN set -e \
     /var/lib/apt/lists/* \
     /var/lib/dpkg/info/* \
     /var/log/apt \
-    /var/log/*.log \
+    /var/log/*.log
 #
 ENTRYPOINT [ "krita" ]
