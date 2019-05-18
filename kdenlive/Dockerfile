@@ -42,6 +42,7 @@ RUN set -e \
     netsurf \
     swh-plugins \
     xdg-utils \
+    > /dev/null \
 #
 # Add mimetypes
 #

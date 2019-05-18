@@ -39,6 +39,7 @@ RUN set -e \
     libcanberra-gtk3-module \
     netsurf \
     xdg-utils \
+    > /dev/null \
 #
 # Add mimetypes
 #

@@ -42,6 +42,7 @@ RUN set -e \
     qml-module-qtquick2 \
     subversion \
     xdg-utils \
+    > /dev/null \
 &&  svn export https://github.com/adobe-fonts/source-sans-pro/trunk/TTF /usr/share/fonts/source-sans-pro \
 &&  apt-get -qq purge \
     subversion \

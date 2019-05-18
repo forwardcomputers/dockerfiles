@@ -54,6 +54,7 @@ RUN set -e \
     udftools \
     xfsprogs \
     yelp \
+    > /dev/null \
 #
 # Add mimetypes
 #

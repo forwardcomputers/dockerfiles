@@ -102,6 +102,7 @@ RUN set -e \
     openclipart-libreoffice \
     pstoedit \
     xdg-utils \
+    > /dev/null \
 #
 # Clean-up
 #

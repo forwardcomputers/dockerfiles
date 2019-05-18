@@ -62,6 +62,7 @@ RUN set -e \
     libjack-jackd2-0 \
     netsurf \
     xdg-utils \
+    > /dev/null \
 #
 # Add mimetypes
 #

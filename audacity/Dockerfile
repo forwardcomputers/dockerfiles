@@ -41,6 +41,7 @@ RUN set -e \
     multimedia-audio-plugins \
     netsurf \
     yaru-theme-gtk \
+    > /dev/null \
 #
 # Add mimetypes
 #

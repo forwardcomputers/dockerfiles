@@ -36,6 +36,7 @@ RUN set -e \
     wireshark \
     netsurf \
     xdg-utils \
+    > /dev/null \
 #
 # Add mimetypes
 #

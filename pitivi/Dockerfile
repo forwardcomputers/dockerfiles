@@ -44,6 +44,7 @@ RUN set -e \
     libcanberra-gtk3-module \
     netsurf \
     yaru-theme-icon \
+    > /dev/null \
 #
 # Add mimetypes
 #

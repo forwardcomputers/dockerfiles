@@ -70,6 +70,7 @@ RUN set -e \
     libdbusmenu-glib4 \
     libdbusmenu-gtk3-4 \
     fonts-lyx \
+    > /dev/null \
 #
 # Install application
 #

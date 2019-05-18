@@ -30,7 +30,7 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get install --quiet 2 --no-install-recommends --yes \
     libpulse0 \
     locales \
     remmina-plugin-rdp \
@@ -43,6 +43,7 @@ RUN set -e \
     libcanberra-gtk3-module \
     netsurf \
     sudo \
+    > /dev/null \
 #
 # Disable IPv6 in Avahi
 #

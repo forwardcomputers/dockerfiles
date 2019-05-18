@@ -68,6 +68,7 @@ RUN set -e \
     netsurf \
     openssh-client \
     xdg-utils \
+    > /dev/null \
 #
 # Add mimetypes
 #

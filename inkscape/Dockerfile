@@ -47,6 +47,7 @@ RUN set -e \
     python-lxml \
     python-numpy \
     python-scour \
+    > /dev/null \
 #
 # Add mimetypes
 #

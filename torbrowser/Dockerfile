@@ -70,11 +70,11 @@ RUN set -e \
     libcanberra0 \
     libdbusmenu-glib4 \
     libdbusmenu-gtk3-4 \
-    fonts-lyx
+    fonts-lyx \
+    > /dev/null \
 #
 # Install application
 #
-RUN set -e \
 &&  appver=$( curl --location --silent --url https://www.torproject.org/projects/torbrowser.html.en | \
     tac | \
     awk -F'/' '/linux64/ { print $6; exit }' ) \

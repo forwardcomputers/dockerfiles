@@ -51,6 +51,7 @@ RUN set -e \
     netsurf \
     yelp \
     xdg-utils \
+    > /dev/null \
 #
 # Install application
 #

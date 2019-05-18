@@ -64,6 +64,7 @@ RUN set -e \
     p7zip-full \
     yelp \
     xdg-utils \
+    > /dev/null \
 #
 # Install application
 # Done with the help from the arch repository @ https://aur.archlinux.org/packages/foxitreader/

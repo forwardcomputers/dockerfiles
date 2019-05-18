@@ -39,6 +39,7 @@ RUN set -e \
     planner-doc \
     netsurf \
     yelp \
+    > /dev/null \
 #
 # Add mimetypes
 #

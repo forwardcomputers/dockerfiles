@@ -34,6 +34,7 @@ RUN set -e \
     libpulse0 \
     blender \
     netsurf \
+    > /dev/null \
 #
 # Add mimetypes
 #
