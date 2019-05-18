@@ -1,6 +1,6 @@
 #
 #APPNEW curl --location --silent --url https://www.torproject.org/download | perl -nle 'print $1 if /linux64-(\K[^_]+)/' | head -1
-#DESKTOP_NAME Tor browser
+#DESKTOP_NAME TorBrowser
 #DESKTOP_COMMENT Tor Browser is +1 for privacy and -1 for mass surveillance
 #DESKTOP_CATEGORIES Network;WebBrowser;Security;
 #DESKTOP_MIMETYPE 
