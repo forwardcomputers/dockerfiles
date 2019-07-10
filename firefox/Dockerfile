@@ -1,5 +1,5 @@
 #
-#APPNEW curl --location --silent --url https://www.mozilla.org | perl -nle 'print $1 if /data-latest-firefox="(\K[^"]+)/'
+#APPNEW curl --location --silent --url https://www.mozilla.org | perl -nle 'print $1 if /data-latest-firefox="(\K[^" ]+)/'
 #DESKTOP_NAME Firefox
 #DESKTOP_COMMENT Browse the World Wide Web
 #DESKTOP_CATEGORIES GNOME;GTK;Network;WebBrowser;
