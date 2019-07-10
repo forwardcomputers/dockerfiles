@@ -1,5 +1,5 @@
 #
-#APPNEW curl --location --silent --url https://www.mozilla.org | perl -nle 'print $1 if /data-esr-versions="(\K[^"]+)/'
+#APPNEW curl --location --silent --url https://www.mozilla.org | perl -nle 'print $1 if /data-esr-versions="(\K[^" ]+)/'
 #DESKTOP_NAME FirefoxESR
 #DESKTOP_COMMENT Browse the World Wide Web
 #DESKTOP_CATEGORIES GNOME;GTK;Network;WebBrowser;
