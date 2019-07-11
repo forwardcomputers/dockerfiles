@@ -1,5 +1,5 @@
 #
-#APPNEW curl --location --silent --url https://code.visualstudio.com/updates | grep -o -P '(?<=Linux 64-bit: <a href="https://update.code.visualstudio.com/).*?(?=/linux)'
+#APPNEW curl --location --silent --url https://code.visualstudio.com/updates | grep -o -P '(?<=Linux: <a href="https://update.code.visualstudio.com/).*?(?=/linux)'
 #DESKTOP_NAME VSCode
 #DESKTOP_COMMENT Code Editing. Redefined.
 #DESKTOP_CATEGORIES Utility;TextEditor;Development;IDE;
