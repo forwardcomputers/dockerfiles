@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://github.com/OpenShot/openshot-qt/raw/master/xdg/openshot-qt.svg
 ##DOCKER_OPT + --security-opt apparmor=unconfined
 #
-FROM ubuntu:disco
+FROM ubuntu:rolling
 ARG BUILD_DATE
 ARG NAME
 ARG CO
