@@ -36,9 +36,6 @@ RUN set -e \
     netsurf \
     software-properties-common \
     xdg-utils \
-    > /dev/null \
-&&  add-apt-repository --yes ppa:openshot.developers/ppa \
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
     openshot-qt \
     > /dev/null \
 #
