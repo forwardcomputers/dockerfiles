@@ -5,7 +5,7 @@
 #DESKTOP_CATEGORIES System;Utility;Network;
 #DESKTOP_MIMETYPE 
 #DESKTOP_LOGO https://github.com/tmux/tmux/raw/master/logo/tmux-logomark.svg
-#DOCKER_OPT = --rm --network=host --hostname=docker_"${NAME}" --volume /media:/media
+#DOCKER_OPT = --rm --network=host --hostname=docker_"${NAME}" --volume /opt:/opt
 #
 FROM ubuntu:rolling
 ARG BUILD_DATE
