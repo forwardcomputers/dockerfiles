@@ -45,7 +45,9 @@ RUN set -e \
     libcairo2 \
     libcups2 \
     libdbus-1-3 \
+    libdrm2 \
     libexpat1 \
+    libgbm1 \
     libgcc1 \
     libgdk-pixbuf2.0-0 \
     libglib2.0-0 \
@@ -57,6 +59,7 @@ RUN set -e \
     libuuid1 \
     libx11-6 \
     libx11-xcb1 \
+    libxcb-dri3-0 \
     libxcb1 \
     libxcomposite1 \
     libxcursor1 \
