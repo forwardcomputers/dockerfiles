@@ -19,6 +19,11 @@ jobs:
           LP_T_OAUTH_TOKEN:  ${{ secrets.LP_T_OAUTH_TOKEN }}
         run: |
           set -x
+          echo $TZ
+          date
+          cat /etc/timezone
+          ls -la /etc/localtime
+          echo "America/Toronto" > /etc/timezone
           date
           cat /etc/timezone
           ls -la /etc/localtime
