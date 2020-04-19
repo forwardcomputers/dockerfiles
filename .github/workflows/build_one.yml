@@ -29,7 +29,7 @@ jobs:
           )
           GH_APP=( $( \
             curl --silent --location --url https://api.github.com/repos/forwardcomputers/dockerfiles/commits/"${GH_SHA}" | \
-            jq --raw-output '[.files | .[] | select( .status == "added" or .status == "modified" and ( .filename | contains(".github") | not ) and ( .filename | contains("/") ) ) | .filename | split("/")[0]] | unique[]') \
+            jq --raw-output '[.files | .[] | select( .status == "added" or .status == "modified" and ( ( .filename | contains(".github") | not ) or ( .filename | contains(".github") | not ) ) and ( .filename | contains("/") ) ) | .filename | split("/")[0]] | unique[]') \
           )
           for APP in "${GH_APP[@]}"; do
             ~/dapp build ${APP}
