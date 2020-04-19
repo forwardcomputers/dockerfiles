@@ -20,6 +20,7 @@ jobs:
         run: |
           set -x
           env
+          ls -la
           pwd
           exit
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
