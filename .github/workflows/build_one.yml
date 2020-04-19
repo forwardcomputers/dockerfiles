@@ -22,8 +22,8 @@ jobs:
           date
           cat /etc/timezone
           ls -la /etc/localtime
-          rm /etc/localtime
-          ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
+          sudo rm /etc/localtime
+          sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
           date
           cat /etc/timezone
           ls -la /etc/localtime
