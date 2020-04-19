@@ -1,7 +1,6 @@
 name: build_one
 
-on:
-  push:
+on: push
 
 jobs:
   build_one:
