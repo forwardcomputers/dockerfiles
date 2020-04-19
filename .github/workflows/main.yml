@@ -30,6 +30,7 @@ jobs:
             curl --silent --location --url https://api.github.com/repos/forwardcomputers/dockerfiles/commits/"${GH_SHA}" | \
             jq --raw-output '[.files | .[] | select( .status == "added" or .status == "modified" and ( .filename | contains(".circleci") | not ) and ( .filename | contains("/") ) ) | .filename | split("/")[0]] | unique[]') \
           )
+          ls -la
           for APP in "${GH_APP[@]}"; do
             ~/dapp build ${APP}
             ~/dapp push ${APP}
