@@ -18,16 +18,8 @@ jobs:
           LP_T_OAUTH_SECRET: ${{ secrets.LP_T_OAUTH_SECRET }}
           LP_T_OAUTH_TOKEN:  ${{ secrets.LP_T_OAUTH_TOKEN }}
         run: |
-          set -x
-          date
-          cat /etc/timezone
-          ls -la /etc/localtime
           sudo rm /etc/localtime
           sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
-          date
-          cat /etc/timezone
-          ls -la /etc/localtime
-          exit
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
           curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/dotfiles/raw/master/bin/dapp
           chmod +x ~/dapp
