@@ -1,7 +1,6 @@
 name: build_all
 
 on:
-  push:
   schedule:
     # Times are in UTC, this job is run daily @ 14HRS = 9AM EST, 20HRS = 3PM EST
     - cron: "0 14,20 * * *"
@@ -26,4 +25,4 @@ jobs:
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
           curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/dotfiles/raw/master/bin/dapp
           chmod +x ~/dapp
-          ~/dapp help
+          ~/dapp upgrade_all
