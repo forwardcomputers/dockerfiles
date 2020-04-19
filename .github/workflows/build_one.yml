@@ -1,10 +1,7 @@
-name: CI
+name: build_one
 
 on:
   push:
-  schedule:
-    # Times are in UTC, this job is run daily @ 14HRS = 9AM EST, 20HRS = 3PM EST
-    - cron: "0 14,20 * * *"
 
 jobs:
   build_one:
@@ -17,6 +14,10 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          LP_T_CONSUMER_KEY: ${{ secrets.LP_T_CONSUMER_KEY }}
+          LP_T_CONSUMER_SECRET: ${{ secrets.LP_T_CONSUMER_SECRET }}
+          LP_T_OAUTH_SECRET: ${{ secrets.LP_T_OAUTH_SECRET }}
+          LP_T_OAUTH_TOKEN:  ${{ secrets.LP_T_OAUTH_TOKEN }}
         run: |
           set -x
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
