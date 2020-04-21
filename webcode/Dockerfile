@@ -71,9 +71,9 @@ RUN set -e \
         slug="${ext#*.}"; \
         mkdir -p "/opt/code-extensions/${ext}"; \
         echo "Installing vscode extension: ${slug} by ${vendor}" && \
-        while [ $? -ne 0 ]; do \
-            curl -qL --retry 5 -o "/tmp/${ext}.vsix" "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${vendor}/vsextensions/${slug}/latest/vspackage"; \
-            bsdtar --strip-components=1 -xf "/tmp/${ext}.vsix" -C "/opt/code-extensions/${ext}" extension; \
+        while true; do \
+            curl -qL --retry 5 "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${vendor}/vsextensions/${slug}/latest/vspackage" | bsdtar --strip-components=1 -xf - -C "/opt/code-extensions/${ext}" extension; \
+            if [ $? -eq 0 ]; then break; fi \
         done; \
         sleep 60; \
     done < /vscode.extensions \
