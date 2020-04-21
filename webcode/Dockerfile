@@ -66,16 +66,19 @@ RUN set -e \
 #
 &&  mkdir -p /opt/code-extensions \
 &&  while read -r ext; do  \
+        set -x; \
         vendor="${ext%%.*}"; \
         slug="${ext#*.}"; \
         mkdir -p "/opt/code-extensions/${ext}"; \
         echo "Installing vscode extension: ${slug} by ${vendor}" && \
         while [ $? -ne 0 ]; do \
-            curl -qL --retry 5 "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${vendor}/vsextensions/${slug}/latest/vspackage" | bsdtar --strip-components=1 -xf - -C "/opt/code-extensions/${ext}" extension; \
+            curl -qL --retry 5 -o "/tmp/${ext}.vsix" "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${vendor}/vsextensions/${slug}/latest/vspackage"; \
+            bsdtar --strip-components=1 -xf "/tmp/${ext}.vsix" -C "/opt/code-extensions/${ext}" extension; \
         done; \
-        sleep 120; \
+        sleep 60; \
     done < /vscode.extensions \
 &&  chown -R "${uid}":"${gid}" /opt/code-extensions \
+&& set +x \
 && ls -la /opt/code-extensions/nhoizey.gremlins/ \
 #
 # Clean-up
