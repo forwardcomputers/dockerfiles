@@ -73,9 +73,10 @@ RUN set -e \
         while [ $? -ne 0 ]; do \
             curl -qL --retry 5 "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${vendor}/vsextensions/${slug}/latest/vspackage" | bsdtar --strip-components=1 -xf - -C "/opt/code-extensions/${ext}" extension; \
         done; \
-        sleep 60; \
+        sleep 120; \
     done < /vscode.extensions \
 &&  chown -R "${uid}":"${gid}" /opt/code-extensions \
+&& ls -la /opt/code-extensions/nhoizey.gremlins/ \
 #
 # Clean-up
 #
@@ -91,6 +92,7 @@ RUN set -e \
     /var/lib/dpkg/info/* \
     /var/log/apt \
     /var/log/*.log \
+&& ls -la /opt/code-extensions/nhoizey.gremlins/ \
 #
 # Create unprivileged user
 #
@@ -98,6 +100,7 @@ RUN set -e \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi \
+&& ls -la /opt/code-extensions/nhoizey.gremlins/ \
 &&  mkdir -p /opt/filer \
 &&  chmod 777 /opt/filer
 #

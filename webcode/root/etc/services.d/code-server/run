@@ -4,7 +4,7 @@ exec \
   s6-setuidgid ali \
     /opt/code-server/code-server \
       --host 0.0.0.0 \
-      --port 8443 \
+      --port 8080 \
       --user-data-dir /home/ali/.code-server/data \
       --extensions-dir /home/ali/.code-server/extensions \
       --extra-builtin-extensions-dir /opt/code-extensions/ \
