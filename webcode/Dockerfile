@@ -105,5 +105,5 @@ RUN set -e \
 &&  chmod 777 /opt/filer
 #
 COPY /root /
-EXPOSE 8443
+EXPOSE 8080
 ENTRYPOINT ["/init"]
