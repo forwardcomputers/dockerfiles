@@ -18,6 +18,7 @@ jobs:
           LP_T_OAUTH_SECRET: ${{ secrets.LP_T_OAUTH_SECRET }}
           LP_T_OAUTH_TOKEN:  ${{ secrets.LP_T_OAUTH_TOKEN }}
         run: |
+          set -x
           sudo rm /etc/localtime
           sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
