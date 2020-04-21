@@ -66,7 +66,6 @@ RUN set -e \
 #
 &&  mkdir -p /opt/code-extensions \
 &&  while read -r ext; do  \
-        set -x; \
         vendor="${ext%%.*}"; \
         slug="${ext#*.}"; \
         mkdir -p "/opt/code-extensions/${ext}"; \
@@ -75,11 +74,8 @@ RUN set -e \
             curl -qL --retry 5 "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${vendor}/vsextensions/${slug}/latest/vspackage" | bsdtar --strip-components=1 -xf - -C "/opt/code-extensions/${ext}" extension; \
             if [ $? -eq 0 ]; then break; fi \
         done; \
-        sleep 10; \
     done < /vscode.extensions \
 &&  chown -R "${uid}":"${gid}" /opt/code-extensions \
-&& set +x \
-&& ls -la /opt/code-extensions/nhoizey.gremlins/ \
 #
 # Clean-up
 #
@@ -95,7 +91,6 @@ RUN set -e \
     /var/lib/dpkg/info/* \
     /var/log/apt \
     /var/log/*.log \
-&& ls -la /opt/code-extensions/nhoizey.gremlins/ \
 #
 # Create unprivileged user
 #
@@ -103,13 +98,9 @@ RUN set -e \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi \
-&& ls -la /opt/code-extensions/nhoizey.gremlins/ \
 &&  mkdir -p /opt/filer \
 &&  chmod 777 /opt/filer
 #
 COPY /root /
 EXPOSE 8080
 ENTRYPOINT ["/init"]
-
-
-
