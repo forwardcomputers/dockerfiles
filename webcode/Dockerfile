@@ -75,7 +75,7 @@ RUN set -e \
             curl -qL --retry 5 "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${vendor}/vsextensions/${slug}/latest/vspackage" | bsdtar --strip-components=1 -xf - -C "/opt/code-extensions/${ext}" extension; \
             if [ $? -eq 0 ]; then break; fi \
         done; \
-        sleep 60; \
+        sleep 10; \
     done < /vscode.extensions \
 &&  chown -R "${uid}":"${gid}" /opt/code-extensions \
 && set +x \
