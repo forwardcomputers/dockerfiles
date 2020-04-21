@@ -65,7 +65,6 @@ RUN set -e \
 &&  curl -s -L "${APPURL}" | tar xz -C /opt ; mv /opt/code-server* /opt/code-server \
 #
 &&  mkdir -p /opt/code-extensions \
-&&  chown "${uid}":"${gid}" /opt/code-extensions \
 &&  while read -r ext; do  \
         vendor="${ext%%.*}"; \
         slug="${ext#*.}"; \
@@ -76,6 +75,7 @@ RUN set -e \
         done; \
         sleep 10; \
     done < /vscode.extensions \
+&&  chown -R "${uid}":"${gid}" /opt/code-extensions \
 #
 # Clean-up
 #
