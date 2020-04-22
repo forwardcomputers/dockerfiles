@@ -10,7 +10,5 @@ exec \
       --extra-builtin-extensions-dir /opt/code-extensions/ \
       --host 0.0.0.0 \
       --port 8080 \
-      --cert "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.cer"
-      --cert-key "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.key"
       --user-data-dir /home/ali/.code-server/data \
       /home/ali
