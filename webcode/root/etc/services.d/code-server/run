@@ -4,7 +4,8 @@ exec \
   s6-setuidgid ali \
     /opt/code-server/code-server \
       --auth none \
-      --cert \
+      --cert "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.cer"
+      --cert-key "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.key"
       --disable-telemetry \
       --disable-updates \
       --extensions-dir /home/ali/.code-server/extensions \
