@@ -37,13 +37,13 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
+    # docker.io \
 &&  rm -f /etc/dpkg/dpkg.cfg.d/excludes \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --reinstall --yes \
     bind9-host \
     ca-certificates \
     cups-bsd \
     curl \
-    docker.io \
     dnsutils \
     gawk \
     gnupg2 \
