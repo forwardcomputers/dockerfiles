@@ -21,15 +21,15 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
-ENV user="ali" \
+ENV user="duser" \
     uid="1001" \
     gid="1001" \
-    HOME="/home/ali"
+    LANG="C.UTF-8"
 #
-COPY vscode.extensions /vscode.extensions
+COPY /root /
 #
 RUN set -e \
-&&  export user="${user}" uid="${uid}" gid="${gid}" \
+&&  export user="${user}" uid="${uid}" gid="${gid}" LANG="${LANG}" \
 #
 # Update Ubuntu repos and install dependencies
 #
@@ -61,6 +61,7 @@ RUN set -e \
     man \
     net-tools \
     openssh-server \
+    powerline \
     sudo \
     tmux \
     traceroute \
@@ -90,16 +91,16 @@ RUN set -e \
 &&  curl -s -L "${APPURL}" | tar xz -C /opt ; mv /opt/code-server* /opt/code-server \
 #
 &&  mkdir -p /opt/code-extensions \
-&&  while read -r ext; do  \
-        vendor="${ext%%.*}"; \
-        slug="${ext#*.}"; \
-        mkdir -p "/opt/code-extensions/${ext}"; \
-        echo "Installing vscode extension: ${slug} by ${vendor}" && \
-        while true; do \
-            curl -sL --retry 5 "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${vendor}/vsextensions/${slug}/latest/vspackage" | bsdtar --strip-components=1 -xf - -C "/opt/code-extensions/${ext}" extension; \
-            if [ $? -eq 0 ]; then break; fi \
-        done; \
-    done < /vscode.extensions \
+# &&  while read -r ext; do  \
+#         vendor="${ext%%.*}"; \
+#         slug="${ext#*.}"; \
+#         mkdir -p "/opt/code-extensions/${ext}"; \
+#         echo "Installing vscode extension: ${slug} by ${vendor}" && \
+#         while true; do \
+#             curl -sL --retry 5 "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${vendor}/vsextensions/${slug}/latest/vspackage" | bsdtar --strip-components=1 -xf - -C "/opt/code-extensions/${ext}" extension; \
+#             if [ $? -eq 0 ]; then break; fi \
+#         done; \
+#     done < /vscode.extensions \
 &&  chown -R "${uid}":"${gid}" /opt/code-extensions \
 #
 # Clean-up
@@ -121,6 +122,9 @@ RUN set -e \
 &&  locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --comment "${user}" "${user}" \
+&&  if [ ! -d /home/"${user}"/.ssh ]; then mkdir /home/"${user}"/.ssh; chmod 700 /home/"${user}"/.ssh; chown "${uid}":"${gid}" /home/"${user}"/.ssh; fi \
+&&  curl --silent --location --output /home/"${user}"/.ssh/authorized_keys --url https://github.com/forwardcomputers.keys \
+&&  chmod 600 /home/"${user}"/.ssh/authorized_keys; chown "${uid}":"${gid}" /home/"${user}"/.ssh/authorized_keys \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi \
 #
 &&  chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/50-motd-news /etc/update-motd.d/60-unminimize \
@@ -133,7 +137,6 @@ RUN set -e \
 &&  mkdir -p /opt/filer \
 &&  chmod 777 /opt/filer
 #
-COPY /root /
 EXPOSE 22/tcp 8080/tcp
 USER "${user}"
 ENTRYPOINT [ "/etc/entrypoint.sh" ]

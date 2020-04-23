@@ -5,7 +5,7 @@
 #DESKTOP_CATEGORIES GNOME;System;Filesystem;
 #DESKTOP_MIMETYPE 
 #DESKTOP_LOGO https://github.com/GNOME/gparted/raw/master/data/icons/hicolor_apps_scalable_gparted.svg
-#DOCKER_OPT + --privileged
+#DOCKER_OPT + --user root --workdir /root --privileged
 #
 FROM ubuntu:rolling
 ARG BUILD_DATE
