@@ -1,10 +1,10 @@
 #!/bin/bash
-set -ex
+set -e
 #
 DOCKER_HOST_GID="$(stat -c %g /var/run/docker.sock)"
 DOCKER_CONTAINER_GID="$(awk -F':' '/docker/ {print $3}' < /etc/group)"
 if [[ "${DOCKER_HOST_GID}" != "${DOCKER_CONTAINER_GID}" ]]; then
-    sudo sed --in-place --expression='s/'"${DOCKER_CONTAINER_GID}"'/'"${DOCKER_HOST_GID}"'/' /etc/group
+    sudo sed -ie 's/'"${DOCKER_CONTAINER_GID}"'/'"${DOCKER_HOST_GID}"'/' /etc/group
 fi
 if [[ ! -d "${HOME}"/.git ]]; then
     cd "${HOME}"
@@ -19,6 +19,7 @@ fi
   --auth none \
   --cert /opt/filer/os/acme/webcode.home.mustakim.com/webcode.home.mustakim.com.cer \
   --cert-key /opt/filer/os/acme/webcode.home.mustakim.com/webcode.home.mustakim.com.key \
+  --disable-ssh \
   --disable-telemetry \
   --disable-updates \
   --extensions-dir /home/duser/.code-server/extensions/ \
