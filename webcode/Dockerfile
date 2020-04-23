@@ -76,12 +76,12 @@ RUN set -e \
 #
 # Install s6
 #
-&&  APPNEW=$( curl -sX GET "https://api.github.com/repos/just-containers/s6-overlay/releases/latest" | jq -r '.tag_name' ) \
-&&  APPURL=$( curl -sX GET "https://api.github.com/repos/just-containers/s6-overlay/releases/tags/${APPNEW}" | jq -r '.assets[] | select(.browser_download_url | endswith("amd64.tar.gz")) | .browser_download_url' ) \
-&&  curl -s -L -o /tmp/s6 "${APPURL}" \
-&&  tar xzhf /tmp/s6 -C / --exclude=usr/bin/execlineb \
-&&  tar xzhf /tmp/s6 -C /usr ./bin/execlineb \
-&&  $_clean \
+# &&  APPNEW=$( curl -sX GET "https://api.github.com/repos/just-containers/s6-overlay/releases/latest" | jq -r '.tag_name' ) \
+# &&  APPURL=$( curl -sX GET "https://api.github.com/repos/just-containers/s6-overlay/releases/tags/${APPNEW}" | jq -r '.assets[] | select(.browser_download_url | endswith("amd64.tar.gz")) | .browser_download_url' ) \
+# &&  curl -s -L -o /tmp/s6 "${APPURL}" \
+# &&  tar xzhf /tmp/s6 -C / --exclude=usr/bin/execlineb \
+# &&  tar xzhf /tmp/s6 -C /usr ./bin/execlineb \
+# &&  $_clean \
 #
 # Install application
 #
