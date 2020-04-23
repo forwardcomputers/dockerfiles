@@ -33,21 +33,46 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
+&&  rm -f /etc/dpkg/dpkg.cfg.d/excludes \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
     apt-transport-https \
     ca-certificates \
     curl \
-    git \
-    iputils-ping \
     jq \
-    lastpass-cli \
     libarchive-tools \
     locales \
-    net-tools \
     openssh-client \
-    sudo \
     tzdata \
+    bind9-host \
+    cups-bsd \
+    docker.io \
+    dnsutils \
+    gawk \
+    gnupg2 \
+    expect \
+    git \
+    htop \
+    iputils-ping \
+    iproute2 \
+    landscape-common \
+    lastpass-cli \
+    less \
+    lsof \
+    man \
+    net-tools \
+    openssh-server \
+    sudo \
+    tmux \
+    traceroute \
+    unzip \
+    vim \
+    wget \
+    xz-utils \
+    zip \
     > /dev/null \
+&&  dpkg -S /usr/share/man/ |sed 's|, |\n|g;s|: [^:]*$||' | DEBIAN_FRONTEND=noninteractive xargs apt-get -qq install --reinstall -y 2> /dev/null \
+&&  rm -f /usr/bin/man \
+&&  dpkg-divert --quiet --remove --rename /usr/bin/man \
 #
 # Install s6
 #
@@ -82,7 +107,6 @@ RUN set -e \
 &&  rm --recursive --force \
     /vscode.extensions \
     /usr/share/doc/* \
-    /usr/share/man/* \
     /var/cache/apt/archives/*.deb \
     /var/cache/apt/archives/partial/*.deb \
     /var/cache/apt/*.bin \
@@ -98,10 +122,20 @@ RUN set -e \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --comment "${user}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi \
+&&  curl --silent --location --output /home/"${user}"/.ssh/authorized_keys --url https://github.com/forwardcomputers.keys \
+&&  chmod 600 /home/"${user}"/.ssh/authorized_keys; chown "${uid}":"${gid}" /home/"${user}"/.ssh/authorized_keys \
+&&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi \
+#
+&&  chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/50-motd-news /etc/update-motd.d/60-unminimize \
+&&  mkdir -p /etc/cups/ ; printf '%s\n' 'ServerName laser' > /etc/cups/client.conf \
+#
+&&  mkdir -p /run/sshd \
+&&  sed 's/^#Port 22/Port 3222/; s/^#PermitRootLogin.*/PermitRootLogin no/; s/^#PasswordAuthentication.*/PasswordAuthentication no/' -i /etc/ssh/sshd_config \
+&&  sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd \
+#
 &&  mkdir -p /opt/filer \
 &&  chmod 777 /opt/filer
 #
 COPY /root /
-EXPOSE 8080
-ENTRYPOINT ["/init"]
-
+EXPOSE 22/tcp 8080/tcp
+ENTRYPOINT [ "/bin/entrypoint.sh" ]
