@@ -1,5 +1,5 @@
 #
-#APPNEW 1.2
+#APPNEW 1.3
 #DESKTOP_NAME Docker Server
 #DESKTOP_COMMENT Linux server in Docker
 #DESKTOP_CATEGORIES System;Utility;Network;
