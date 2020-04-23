@@ -37,7 +37,6 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-    # docker.io \
 &&  rm -f /etc/dpkg/dpkg.cfg.d/excludes \
 &&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --reinstall --yes \
     bind9-host \
@@ -45,6 +44,7 @@ RUN set -e \
     cups-bsd \
     curl \
     dnsutils \
+    docker.io \
     gawk \
     gnupg2 \
     expect \
@@ -92,7 +92,7 @@ RUN set -e \
 &&  locale-gen en_US.UTF-8 || true \
 &&  groupadd --gid "${gid}" "${user}" \
 &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups lpadmin --comment "${user}" "${user}" \
-# &&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups docker,lpadmin --comment "${user}" "${user}" \
+&&  useradd --create-home --shell /bin/bash --uid "${uid}" --gid "${gid}" --groups docker,lpadmin --comment "${user}" "${user}" \
 &&  if [ ! -d /home/"${user}"/.ssh ]; then mkdir /home/"${user}"/.ssh; chmod 700 /home/"${user}"/.ssh; chown "${uid}":"${gid}" /home/"${user}"/.ssh; fi \
 &&  curl --silent --location --output /home/"${user}"/.ssh/authorized_keys --url https://github.com/forwardcomputers.keys \
 &&  chmod 600 /home/"${user}"/.ssh/authorized_keys; chown "${uid}":"${gid}" /home/"${user}"/.ssh/authorized_keys \
