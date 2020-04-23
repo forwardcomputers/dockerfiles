@@ -136,4 +136,4 @@ RUN set -e \
 COPY /root /
 EXPOSE 22/tcp 8080/tcp
 USER "${user}"
-ENTRYPOINT [ "/bin/entrypoint.sh" ]
+ENTRYPOINT [ "/etc/entrypoint.sh" ]
