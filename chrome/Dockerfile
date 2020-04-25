@@ -31,7 +31,7 @@ RUN set -e \
 #
 # Update Ubuntu repos and install application
 #
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     libpulse0 \
     ca-certificates \
     curl \
@@ -75,17 +75,16 @@ RUN set -e \
     wget \
     xdg-utils \
     libu2f-udev \
-    > /dev/null \
 #
 # Install application
 #
 &&  curl --location --output ./google-chrome.deb --silent --url "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" \
 &&  dpkg --install ./google-chrome.deb \
-&&  apt-get -qq install --fix-broken --no-install-recommends --yes > /dev/null \
+&&  apt-get install --fix-broken --no-install-recommends --yes \
 #
 # Clean-up
 #
-&&  apt-get -qq autoremove --yes \
+&&  apt-get autoremove --yes \
 &&  rm --recursive --force \
     ./google-chrome.deb \
     /usr/share/doc/* \
