@@ -31,7 +31,7 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     libpulse0 \
     inkscape \
     inkscape-tutorials \
@@ -47,7 +47,6 @@ RUN set -e \
     python-lxml \
     python-numpy \
     python-scour \
-    > /dev/null \
 #
 # Add mimetypes
 #
