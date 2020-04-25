@@ -32,7 +32,7 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     libpulse0 \
     dbus-x11 \
     ca-certificates \
@@ -64,7 +64,6 @@ RUN set -e \
     p7zip-full \
     yelp \
     xdg-utils \
-    > /dev/null \
 #
 # Install application
 # Done with the help from the arch repository @ https://aur.archlinux.org/packages/foxitreader/
