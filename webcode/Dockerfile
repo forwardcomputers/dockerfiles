@@ -1,4 +1,8 @@
 #
+# Based on the great efforts from both
+# Home Assistant Visual Sudio Code add-on - https://github.com/hassio-addons/addon-vscode
+# LinuxServer - https://github.com/linuxserver/docker-code-server
+#
 #APPNEW curl -sX GET "https://api.github.com/repos/cdr/code-server/releases/latest" | jq -r '.tag_name'
 #
 FROM ubuntu:rolling
@@ -98,6 +102,7 @@ RUN set -e \
 #
 &&  rm -rf \
     /vscode.extensions \
+    /etc/localtime \
     /usr/share/doc/* \
     /var/cache/apt/archives/*.deb \
     /var/cache/apt/archives/partial/*.deb \
@@ -129,5 +134,4 @@ RUN set -e \
 &&  chmod 777 /opt/filer
 #
 EXPOSE 22/tcp 8080/tcp
-USER "${user}"
 ENTRYPOINT [ "/etc/entrypoint.sh" ]
