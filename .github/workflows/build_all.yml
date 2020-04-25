@@ -4,10 +4,13 @@ on:
   schedule:
     # Times are in UTC, this job is run daily @ 14HRS = 9AM EST, 20HRS = 3PM EST
     - cron: "0 14,20 * * *"
+  watch:
+    types: [started]
 
 jobs:
   build_all:
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    if: !contains(github.event.head_commit.message, 'skip ci')
+    if: github.actor == github.event.repository.owner.login
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
