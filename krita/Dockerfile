@@ -43,7 +43,7 @@ RUN set -e \
     subversion \
     xdg-utils \
 &&  svn export https://github.com/adobe-fonts/source-sans-pro/trunk/TTF /usr/share/fonts/source-sans-pro \
-&&  apt-get purge \
+&&  apt-get -y purge \
     subversion \
 #
 # Add mimetypes
