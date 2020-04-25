@@ -1,7 +1,7 @@
 name: build_all
 
 on:
-  watch
+  watch:
     types: [started]
 
 jobs:
