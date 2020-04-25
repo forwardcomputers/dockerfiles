@@ -31,12 +31,11 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     libpulse0 \
     wireshark \
     netsurf \
     xdg-utils \
-    > /dev/null \
 #
 # Add mimetypes
 #
