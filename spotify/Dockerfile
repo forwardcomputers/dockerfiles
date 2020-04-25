@@ -31,19 +31,18 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     apt-transport-https \
     ca-certificates \
     curl \
     gnupg \
 &&  curl -s https://download.spotify.com/debian/pubkey.gpg | apt-key add - > /dev/null \
 &&  echo "deb http://repository.spotify.com stable non-free" > /etc/apt/sources.list.d/spotify.list \
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     spotify-client \
     libgl1-mesa-dri \
     libgl1-mesa-glx \
     libpulse0 \
-    > /dev/null \
 #
 # Clean-up
 #
