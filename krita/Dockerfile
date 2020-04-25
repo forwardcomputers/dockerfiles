@@ -31,7 +31,7 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     libpulse0 \
     krita \
     ca-certificates \
@@ -42,9 +42,8 @@ RUN set -e \
     qml-module-qtquick2 \
     subversion \
     xdg-utils \
-    > /dev/null \
 &&  svn export https://github.com/adobe-fonts/source-sans-pro/trunk/TTF /usr/share/fonts/source-sans-pro \
-&&  apt-get -qq purge \
+&&  apt-get purge \
     subversion \
 #
 # Add mimetypes
