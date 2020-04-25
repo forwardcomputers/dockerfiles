@@ -1,9 +1,8 @@
 name: build_all
 
 on:
-  schedule:
-    # Times are in UTC, this job is run daily @ 14HRS = 9AM EST, 20HRS = 3PM EST
-    - cron: "0 14,20 * * *"
+  watch
+    types: [started]
 
 jobs:
   build_all:
