@@ -44,9 +44,9 @@ RUN set -e \
     libimage-magick-perl \
     libwmf-bin \
     netsurf \
-    python-lxml \
-    python-numpy \
-    python-scour \
+    python3-lxml \
+    python3-numpy \
+    python3-scour \
 #
 # Add mimetypes
 #
