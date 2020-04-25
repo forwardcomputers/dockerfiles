@@ -1,4 +1,6 @@
 #
+# Based on the great efforts from the Arch Linux repository @ https://aur.archlinux.org/packages/foxitreader
+#
 #APPNEW curl --location --silent --url https://aur.archlinux.org/cgit/aur.git/plain/.SRCINFO?h=foxitreader | perl -nle 'print $1 if /pkgver = (\K[^ ]+)/'
 #DESKTOP_NAME FoxitReader
 #DESKTOP_COMMENT View PDF documents
