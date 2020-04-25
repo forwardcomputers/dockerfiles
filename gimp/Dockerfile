@@ -30,7 +30,7 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     libpulse0 \
     gimp \
     gimp-data-extras \
@@ -41,7 +41,6 @@ RUN set -e \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
     netsurf \
-    > /dev/null \
 #
 # Add mimetypes
 #
