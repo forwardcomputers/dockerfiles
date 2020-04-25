@@ -26,14 +26,13 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -y -qq install --no-install-recommends \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
     gcc \
     lm-sensors \
     python3-dev \
     python3-pip \
     python3-venv \
     wireless-tools \
-    > /dev/null \
 #
 # Install application
 #
