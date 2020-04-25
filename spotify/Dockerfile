@@ -1,10 +1,11 @@
 #
 #APPNEW curl -s http://repository.spotify.com/dists/stable/non-free/binary-amd64/Packages | awk '/^Package: spotify-client/{found++} /^Version: / {sub(/.*:/,""); print $1; exit}'
 #DESKTOP_NAME Spotify
-#DESKTOP_COMMENT Music Player
+#DESKTOP_COMMENT Online music streaming service
 #DESKTOP_CATEGORIES Audio;Music;Player;AudioVideo;
 #DESKTOP_MIMETYPE x-scheme-handler/spotify;
 #DESKTOP_LOGO https://github.com/forwardcomputers/dockerfiles/raw/master/spotify/spotify-linux-256.png
+#dDESKTOP_LOGO https://raw.githubusercontent.com/flathub/com.spotify.Client/master/com.spotify.Client.svg
 #
 FROM ubuntu:rolling
 ARG BUILD_DATE

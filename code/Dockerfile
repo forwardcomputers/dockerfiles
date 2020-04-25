@@ -5,7 +5,7 @@
 #DESKTOP_CATEGORIES Utility;TextEditor;Development;IDE;
 #DESKTOP_MIMETYPE text/plain;inode/directory;
 #DESKTOP_LOGO https://github.com/forwardcomputers/dockerfiles/raw/master/code/code.png
-##DESKTOP_LOGO https://github.com/flathub/com.visualstudio.code/raw/master/icons/vscode_256.png
+#dDESKTOP_LOGO https://github.com/flathub/com.visualstudio.code/raw/master/icons/vscode_256.png
 #
 FROM ubuntu:rolling
 ARG BUILD_DATE
