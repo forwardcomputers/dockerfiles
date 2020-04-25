@@ -38,7 +38,7 @@ RUN set -e \
 # Update Ubuntu repos and install dependencies
 #
 &&  rm -f /etc/dpkg/dpkg.cfg.d/excludes \
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -y -qq install --no-install-recommends \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -74,8 +74,7 @@ RUN set -e \
     wget \
     xz-utils \
     zip \
-    > /dev/null \
-&&  dpkg -S /usr/share/man/ |sed 's|, |\n|g;s|: [^:]*$||' | DEBIAN_FRONTEND=noninteractive xargs apt-get -qq install --reinstall -y 2> /dev/null \
+&&  dpkg -S /usr/share/man/ |sed 's|, |\n|g;s|: [^:]*$||' | DEBIAN_FRONTEND=noninteractive xargs apt-get install --reinstall -y \
 &&  rm -f /usr/bin/man \
 &&  dpkg-divert --quiet --remove --rename /usr/bin/man \
 #
