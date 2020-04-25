@@ -31,7 +31,7 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     libpulse0 \
     dbus-x11 \
     ca-certificates \
@@ -51,13 +51,12 @@ RUN set -e \
     netsurf \
     yelp \
     xdg-utils \
-    > /dev/null \
 #
 # Install application
 #
 &&  curl --location --output ./ksnip.deb --silent --url https://github.com/DamirPorobic/ksnip/releases/download/v"${APPNEW}"/ksnip-"${APPNEW}".deb \
 &&  dpkg --install ./ksnip.deb \
-&&  apt-get -qq install --fix-broken --no-install-recommends --yes \
+&&  apt-get install --fix-broken --no-install-recommends --yes \
 #
 # Add mimetypes
 #
