@@ -30,7 +30,7 @@ RUN set -e \
 #
 # Update Ubuntu repos and install dependencies
 #
-&&  apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get -qq install --no-install-recommends --yes \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     bzip2 \
     ca-certificates \
     curl \
@@ -71,14 +71,11 @@ RUN set -e \
     libdbusmenu-glib4 \
     libdbusmenu-gtk3-4 \
     fonts-lyx \
-    > /dev/null \
 #
 # Install application
 #
 &&  appver=$( curl --location --silent --url https://www.torproject.org/projects/torbrowser.html.en | \
     awk -F'/' '/linux64/ { print $4; exit }' ) \
-#    tac | \
-#    awk -F'/' '/linux64/ { print $6; exit }' ) \
 &&  curl --location --silent --url \
     https://www.torproject.org/dist/torbrowser/"${appver}"/tor-browser-linux64-"${appver}"_en-US.tar.xz | \
     tar --extract --xz --directory /opt \
