@@ -4,7 +4,7 @@
 # Alpine image
 FROM alpine:latest AS alpine
 #
-RUN apk update && apk add jq && rm -rf /var/cache/apk/* \
+RUN apk add --no-cache jq \
 &&  arch="$(uname -m)" \
 &&  url_base='https://github.com/koalaman/shellcheck/releases/download/' \
 &&  tag=$( wget -qO- "https://api.github.com/repos/koalaman/shellcheck/releases/latest" | jq -r '.tag_name' ) \
@@ -14,7 +14,7 @@ RUN apk update && apk add jq && rm -rf /var/cache/apk/* \
 &&  rm -rf "shellcheck-${tag}"
 #
 # Resulting ShellCheck image
-FROM scratch
+#FROM scratch
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -35,5 +35,5 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
 WORKDIR /mnt
-COPY --from=alpine /bin/shellcheck /bin/
+#COPY --from=alpine /bin/shellcheck /bin/
 ENTRYPOINT ["/bin/shellcheck"]
