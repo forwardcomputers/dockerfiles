@@ -1,5 +1,5 @@
 #
-#APPNEW curl -sX GET "https://api.github.com/repos/koalaman/shellcheck/releases/latest" | jq -r '.tag_name[1:]'
+#APPNEW curl -sL "https://api.github.com/repos/koalaman/shellcheck/releases/latest" | jq -r '.tag_name[1:]'
 #
 # Alpine image
 FROM alpine:latest AS alpine
