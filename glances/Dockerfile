@@ -34,16 +34,16 @@ RUN apk add --no-cache \
 #
 # Install application
 #
-&&  git clone https://github.com/nicolargo/glances.git
+&&  git clone https://github.com/nicolargo/glances.git \
 #
 # Clean-up
 #
-#&& rm -rf \
-#   /etc/apk \
-#   /lib/apk \
-#   /sbin/apk \
-#   /usr/share/apk \
-#   /var/lib/apk
+&& rm -rf \
+   /etc/apk \
+   /lib/apk \
+   /sbin/apk \
+   /usr/share/apk \
+   /var/lib/apk
 #
 EXPOSE 61208/tcp 61209/tcp
 WORKDIR /glances
