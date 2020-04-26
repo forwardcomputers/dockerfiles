@@ -2,19 +2,7 @@
 #APPNEW curl -sL "https://api.github.com/repos/koalaman/shellcheck/releases/latest" | jq -r '.tag_name[1:]'
 #
 # Alpine image
-FROM alpine:latest AS alpine
-#
-RUN apk add --no-cache jq \
-&&  arch="$(uname -m)" \
-&&  url_base='https://github.com/koalaman/shellcheck/releases/download/' \
-&&  tag=$( wget -qO- "https://api.github.com/repos/koalaman/shellcheck/releases/latest" | jq -r '.tag_name' ) \
-&&  tar_file="${tag}/shellcheck-${tag}.linux.${arch}.tar.xz" \
-&&  wget -q "${url_base}${tar_file}" -O - | tar xJf - \
-&&  mv "shellcheck-${tag}/shellcheck" /bin/ \
-&&  rm -rf "shellcheck-${tag}"
-#
-# Resulting ShellCheck image
-#FROM scratch
+FROM alpine:latest
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -34,6 +22,22 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
+# Install application
+#
+#RUN apk add --no-cache jq \
+RUN url_base='https://github.com/koalaman/shellcheck/releases/download/' \
+&&  tag=$( wget -qO- "https://api.github.com/repos/koalaman/shellcheck/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' ) \
+&&  tar_file="${tag}/shellcheck-${tag}.linux.x86_64.tar.xz" \
+&&  wget -qO- "${url_base}${tar_file}" | tar -xJC /bin --strip-components=1 "shellcheck-${tag}/shellcheck" \
+#
+# Clean-up
+#
+&& rm -rf \
+   /etc/apk \
+   /lib/apk \
+   /sbin/apk \
+   /usr/share/apk \
+   /var/lib/apk
+#
 WORKDIR /mnt
-#COPY --from=alpine /bin/shellcheck /bin/
 ENTRYPOINT ["/bin/shellcheck"]
