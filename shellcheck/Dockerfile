@@ -37,3 +37,4 @@ LABEL   org.label-schema.schema-version="1.0" \
 WORKDIR /mnt
 COPY --from=alpine /bin/shellcheck /bin/
 ENTRYPOINT ["/bin/shellcheck"]
+
