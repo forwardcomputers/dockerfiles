@@ -1,4 +1,4 @@
-name: build_trigger
+name: build_all
 
 on:
   watch:
