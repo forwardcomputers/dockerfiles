@@ -34,5 +34,5 @@
 
 This setup is largely based on Jessie Frazelle work [https://github.com/jfrazelle/dockerfiles](https://github.com/jfrazelle/dockerfiles)  
 FoxitReader - From the Arch Linux repository @ [https://aur.archlinux.org/packages/foxitreader](https://aur.archlinux.org/packages/foxitreader)  
-Code-server - Home Assistant Visual Sudio Code add-on @ https://github.com/hassio-addons/addon-vscode  
-              LinuxServer @ https://github.com/linuxserver/docker-code-server  
+Code-server - Home Assistant Visual Studio Code add-on @ [https://github.com/hassio-addons/addon-vscode](https://github.com/hassio-addons/addon-vscode)  
+              LinuxServer @ [https://github.com/linuxserver/docker-code-server](https://github.com/linuxserver/docker-code-server)  
