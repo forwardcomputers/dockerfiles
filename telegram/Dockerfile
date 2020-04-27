@@ -1,8 +1,13 @@
 #
-#APPNEW curl -sL "https://api.github.com/repos/nicolargo/glances/releases/latest" | jq -r '.tag_name[1:]'
+#APPNEW curl -sL https://git.alpinelinux.org/aports/plain/community/telegram-desktop/APKBUILD | awk -F= '/pkgver=/ {print $2}'
+#DESKTOP_NAME Telegram Desktop
+#DESKTOP_COMMENT Telegram Desktop messenger
+#DESKTOP_CATEGORIES Chat;Network;InstantMessaging;Qt;
+#DESKTOP_MIMETYPE x-scheme-handler/tg;
+#DESKTOP_LOGO https://github.com/telegramdesktop/tdesktop/raw/dev/Telegram/Resources/art/logo_256.png
 #
 # Alpine image
-FROM python:alpine
+FROM alpine:edge
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -24,26 +29,10 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 # Install application
 #
-#RUN apk add --no-cache inkscape dbus-x11 midori
-RUN apk -u --no-cache add \
-    git \
-    gcc \
-    musl-dev \
-    linux-headers \
-    wireless-tools \
-    zeromq-dev \
-#
-# Install application
-#
-&&  DEPS="setuptools glances[action,batinfo,browser,cpuinfo,docker,export,folders,gpu,graph,ip,raid,snmp,web,wifi]" \
-&&  pip install --no-cache-dir --upgrade pip \
-&&  pip install --no-cache-dir $DEPS \
-&&  pip install --no-cache-dir glances \
-&&  apk del \
-    gcc \
-    musl-dev \
-    linux-headers \
-    zeromq-dev \
+RUN apk add --no-cache \
+    telegram-desktop \
+    libpulse \
+    ttf-dejavu \
 #
 # Clean-up
 #
@@ -54,6 +43,4 @@ RUN apk -u --no-cache add \
    /usr/share/apk \
    /var/lib/apk
 #
-EXPOSE 61208/tcp 61209/tcp
-WORKDIR /glances
-ENTRYPOINT python3 -m glances -C /glances/conf/glances.conf $GLANCES_OPT
+ENTRYPOINT [ "/usr/bin/telegram-desktop" ]
