@@ -26,4 +26,4 @@ jobs:
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
           curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/dotfiles/raw/master/bin/dapp
           chmod +x ~/dapp
-          ~/dapp upgrade_all
+          ~/dapp upgrade_all_ci
