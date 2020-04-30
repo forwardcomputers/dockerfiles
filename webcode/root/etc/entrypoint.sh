@@ -21,7 +21,6 @@ setpriv --reuid="${uid}" --regid="${gid}" --clear-groups \
     --auth none \
     --cert /opt/filer/os/acme/webcode.home.mustakim.com/webcode.home.mustakim.com.cer \
     --cert-key /opt/filer/os/acme/webcode.home.mustakim.com/webcode.home.mustakim.com.key \
-    --disable-ssh \
     --disable-telemetry \
     --disable-updates \
     --extensions-dir /home/duser/.code-server/extensions/ \
