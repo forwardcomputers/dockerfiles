@@ -19,7 +19,7 @@ fi
 setpriv --reuid="${uid}" --regid="${gid}" --init-groups --reset-env \
   /opt/code-server/code-server \
     --auth none \
-    --bind-addr: 0.0.0.0:8080 \
+    --bind-addr 0.0.0.0:8080 \
     --cert /opt/filer/os/acme/webcode.home.mustakim.com/webcode.home.mustakim.com.cer \
     --cert-key /opt/filer/os/acme/webcode.home.mustakim.com/webcode.home.mustakim.com.key \
     --disable-telemetry \
@@ -30,4 +30,3 @@ setpriv --reuid="${uid}" --regid="${gid}" --init-groups --reset-env \
     /home/duser &
 #
 bash -c '/usr/sbin/sshd -De'
-
