@@ -30,3 +30,4 @@ setpriv --reuid="${uid}" --regid="${gid}" --init-groups --reset-env \
     /home/duser &
 #
 bash -c '/usr/sbin/sshd -De'
+
