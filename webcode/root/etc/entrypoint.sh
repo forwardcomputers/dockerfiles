@@ -16,17 +16,16 @@ if [[ ! -d /home/"${user}"/.git ]]; then
     chown -R "${uid}":"${gid}" /home/"${user}"
 fi
 #
-setpriv --reuid="${uid}" --regid="${gid}" --clear-groups \
+setpriv --reuid="${uid}" --regid="${gid}" --init-groups \
   /opt/code-server/code-server \
     --auth none \
+    --bind-addr: 0.0.0.0:8080 \
     --cert /opt/filer/os/acme/webcode.home.mustakim.com/webcode.home.mustakim.com.cer \
     --cert-key /opt/filer/os/acme/webcode.home.mustakim.com/webcode.home.mustakim.com.key \
     --disable-telemetry \
     --disable-updates \
     --extensions-dir /home/duser/.code-server/extensions/ \
     --extra-builtin-extensions-dir /opt/code-extensions/ \
-    --host 0.0.0.0 \
-    --port 8080 \
     --user-data-dir /home/duser/.code-server/data \
     /home/duser &
 #
