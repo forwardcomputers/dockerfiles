@@ -16,7 +16,7 @@ if [[ ! -d /home/"${user}"/.git ]]; then
     chown -R "${uid}":"${gid}" /home/"${user}"
 fi
 #
-setpriv --reuid="${uid}" --regid="${gid}" --init-groups \
+setpriv --reuid="${uid}" --regid="${gid}" --init-groups --reset-env \
   /opt/code-server/code-server \
     --auth none \
     --bind-addr: 0.0.0.0:8080 \
