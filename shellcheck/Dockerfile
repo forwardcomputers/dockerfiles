@@ -24,7 +24,6 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 # Install application
 #
-#RUN apk add --no-cache jq \
 RUN url_base='https://github.com/koalaman/shellcheck/releases/download/' \
 &&  tag=$( wget -qO- "https://api.github.com/repos/koalaman/shellcheck/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' ) \
 &&  tar_file="${tag}/shellcheck-${tag}.linux.x86_64.tar.xz" \
