@@ -81,7 +81,7 @@ RUN set -e \
 # Install application
 #
 &&  APPNEW=$( curl -sX GET "https://api.github.com/repos/cdr/code-server/releases/latest" | jq -r '.tag_name' ) \
-&&  APPURL=$( curl -sX GET "https://api.github.com/repos/cdr/code-server/releases/tags/${APPNEW}" | jq -r '.assets[] | select(.browser_download_url | contains("linux-x86_64", "linux-amd64.tar.gz")) | .browser_download_url' ) \
+&&  APPURL=$( curl -sX GET "https://api.github.com/repos/cdr/code-server/releases/tags/${APPNEW}" | jq -r '.assets[] | select(.browser_download_url | [contains("linux-x86_64", "linux-amd64.tar.gz")][0]) | .browser_download_url' ) \
 &&  curl -sL "${APPURL}" | tar xz -C /opt ; mv /opt/code-server* /opt/code-server \
 #
 &&  mkdir -p /opt/code-extensions \
