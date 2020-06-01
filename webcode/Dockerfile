@@ -116,7 +116,7 @@ RUN set -e \
 #
 &&  locale-gen en_US.UTF-8 || true \
 &&  groupadd -g "${gid}" "${user}" \
-&&  useradd -m -s /bin/bash -u "${uid}" -g "${gid}" -G docker,lpadmin -c "${user}" "${user}" \
+&&  useradd -m -s /bin/bash -u "${uid}" -g "${gid}" -G docker,lpadmin "${user}" \
 &&  if [ ! -d /home/"${user}"/.ssh ]; then mkdir /home/"${user}"/.ssh; chmod 700 /home/"${user}"/.ssh; chown "${uid}":"${gid}" /home/"${user}"/.ssh; fi \
 &&  curl -sL -o /home/"${user}"/.ssh/authorized_keys https://github.com/forwardcomputers.keys \
 &&  chmod 600 /home/"${user}"/.ssh/authorized_keys; chown "${uid}":"${gid}" /home/"${user}"/.ssh/authorized_keys \
