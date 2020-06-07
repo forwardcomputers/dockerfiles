@@ -1,6 +1,7 @@
 #
 #APPNEW curl -sL "https://api.github.com/repos/acmesh-official/acme.sh/releases/latest" | jq -r '.tag_name'
-#DOCKER_OPT + -e GD_Key="$(lpass show LP_GODADDY --username)" -e GD_Secret="$(lpass show LP_GODADDY --password)" -v "${HOME}"/acme:/acme.sh
+#DOCKER_OPT + -v "${HOME}"/acme:/acme.sh
+#dDOCKER_OPT + -e GD_Key="$(lpass show LP_GODADDY --username)" -e GD_Secret="$(lpass show LP_GODADDY --password)" -v "${HOME}"/acme:/acme.sh
 #
 # Alpine image
 FROM alpine:latest
