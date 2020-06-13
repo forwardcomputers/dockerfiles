@@ -27,20 +27,20 @@ RUN set -e \
 # Install apps
 #
 &&  apk add --no-cache \
-	gawk \
+    gawk \
     bash \
-	curl \
-	file \
-	grep \
+    curl \
+    file \
+    grep \
     p7zip \
 #
 # Clean-up
 #
-&& rm -rf \
-   /etc/apk \
-   /lib/apk \
-   /sbin/apk \
-   /usr/share/apk \
-   /var/lib/apk
+&&  rm -rf \
+    /etc/apk \
+    /lib/apk \
+    /sbin/apk \
+    /usr/share/apk \
+    /var/lib/apk
 #
 ENTRYPOINT [ "bash" ]
