@@ -1,8 +1,7 @@
 #
-#APPNEW apk
-#DOCKER_OPT + -v /opt/filer:/opt/filer
+#APPNEW 1.0
 #
-FROM alpine:edge
+FROM ubuntu:rolling
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -26,21 +25,38 @@ RUN set -e \
 #
 # Install apps
 #
-&&  apk add --no-cache \
-    gawk \
-    bash \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+    apt-transport-https \
+    ca-certificates \
+    coreutils \
+    binutils \
+    build-essential \
+    cron \
     curl \
     file \
-    grep \
-    p7zip \
+    gawk \
+    gcc \
+    git \
+    grub-efi \
+    isolinux \
+    liblzma-dev \
+    mkisofs \
+    open-iscsi \
+    p7zip-full \
+    vim \
 #
 # Clean-up
 #
-&&  rm -rf \
-    /etc/apk \
-    /lib/apk \
-    /sbin/apk \
-    /usr/share/apk \
-    /var/lib/apk
+&&  rm --recursive --force \
+    /usr/share/doc/* \
+    /usr/share/man/* \
+    /var/cache/apt/archives/*.deb \
+    /var/cache/apt/archives/partial/*.deb \
+    /var/cache/apt/*.bin \
+    /var/cache/debconf/*.old \
+    /var/lib/apt/lists/* \
+    /var/lib/dpkg/info/* \
+    /var/log/apt \
+    /var/log/*.log
 #
 ENTRYPOINT [ "bash" ]
