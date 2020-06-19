@@ -41,7 +41,6 @@ RUN set -e \
     isolinux \
     liblzma-dev \
     mkisofs \
-    open-iscsi \
     p7zip-full \
     vim \
 #
