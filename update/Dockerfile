@@ -39,6 +39,7 @@ RUN set -e \
     git \
     grub-efi \
     isolinux \
+    jq \
     liblzma-dev \
     mkisofs \
     p7zip-full \
