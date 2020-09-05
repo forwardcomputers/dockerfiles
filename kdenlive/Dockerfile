@@ -1,10 +1,10 @@
 #
-#APPNEW apt
+#APPNEW curl --location --silent --url https://kdenlive.org/en/download/ | perl -nle 'print $1 if />PPA (\K[^<]+)/'
 #DESKTOP_NAME Kdenlive
 #DESKTOP_COMMENT Nonlinear video editor by KDE
 #DESKTOP_CATEGORIES Qt;KDE;AudioVideo;AudioVideoEditing;
 #DESKTOP_MIMETYPE application/x-kdenlive;
-#DESKTOP_LOGO https://github.com/KDE/kdenlive/raw/master/data/icons/256-apps-kdenlive.png
+#DESKTOP_LOGO https://invent.kde.org/multimedia/kdenlive/-/raw/master/data/icons/256-apps-kdenlive.png
 ##DOCKER_OPT + --security-opt apparmor=unconfined
 #
 FROM ubuntu:rolling
@@ -27,21 +27,27 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
+# Update repo and install dependencies
+#
 RUN set -e \
-#
-# Update Ubuntu repos and install dependencies
-#
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+    software-properties-common \
+&&  add-apt-repository ppa:kdenlive/kdenlive-stable \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     libpulse0 \
+    netsurf \
+    xdg-utils \
+    \
     kdenlive \
     dbus-x11 \
+    dvdauthor \
+    dvgrab \
     frei0r-plugins \
-    libavcodec-extra \
-    libmp3lame0 \
-    libxvidcore4 \
-    netsurf \
+    genisoimage \
+    libgl1-mesa-dri \
+    oxygen-icon-theme \
+    recordmydesktop \
     swh-plugins \
-    xdg-utils \
 #
 # Add mimetypes
 #
@@ -54,7 +60,7 @@ RUN set -e \
 #
 # Clean-up
 #
-&&  rm --recursive --force \
+&&  rm -rf \
     /usr/share/doc/* \
     /usr/share/man/* \
     /var/cache/apt/archives/*.deb \

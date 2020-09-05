@@ -26,10 +26,9 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
+# Update repos and install dependencies
+#
 RUN set -e \
-#
-# Update Ubuntu repos and install dependencies
-#
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     bzip2 \
     ca-certificates \
