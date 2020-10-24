@@ -62,7 +62,7 @@ RUN set -e \
     libxcomposite1 \
     libxslt1.1 \
     libxrender1 \
-    netsurf \
+    netsurf-common \
     p7zip-full \
     yelp \
     xdg-utils \

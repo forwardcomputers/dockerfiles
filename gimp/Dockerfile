@@ -40,7 +40,7 @@ RUN set -e \
     iso-codes \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
-    netsurf \
+    netsurf-common \
 #
 # Add mimetypes
 #

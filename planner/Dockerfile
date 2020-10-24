@@ -37,7 +37,7 @@ RUN set -e \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
     planner-doc \
-    netsurf \
+    netsurf-common \
     yelp \
 #
 # Add mimetypes

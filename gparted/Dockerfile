@@ -45,7 +45,7 @@ RUN set -e \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
     mtools \
-    netsurf \
+    netsurf-common \
     ntfs-3g \
     reiserfsprogs \
     reiser4progs \

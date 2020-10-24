@@ -42,7 +42,7 @@ RUN set -e \
     gstreamer1.0-libav \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
-    netsurf \
+    netsurf-common \
     yaru-theme-icon \
 #
 # Add mimetypes

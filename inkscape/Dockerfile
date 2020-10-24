@@ -43,7 +43,7 @@ RUN set -e \
     libcanberra-gtk3-module \
     libimage-magick-perl \
     libwmf-bin \
-    netsurf \
+    netsurf-common \
     python3-lxml \
     python3-numpy \
     python3-scour \

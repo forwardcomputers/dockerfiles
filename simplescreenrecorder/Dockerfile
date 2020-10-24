@@ -37,7 +37,7 @@ RUN set -e \
     dbus-x11 \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
-    netsurf \
+    netsurf-common \
     xdg-utils \
 #
 # Add mimetypes

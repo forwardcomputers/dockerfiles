@@ -36,7 +36,7 @@ RUN set -e \
     krita \
     ca-certificates \
     dbus-x11 \
-    netsurf \
+    netsurf-common \
     python3-pyqt5 \
     python3-sip \
     qml-module-qtquick2 \

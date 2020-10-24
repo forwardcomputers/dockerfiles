@@ -59,7 +59,7 @@ RUN set -e \
     libxrender1 \
     libxt6 \
     libjack-jackd2-0 \
-    netsurf \
+    netsurf-common \
     xdg-utils \
 #
 # Add mimetypes

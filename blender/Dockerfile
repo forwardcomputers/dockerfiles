@@ -33,7 +33,7 @@ RUN set -e \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     libpulse0 \
     blender \
-    netsurf \
+    netsurf-common \
 #
 # Add mimetypes
 #

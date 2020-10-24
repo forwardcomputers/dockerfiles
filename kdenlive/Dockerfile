@@ -35,7 +35,7 @@ RUN set -e \
 &&  add-apt-repository ppa:kdenlive/kdenlive-stable \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     libpulse0 \
-    netsurf \
+    netsurf-common \
     xdg-utils \
     \
     kdenlive \

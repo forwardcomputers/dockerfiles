@@ -66,7 +66,7 @@ RUN set -e \
     libxrender1 \
     libxss1 \
     libxtst6 \
-    netsurf \
+    netsurf-common \
     openssh-client \
     xdg-utils \
 #
