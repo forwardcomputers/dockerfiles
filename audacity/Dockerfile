@@ -39,7 +39,7 @@ RUN set -e \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
     multimedia-audio-plugins \
-    netsurf \
+    netsurf-common \
     yaru-theme-gtk \
 #
 # Add mimetypes
