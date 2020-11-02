@@ -64,6 +64,7 @@ RUN set -e \
 #
 # Add mimetypes
 #
+&&  mkdir -p /usr/share/applications \
 &&  printf '%s\n' \
     "[MIME Cache]" \
     "text/html=netsurf-gtk.desktop;" \
