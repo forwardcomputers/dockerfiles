@@ -1,0 +1,29 @@
+name: build_all
+
+on:
+  schedule:
+    # Times are in UTC, this job is run daily @ 14HRS = 9AM EST, 20HRS = 3PM EST
+    - cron: "0 3 * * SUN"
+
+jobs:
+  build_all:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: build and push to docker
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          LP_T_CONSUMER_KEY: ${{ secrets.LP_T_CONSUMER_KEY }}
+          LP_T_CONSUMER_SECRET: ${{ secrets.LP_T_CONSUMER_SECRET }}
+          LP_T_OAUTH_SECRET: ${{ secrets.LP_T_OAUTH_SECRET }}
+          LP_T_OAUTH_TOKEN:  ${{ secrets.LP_T_OAUTH_TOKEN }}
+        run: |
+          sudo rm /etc/localtime
+          sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
+          docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+          curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/dotfiles/raw/master/bin/dapp
+          chmod +x ~/dapp
+          ~/dapp rebuild_all_ci
