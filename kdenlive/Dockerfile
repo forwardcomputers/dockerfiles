@@ -31,6 +31,7 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 RUN set -e \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+    gpg-agent \
     software-properties-common \
 &&  add-apt-repository ppa:kdenlive/kdenlive-stable \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
