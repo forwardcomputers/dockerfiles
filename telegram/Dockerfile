@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://github.com/telegramdesktop/tdesktop/raw/dev/Telegram/Resources/art/logo_256.png
 #
 # Alpine image
-FROM alpine:edge
+FROM alpine:latest
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -31,7 +31,6 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 RUN apk add --no-cache \
     telegram-desktop \
-    libdav1d \
     libpulse \
     ttf-dejavu \
 #
