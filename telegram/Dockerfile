@@ -31,6 +31,7 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 RUN apk add --no-cache \
     telegram-desktop \
+    libdav1d \
     libpulse \
     ttf-dejavu \
 #
