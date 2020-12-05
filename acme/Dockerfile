@@ -35,6 +35,7 @@ RUN apk update -f && apk --no-cache add -f \
     openssl \
     socat \
     tar \
+    tini \
     tzdata \
 #
 # Clean-up
