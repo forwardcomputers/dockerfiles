@@ -86,15 +86,20 @@ RUN cd /install_acme.sh && ([ -f /install_acme.sh/acme.sh ] && /install_acme.sh/
     printf -- "%b" "#!/usr/bin/env sh\n/usr/local/bin/acme.sh --${verb} --config-home /acme.sh \"\$@\"" >/usr/local/bin/--${verb} && chmod +x /usr/local/bin/--${verb} \
   ; done
 #
-RUN printf "%b" '#!'"/usr/bin/env sh\n \
-if [ \"\$1\" = \"daemon\" ];  then \n \
- trap \"echo stop && killall crond && exit 0\" SIGTERM SIGINT \n \
- crond && while true; do sleep 1; done;\n \
-else \n \
- exec -- \"\$@\"\n \
-fi" >/entry.sh && chmod +x /entry.sh
-#
 VOLUME /acme.sh
+WORKDIR /acme.sh
+
+SHELL ["/bin/sh", "-c"]
+
+ENTRYPOINT \
+    set -- "$0" "$@"; \
+    if [ "$1" = "daemon" ]; then \
+        # insert a crontab entry to run every hour, starting an hour from now
+        echo "$(( $(date +%-M -d 'now') + 1 )) 0 * * * acme.sh --cron" | tee /dev/stderr | crontab -; \
+        exec /sbin/tini -- crond -f -d6; \
+    else \
+        exec -- acme.sh "$@"; \
+    fi
 #
 ENTRYPOINT ["/entry.sh"]
 CMD ["--help"]
