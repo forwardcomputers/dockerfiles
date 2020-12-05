@@ -132,6 +132,7 @@ RUN set -e \
 #
 EXPOSE 22/tcp 8080/tcp
 ENTRYPOINT \
+    set -x \
     DOCKER_HOST_GID="$(stat -c %g /var/run/docker.sock)" ; \
     DOCKER_CONTAINER_GID="$(awk -F':' '/docker/ {print $3}' < /etc/group)" ; \
     if [[ "${DOCKER_HOST_GID}" != "${DOCKER_CONTAINER_GID}" ]]; then \
