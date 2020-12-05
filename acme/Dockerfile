@@ -54,7 +54,6 @@ RUN cd /install_acme.sh && ([ -f /install_acme.sh/acme.sh ] && /install_acme.sh/
 &&  mv /root/.acme.sh / \
 &&  chmod 755 /.acme.sh \
 &&  ln -s  /.acme.sh/acme.sh  /usr/local/bin/acme.sh && crontab -l | grep acme.sh | sed 's#> /dev/null##' | crontab - \
-&&  rm -r /acme.sh \
 &&  for verb in help \
   version \
   install \
