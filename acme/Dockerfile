@@ -86,7 +86,7 @@ RUN cd /install_acme.sh && ([ -f /install_acme.sh/acme.sh ] && /install_acme.sh/
     printf -- "%b" "#!/usr/bin/env sh\n/usr/local/bin/acme.sh --${verb} --config-home /acme.sh \"\$@\"" >/usr/local/bin/--${verb} && chmod +x /usr/local/bin/--${verb} \
   ; done
 #
-#VOLUME /acme.sh
+VOLUME /acme.sh
 WORKDIR /acme.sh
 
 SHELL ["/bin/sh", "-c"]
