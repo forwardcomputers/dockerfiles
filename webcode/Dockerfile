@@ -150,4 +150,3 @@ ENTRYPOINT \
     setpriv --reuid="${uid}" --regid="${gid}" --init-groups --reset-env /opt/code-server/code-server --auth none --bind-addr 0.0.0.0:8080 --cert "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.cer" --cert-key "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.key" --disable-telemetry --extensions-dir /home/duser/.code-server/extensions/ --extra-builtin-extensions-dir /home/duser/.code-server/code-extensions/ --user-data-dir /home/duser/.code-server/data /home/duser & \
     #
     bash -c '/usr/sbin/sshd -De'
-
