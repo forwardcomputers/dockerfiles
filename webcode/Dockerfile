@@ -82,6 +82,31 @@ RUN set -e \
 &&  APPURL=$( curl -sX GET "https://api.github.com/repos/cdr/code-server/releases/tags/${APPNEW}" | jq -r '.assets[] | select(.browser_download_url | [contains("linux-amd64.tar.gz")][0]) | .browser_download_url' ) \
 &&  curl -sL "${APPURL}" | tar xz -C /opt ; mv /opt/code-server* /opt/code-server \
 #
+&&  echo    "dbaeumer.vscode-eslint\n" \
+            "dotjoshjohnson.xml\n" \
+            "dunstontc.viml\n" \
+            "editorconfig.editorconfig\n" \
+            "equinusocio.vsc-community-material-theme\n" \
+            "equinusocio.vsc-material-theme\n" \
+            "equinusocio.vsc-material-theme-icons\n" \
+            "esbenp.prettier-vscode\n" \
+            "gep13.chocolatey-vscode\n" \
+            "hediet.vscode-drawio\n" \
+            "hookyqr.beautify\n" \
+            "ionutvmi.reg\n" \
+            "ms-azuretools.vscode-docker\n" \
+            "ms-vscode-remote.remote-containers\n" \
+            "ms-vscode-remote.remote-ssh\n" \
+            "ms-vscode-remote.remote-ssh-edit\n" \
+            "ms-vscode-remote.remote-wsl\n" \
+            "ms-vscode-remote.vscode-remote-extensionpack\n" \
+            "ms-vscode.powershell\n" \
+            "nhoizey.gremlins\n" \
+            "redhat.vscode-yaml\n" \
+            "slevesque.vscode-zipexplorer\n" \
+            "tht13.html-preview-vscode\n" \
+            "vscode-icons-team.vscode-icons\n" \
+            "yzhang.markdown-all-in-one" > /vscode.extensions \
 &&  mkdir -p /opt/code-extensions \
 &&  while read -r ext; do  \
         vendor="${ext%%.*}"; \
@@ -132,13 +157,12 @@ RUN set -e \
 #
 EXPOSE 22/tcp 8080/tcp
 ENTRYPOINT \
-    set -x \
     DOCKER_HOST_GID="$(stat -c %g /var/run/docker.sock)" ; \
     DOCKER_CONTAINER_GID="$(awk -F':' '/docker/ {print $3}' < /etc/group)" ; \
-    if [[ "${DOCKER_HOST_GID}" != "${DOCKER_CONTAINER_GID}" ]]; then \
+    if [ "${DOCKER_HOST_GID}" != "${DOCKER_CONTAINER_GID}" ]; then \
         sudo sed -ie 's/'"${DOCKER_CONTAINER_GID}"'/'"${DOCKER_HOST_GID}"'/' /etc/group 2>/dev/null ; \
     fi ; \
-    if [[ ! -d /home/"${user}"/.git ]]; then \
+    if [ ! -d /home/"${user}"/.git ]; then \
         cd /home/"${user}" ; \
         git clone -q --recursive https://github.com/forwardcomputers/dfiles.git tmp ; \
         mv tmp/.git . ; \
@@ -147,5 +171,5 @@ ENTRYPOINT \
         git remote set-url origin ssh://git@github.com/forwardcomputers/dfiles.git ; \
         chown -R "${uid}":"${gid}" /home/"${user}" ; \
     fi ; \
-    setpriv --reuid="${uid}" --regid="${gid}" --init-groups --reset-env /opt/code-server/code-server --auth none --bind-addr 0.0.0.0:8080 --cert "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.cer" --cert-key "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.key" --disable-telemetry --extensions-dir /home/duser/.code-server/extensions/ --extra-builtin-extensions-dir /home/duser/.code-server/code-extensions/ --user-data-dir /home/duser/.code-server/data /home/duser & ; \
+    ( setpriv --reuid="${uid}" --regid="${gid}" --init-groups --reset-env /opt/code-server/code-server --auth none --bind-addr 0.0.0.0:8080 --cert "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.cer" --cert-key "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.key" --disable-telemetry --extensions-dir /home/duser/.code-server/extensions/ --extra-builtin-extensions-dir /opt/code-extensions/ --user-data-dir /home/duser/.code-server/data /home/duser & ) ; \
     bash -c '/usr/sbin/sshd -De'
