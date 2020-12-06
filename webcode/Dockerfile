@@ -82,6 +82,13 @@ RUN set -e \
 &&  APPURL=$( curl -sX GET "https://api.github.com/repos/cdr/code-server/releases/tags/${APPNEW}" | jq -r '.assets[] | select(.browser_download_url | [contains("linux-amd64.tar.gz")][0]) | .browser_download_url' ) \
 &&  curl -sL "${APPURL}" | tar xz -C /opt ; mv /opt/code-server* /opt/code-server \
 #
+&&  APPNEW=$( curl -sX GET "https://api.github.com/repos/PowerShell/PowerShell/releases/latest" | jq -r '.tag_name' ) \
+&&  APPURL=$( curl -sX GET "https://api.github.com/repos/PowerShell/PowerShell/releases/tags/${APPNEW}" | jq -r '.assets[] | select(.browser_download_url | [contains("linux-x64.tar.gz")][0]) | .browser_download_url' ) \
+&&  mkdir /opt/powershell \
+&&  curl -sL "${APPURL}" | tar xz -C /opt/powershell \
+&&  chmod +x /opt/powershell/pwsh \
+&&  ln -s /opt/powershell/pwsh /usr/bin/pwsh \
+#
 &&  echo    "dbaeumer.vscode-eslint\n" \
             "dotjoshjohnson.xml\n" \
             "dunstontc.viml\n" \
@@ -167,8 +174,9 @@ ENTRYPOINT \
         git clone -q --recursive https://github.com/forwardcomputers/dfiles.git tmp ; \
         mv tmp/.git . ; \
         rm -rf tmp/ .profile. ; \
-        git reset -q --hard ; \
         git remote set-url origin ssh://git@github.com/forwardcomputers/dfiles.git ; \
+        git reset -q --hard ; \
+        git init ; \
         chown -R "${uid}":"${gid}" /home/"${user}" ; \
     fi ; \
     ( setpriv --reuid="${uid}" --regid="${gid}" --init-groups --reset-env /opt/code-server/code-server --auth none --bind-addr 0.0.0.0:8080 --cert "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.cer" --cert-key "/opt/filer/os/acme/*.home.mustakim.com/*.home.mustakim.com.key" --disable-telemetry --extensions-dir /home/duser/.code-server/extensions/ --extra-builtin-extensions-dir /opt/code-extensions/ --user-data-dir /home/duser/.code-server/data /home/duser & ) ; \
