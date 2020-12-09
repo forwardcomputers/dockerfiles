@@ -43,6 +43,7 @@ RUN set -e \
     liblzma-dev \
     libxml2-utils \
     mkisofs \
+    msmtp \
     p7zip-full \
     vim \
 #
