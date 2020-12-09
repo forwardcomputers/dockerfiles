@@ -41,10 +41,10 @@ RUN set -e \
     isolinux \
     jq \
     liblzma-dev \
+    libxml2-utils \
     mkisofs \
     p7zip-full \
     vim \
-    xmllint \
 #
 &&  YQNEW=$(curl -sL "https://api.github.com/repos/mikefarah/yq/releases/latest" | jq -r '.tag_name') \
 &&  curl -L -o/usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/"${YQNEW}"/yq_linux_amd64 \
