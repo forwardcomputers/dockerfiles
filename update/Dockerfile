@@ -47,6 +47,9 @@ RUN set -e \
     p7zip-full \
     vim \
 #
+&&  add-apt-repository ppa:arx/release \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes innoextract \
+#
 &&  YQNEW=$(curl -sL "https://api.github.com/repos/mikefarah/yq/releases/latest" | jq -r '.tag_name') \
 &&  curl -L -o/usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/"${YQNEW}"/yq_linux_amd64 \
 &&  chmod +x /usr/local/bin/yq \
