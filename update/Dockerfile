@@ -37,6 +37,7 @@ RUN set -e \
     gawk \
     gcc \
     git \
+    gpg-agent \
     grub-efi \
     isolinux \
     jq \
