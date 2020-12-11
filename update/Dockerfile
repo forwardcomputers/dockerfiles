@@ -45,6 +45,7 @@ RUN set -e \
     mkisofs \
     msmtp \
     p7zip-full \
+    software-properties-common \
     vim \
 #
 &&  add-apt-repository ppa:arx/release \
