@@ -29,3 +29,4 @@ jobs:
           curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/dotfiles/raw/master/bin/dapp
           chmod +x ~/dapp
           ~/dapp upgrade_all_ci
+
