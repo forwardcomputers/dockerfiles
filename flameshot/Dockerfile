@@ -1,5 +1,5 @@
 #
-#APPNEW apt
+#APPNEW apk
 #DESKTOP_NAME Flameshot
 #DESKTOP_COMMENT Powerful yet simple to use screenshot software
 #DESKTOP_CATEGORIES Graphics;
