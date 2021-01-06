@@ -35,7 +35,6 @@ RUN set -e \
     gimp \
     gimp-data-extras \
     gimp-help-en \
-    appmenu-gtk2-module \
     appmenu-gtk3-module \
     dbus-x11 \
     ghostscript \
@@ -48,7 +47,6 @@ RUN set -e \
     libgail-common \
     libgtk2.0-0 \
     libgtk2.0-bin \
-    unity-gtk2-module \
     unity-gtk3-module \
     ibus-gtk \
     netsurf-common \
