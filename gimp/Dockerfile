@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://gitlab.gnome.org/GNOME/gimp/raw/master/desktop/256x256/gimp.png
 #
 # Alpine image
-FROM alpine:latest
+FROM alpine:edge
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -31,7 +31,10 @@ RUN set -e \
 #
 # Install application
 #
-RUN apk add --no-cache --update \
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repositories \
+&&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/main"       >> /etc/apk/repositories \
+&&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories \
+&&  apk add --no-cache --update \
     gimp \
     ghostscript-fonts \
     dbus-x11 \
