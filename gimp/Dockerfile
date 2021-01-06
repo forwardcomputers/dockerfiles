@@ -36,8 +36,10 @@ RUN set -e \
     gimp-data-extras \
     gimp-help-en \
     dbus-x11 \
+    ghostscript \
     gtk2-engines \
     gtk2-engines-pixbuf \
+    gvfs-backends \
     iso-codes \
     libatk-adaptor \
     libcanberra-gtk-module \
