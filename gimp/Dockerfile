@@ -35,13 +35,6 @@ RUN set -e \
     gimp \
     gimp-data-extras \
     gimp-help-en \
-    dbus-x11 \
-    gtk2-engines-pixbuf \
-    ghostscript \
-    gvfs-backends \
-    iso-codes \
-    libcanberra-gtk3-module \
-    ibus-gtk3 \
     netsurf-common \
 #
 # Add mimetypes
