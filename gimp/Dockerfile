@@ -35,20 +35,13 @@ RUN set -e \
     gimp \
     gimp-data-extras \
     gimp-help-en \
-    appmenu-gtk3-module \
     dbus-x11 \
-    ghostscript \
-    gtk2-engines \
     gtk2-engines-pixbuf \
+    ghostscript \
     gvfs-backends \
     iso-codes \
-    libatk-adaptor \
-    libcanberra-gtk-module \
-    libgail-common \
-    libgtk2.0-0 \
-    libgtk2.0-bin \
-    unity-gtk3-module \
-    ibus-gtk \
+    libcanberra-gtk3-module \
+    ibus-gtk3 \
     netsurf-common \
 #
 # Add mimetypes
