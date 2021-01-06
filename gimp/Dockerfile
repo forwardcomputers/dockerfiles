@@ -36,6 +36,7 @@ RUN set -e \
     gimp-data-extras \
     gimp-help-en \
     appmenu-gtk2-module \
+    appmenu-gtk3-module \
     dbus-x11 \
     ghostscript \
     gtk2-engines \
@@ -48,6 +49,7 @@ RUN set -e \
     libgtk2.0-0 \
     libgtk2.0-bin \
     unity-gtk2-module \
+    unity-gtk3-module \
     ibus-gtk \
     netsurf-common \
 #
