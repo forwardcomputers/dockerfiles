@@ -58,3 +58,4 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
   /var/lib/apk
 #
 ENTRYPOINT [ "gimp" ]
+
