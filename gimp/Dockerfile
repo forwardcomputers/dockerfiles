@@ -43,16 +43,16 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
     dbus-x11 \
     libcanberra-gtk2 \
     netsurf \
-    ttf-dejavu 
+    ttf-dejavu \
 #
 # Add mimetypes
 #
-# &&  printf '%s\n' \
-#     "[MIME Cache]" \
-#     "text/html=netsurf-gtk.desktop;" \
-#     "text/xml=netsurf-gtk.desktop;" \
-#     "x-scheme-handler/http=netsurf-gtk.desktop;" \
-#     "x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache \
+&&  printf '%s\n' \
+    "[MIME Cache]" \
+    "text/html=netsurf-gtk.desktop;" \
+    "text/xml=netsurf-gtk.desktop;" \
+    "x-scheme-handler/http=netsurf-gtk.desktop;" \
+    "x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache
 #
 # Clean-up
 #
