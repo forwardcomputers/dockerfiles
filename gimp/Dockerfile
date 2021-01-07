@@ -44,6 +44,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
     libcanberra-gtk2 \
     netsurf \
     ttf-dejavu \
+    xdg-utils \
 #
 # Add mimetypes
 #
