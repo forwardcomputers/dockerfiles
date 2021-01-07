@@ -7,7 +7,7 @@
 #DESKTOP_LOGO https://gitlab.gnome.org/GNOME/gimp/raw/master/desktop/256x256/gimp.png
 #
 # Alpine image
-FROM alpine
+FROM alpine:edge
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -35,37 +35,19 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/main"       >> /etc/apk/repositories \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories \
 &&  apk add --no-cache --update \
-    ghostscript-fonts \
     gimp \
-    gimp-doc \
+    gtk-engines \
     gvfs \
+    ibus \
     iso-codes \
+#
     adwaita-icon-theme \
     dbus-x11 \
-    firefox \
     libcanberra-gtk2 \
     libcanberra-gtk3 \
+    midori \
     ttf-dejavu \
-    xdg-utils \
-    yelp
-#
-# Add mimetypes
-#
-# &&  printf '%s\n' \
-#     "[MIME Cache]" \
-#     "text/html=netsurf-gtk.desktop;" \
-#     "text/xml=netsurf-gtk.desktop;" \
-#     "x-scheme-handler/http=netsurf-gtk.desktop;" \
-#     "x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache
-#
-# Clean-up
-#
-# && rm -rf \
-#   /etc/apk \
-#   /lib/apk \
-#   /sbin/apk \
-#   /usr/share/apk \
-#   /var/lib/apk
+    xdg-utils 
 #
 ENTRYPOINT [ "gimp" ]
 
