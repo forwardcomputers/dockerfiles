@@ -42,19 +42,21 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
     iso-codes \
     adwaita-icon-theme \
     dbus-x11 \
+    firefox \
     libcanberra-gtk2 \
-    netsurf \
+    libcanberra-gtk3 \
     ttf-dejavu \
     xdg-utils \
+    yelp
 #
 # Add mimetypes
 #
-&&  printf '%s\n' \
-    "[MIME Cache]" \
-    "text/html=netsurf-gtk.desktop;" \
-    "text/xml=netsurf-gtk.desktop;" \
-    "x-scheme-handler/http=netsurf-gtk.desktop;" \
-    "x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache
+# &&  printf '%s\n' \
+#     "[MIME Cache]" \
+#     "text/html=netsurf-gtk.desktop;" \
+#     "text/xml=netsurf-gtk.desktop;" \
+#     "x-scheme-handler/http=netsurf-gtk.desktop;" \
+#     "x-scheme-handler/https=netsurf-gtk.desktop;" > /usr/share/applications/mimeinfo.cache
 #
 # Clean-up
 #
