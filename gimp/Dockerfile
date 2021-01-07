@@ -36,18 +36,39 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories \
 &&  apk add --no-cache --update \
     gimp \
-#    gtk-engines \
     gvfs \
-#    ibus \
-#    iso-codes \
+    iso-codes \
     ttf-freefont \
+    yelp \
 #
-#    adwaita-icon-theme \
+    adwaita-icon-theme \
     dbus-x11 \
     libcanberra-gtk2 \
     libcanberra-gtk3 \
+    mesa-dri-gallium \
     midori \
-    xdg-utils 
+    xdg-utils \
+#
+# Add mimetypes
+#
+&&  printf '%s\n' \
+    "[MIME Cache]" \
+    "x-scheme-handler/ghelp=yelp.desktop;" \
+    "x-scheme-handler/help=yelp.desktop;" \
+    "x-scheme-handler/info=yelp.desktop;" \
+    "x-scheme-handler/man=yelp.desktop;" \
+    "application/x-extention-htm=org.midori_browser.Midori.desktop;" \
+    "application/x-extention-html=org.midori_browser.Midori.desktop;" \
+    "application/x-extention-shtml=org.midori_browser.Midori.desktop;" \
+    "application/x-extention-xht=org.midori_browser.Midori.desktop;" \
+    "application/xhtml+xml=org.midori_browser.Midori.desktop;" \
+    "application/xml=org.midori_browser.Midori.desktop;" \
+    "image/svg+xml=org.midori_browser.Midori.desktop;" \
+    "text/html=org.midori_browser.Midori.desktop;" \
+    "text/xml=org.midori_browser.Midori.desktop;" \
+    "x-scheme-handler/http=org.midori_browser.Midori.desktop;" \
+    "x-scheme-handler/https=org.midori_browser.Midori.desktop;" \
+    "x-scheme-handler/geo=org.midori_browser.Midori.desktop;" > /usr/share/applications/mimeinfo.cache
 #
 ENTRYPOINT [ "gimp" ]
 
