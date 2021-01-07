@@ -40,7 +40,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
     gimp \
     iso-codes \
     libcanberra-gtk2 \
-
+    ttf-freefont \
 #
 # Add mimetypes
 #
