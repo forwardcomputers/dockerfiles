@@ -35,12 +35,15 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/main"       >> /etc/apk/repositories \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories \
 &&  apk add --no-cache --update \
-    dbus-x11 \
     ghostscript-fonts \
     gimp \
+    gimp-doc \
     iso-codes \
+    adwaita-icon-theme \
+    dbus-x11 \
     libcanberra-gtk2 \
-    ttf-freefont 
+    netsurf \
+    ttf-dejavu 
 #
 # Add mimetypes
 #
