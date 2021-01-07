@@ -38,6 +38,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
     ghostscript-fonts \
     gimp \
     gimp-doc \
+    gvfs \
     iso-codes \
     adwaita-icon-theme \
     dbus-x11 \
