@@ -40,7 +40,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
     gimp \
     iso-codes \
     libcanberra-gtk2 \
-    ttf-freefont \
+    ttf-freefont 
 #
 # Add mimetypes
 #
@@ -53,12 +53,12 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
 #
 # Clean-up
 #
-&& rm -rf \
-  /etc/apk \
-  /lib/apk \
-  /sbin/apk \
-  /usr/share/apk \
-  /var/lib/apk
+# && rm -rf \
+#   /etc/apk \
+#   /lib/apk \
+#   /sbin/apk \
+#   /usr/share/apk \
+#   /var/lib/apk
 #
 ENTRYPOINT [ "gimp" ]
 
