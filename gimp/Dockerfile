@@ -36,17 +36,17 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories \
 &&  apk add --no-cache --update \
     gimp \
-    gtk-engines \
+#    gtk-engines \
     gvfs \
-    ibus \
-    iso-codes \
+#    ibus \
+#    iso-codes \
+    ttf-freefont \
 #
-    adwaita-icon-theme \
+#    adwaita-icon-theme \
     dbus-x11 \
     libcanberra-gtk2 \
     libcanberra-gtk3 \
     midori \
-    ttf-dejavu \
     xdg-utils 
 #
 ENTRYPOINT [ "gimp" ]
