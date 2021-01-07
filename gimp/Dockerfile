@@ -46,6 +46,7 @@ RUN set -e \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
     libcanberra-pulse \
+    light-themes \
     libgtk2.0 \
     libpango1.0 \
     libpulse0 \
