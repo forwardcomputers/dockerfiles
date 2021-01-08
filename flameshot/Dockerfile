@@ -35,6 +35,14 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
 &&  apk add --no-cache --update \
     flameshot \
 #
+    adwaita-icon-theme \
+    dbus-x11 \
+    libcanberra-gtk2 \
+    libcanberra-gtk3 \
+    libpulse \
+    mesa-dri-gallium \
+    ttf-freefont \
+#
 &&  adduser -D -H -u 1001 duser 1001 \
 &&  addgroup duser audio
 #
