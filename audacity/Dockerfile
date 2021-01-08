@@ -37,16 +37,15 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
 &&  apk add --no-cache --update \
     audacity \
 #
+    adwaita-icon-theme \
     dbus-x11 \
     libcanberra-gtk2 \
     libcanberra-gtk3 \
     libpulse \
     ttf-freefont \
 #
-&&  adduser -D -H -u 1000 duser 1000 \
-&&  addgroup -g 995 dsnd \
-&&  addgroup duser audio \
-&&  addgroup duser dsnd
+&&  adduser -D -H -u 1001 duser 1001 \
+&&  addgroup duser audio
 #
 ENTRYPOINT [ "audacity" ]
 
