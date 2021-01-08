@@ -29,7 +29,7 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 RUN set -e \
 #
-# Update Ubuntu repos and install dependencies
+# Install application & dependencies
 #
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repositories \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/main"       >> /etc/apk/repositories \
