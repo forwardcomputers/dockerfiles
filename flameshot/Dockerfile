@@ -32,16 +32,10 @@ LABEL   org.label-schema.schema-version="1.0" \
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repositories \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/main"       >> /etc/apk/repositories \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories \
-&&  apk add --no-cache \
+&&  apk add --no-cache --update \
     flameshot \
 #
-# Clean-up
-#
-&& rm -rf \
-   /etc/apk \
-   /lib/apk \
-   /sbin/apk \
-   /usr/share/apk \
-   /var/lib/apk
+&&  adduser -D -H -u 1001 duser 1001 \
+&&  addgroup duser audio
 #
 ENTRYPOINT [ "/usr/bin/flameshot" ]
