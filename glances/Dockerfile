@@ -22,9 +22,8 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
-# Install application
+# Install dependencies
 #
-#RUN apk add --no-cache inkscape dbus-x11 midori
 RUN apk -u --no-cache add \
     git \
     gcc \
