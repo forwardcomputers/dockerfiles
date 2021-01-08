@@ -42,6 +42,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
 #
     dbus-x11 \
     libcanberra-gtk2 \
-    libcanberra-gtk3 
+    libcanberra-gtk3 \
+    libpulse0
 #
 ENTRYPOINT [ "gimp" ]
