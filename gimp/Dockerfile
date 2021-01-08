@@ -43,10 +43,6 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
     dbus-x11 \
     libcanberra-gtk2 \
     libcanberra-gtk3 \
-    libpulse \
-#
-&&  adduser -D -H -u 1001 duser 1001 \
-&&  addgroup -g 995 dsnd \
-&&  addgroup duser dsnd
+    libpulse
 #
 ENTRYPOINT [ "gimp" ]
