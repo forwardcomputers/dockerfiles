@@ -38,11 +38,11 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
     gimp \
     gvfs \
     iso-codes \
-    ttf-freefont \
 #
     dbus-x11 \
     libcanberra-gtk2 \
     libcanberra-gtk3 \
-    libpulse
+    libpulse \
+    ttf-freefont
 #
 ENTRYPOINT [ "gimp" ]

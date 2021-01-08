@@ -41,6 +41,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
     libcanberra-gtk2 \
     libcanberra-gtk3 \
     libpulse \
+    ttf-freefont \
 #
 &&  adduser -D -H -u 1001 duser 1001 \
 &&  addgroup -g 995 dsnd \
