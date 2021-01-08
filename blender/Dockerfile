@@ -47,4 +47,3 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
 &&  addgroup duser audio
 #
 ENTRYPOINT [ "blender" ]
-
