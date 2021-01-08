@@ -36,7 +36,6 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories \
 &&  apk add --no-cache --update \
     audacity \
-    multimedia-audio-plugins \
 #
     dbus-x11 \
     libcanberra-gtk2 \
