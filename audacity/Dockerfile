@@ -43,7 +43,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
     libpulse \
     ttf-freefont \
 #
-&&  adduser -D -H -u 1001 duser 1001 \
+&&  adduser -D -H -u 1000 duser 1000 \
 &&  addgroup -g 995 dsnd \
 &&  addgroup duser dsnd
 #
