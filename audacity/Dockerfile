@@ -45,6 +45,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repo
 #
 &&  adduser -D -H -u 1000 duser 1000 \
 &&  addgroup -g 995 dsnd \
+&&  addgroup duser audio \
 &&  addgroup duser dsnd
 #
 ENTRYPOINT [ "audacity" ]
