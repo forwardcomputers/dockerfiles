@@ -59,3 +59,4 @@ RUN set -e \
     /var/log/*.log
 #
 ENTRYPOINT [ "/usr/bin/spotify" ]
+
