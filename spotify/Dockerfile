@@ -36,7 +36,7 @@ RUN set -e \
     ca-certificates \
     curl \
     gnupg \
-&&  curl -s https://download.spotify.com/debian/pubkey_0D811D58.gpg | apt-key add - > /dev/null \
+&&  curl -sL https://download.spotify.com/debian/pubkey_0D811D58.gpg | gpg --dearmor | tee /etc/apt/trusted.gpg.d/spotify.gpg > /dev/null \
 &&  echo "deb http://repository.spotify.com stable non-free" > /etc/apt/sources.list.d/spotify.list \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     spotify-client \
