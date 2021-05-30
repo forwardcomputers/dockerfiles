@@ -36,7 +36,6 @@ RUN set -e \
     gparted \
     at-spi2-core \
     dbus-x11 \
-    dmraid \
     dmsetup \
     dosfstools \
     gpart \
@@ -54,6 +53,7 @@ RUN set -e \
     udftools \
     xfsprogs \
     yelp \
+#    dmraid \
 #
 # Add mimetypes
 #
