@@ -47,7 +47,9 @@ RUN set -e \
     msmtp \
     p7zip-full \
     software-properties-common \
-    vim \
+    vim
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
+    imagemagick
 #
 &&  add-apt-repository ppa:arx/release \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes innoextract \
