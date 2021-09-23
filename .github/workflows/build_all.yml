@@ -26,7 +26,7 @@ jobs:
           sudo rm /etc/localtime
           sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-          curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/dotfiles/raw/master/bin/dapp
+          curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/dotfiles/raw/main/bin/dapp
           chmod +x ~/dapp
           ~/dapp upgrade_all_ci
 
