@@ -4,7 +4,7 @@
 #DESKTOP_COMMENT Network traffic analyzer
 #DESKTOP_CATEGORIES Network;Monitor;Qt;
 #DESKTOP_MIMETYPE application/vnd.tcpdump.pcap;application/x-pcapng;application/x-snoop;application/x-iptrace;application/x-lanalyzer;application/x-nettl;application/x-radcom;application/x-etherpeek;application/x-visualnetworks;application/x-netinstobserver;application/x-5view;application/x-tektronix-rf5;application/x-micropross-mplog;application/x-apple-packetlogger;application/x-endace-erf;application/ipfix;application/x-ixia-vwr;
-#DESKTOP_LOGO https://github.com/wireshark/wireshark/raw/master/image/wsicon256.png 
+#DESKTOP_LOGO https://github.com/wireshark/wireshark/raw/main/image/wsicon256.png 
 #DOCKER_OPT + --user root --workdir /root --privileged
 #
 FROM ubuntu:rolling
@@ -16,13 +16,13 @@ ARG APPNEW
 LABEL   org.label-schema.schema-version="1.0" \
         org.label-schema.build-date="${BUILD_DATE}" \
         org.label-schema.name="${NAME}" \
-        org.label-schema.vcs-url="https://github.com/forwardcomputers/dockerfiles/tree/master/${NAME}" \
+        org.label-schema.vcs-url="https://github.com/forwardcomputers/dockerfiles/tree/main/${NAME}" \
         org.label-schema.vendor="${CO}" \
         org.label-schema.version="${APPNEW}" \
         org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${NAME}" \
         org.opencontainers.image.created="${BUILD_DATE}" \
         org.opencontainers.image.title="${NAME}" \
-        org.opencontainers.image.source="https://github.com/forwardcomputers/dockerfiles/tree/master/${NAME}" \
+        org.opencontainers.image.source="https://github.com/forwardcomputers/dockerfiles/tree/main/${NAME}" \
         org.opencontainers.image.vendor="${CO}" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
