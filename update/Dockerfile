@@ -46,6 +46,7 @@ RUN set -e \
     mkisofs \
     msmtp \
     p7zip-full \
+    sbsigntool \
     software-properties-common \
     vim \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
