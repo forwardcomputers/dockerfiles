@@ -36,9 +36,11 @@ RUN set -e \
     file \
     gawk \
     gcc \
+    gcc-aarch64-linux-gnu \
     git \
     gpg-agent \
     grub-efi \
+    open-iscsi \
     isolinux \
     jq \
     liblzma-dev \
