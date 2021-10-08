@@ -37,6 +37,7 @@ RUN set -e \
     gawk \
     gcc \
     gcc-aarch64-linux-gnu \
+    gcc-arm-none-eabi \
     git \
     gpg-agent \
     grub-efi \
