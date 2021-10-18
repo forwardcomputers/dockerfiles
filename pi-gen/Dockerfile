@@ -46,4 +46,3 @@ RUN set -e \
     /var/log/*.log
 #
 ENTRYPOINT [ "bash" ]
-
