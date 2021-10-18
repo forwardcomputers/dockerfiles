@@ -1,7 +1,7 @@
 #
 #APPNEW 1.0
 #
-FROM ubuntu:latest
+FROM debian:buster
 ARG BUILD_DATE
 ARG NAME
 ARG CO
