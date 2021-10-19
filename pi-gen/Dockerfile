@@ -1,7 +1,7 @@
 #
 #APPNEW 1.0
 #
-FROM i386/debian:buster
+FROM debian:buster
 ARG BUILD_DATE
 ARG NAME
 ARG CO
