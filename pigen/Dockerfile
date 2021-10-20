@@ -26,6 +26,7 @@ RUN set -e \
 # Install apps
 #
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+    cron curl gawk jq mstmp \
     git vim parted \
     quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools \
     libarchive-tools libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc\
