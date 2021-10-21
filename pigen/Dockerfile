@@ -21,11 +21,12 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
+ENV DEBIAN_FRONTEND noninteractive
 RUN set -e \
 #
 # Install apps
 #
-&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+&&  apt-get update && apt-get install --no-install-recommends --yes \
     cron curl gawk jq msmtp \
     git vim parted \
     quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools \
@@ -35,15 +36,6 @@ RUN set -e \
 # Clean-up
 #
 &&  rm --recursive --force \
-    /usr/share/doc/* \
-    /usr/share/man/* \
-    /var/cache/apt/archives/*.deb \
-    /var/cache/apt/archives/partial/*.deb \
-    /var/cache/apt/*.bin \
-    /var/cache/debconf/*.old \
-    /var/lib/apt/lists/* \
-    /var/lib/dpkg/info/* \
-    /var/log/apt \
-    /var/log/*.log
+    /var/lib/apt/lists/*
 #
-ENTRYPOINT [ "bash" ]
+#ENTRYPOINT [ "bash" ]
