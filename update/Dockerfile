@@ -1,8 +1,8 @@
 #
 #APPNEW 1.0
 #
-#FROM ubuntu:latest
-FROM i386/debian:buster
+FROM i386/ubuntu:latest
+#FROM i386/debian:buster
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -25,7 +25,6 @@ LABEL   org.label-schema.schema-version="1.0" \
 RUN set -e \
 #
 # Install apps
-# [Ubuntu - Debian] mkisofs - genisoimage
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     apt-transport-https \
     ca-certificates \
@@ -39,7 +38,6 @@ RUN set -e \
     gcc \
     gcc-aarch64-linux-gnu \
     gcc-arm-none-eabi \
-    genisoimage \
     git \
     gpg-agent \
     grub-efi \
@@ -49,6 +47,7 @@ RUN set -e \
     liblzma-dev \
     libxml2-utils \
     msmtp \
+    mkisofs \
     p7zip-full \
     sbsigntool \
     software-properties-common \
