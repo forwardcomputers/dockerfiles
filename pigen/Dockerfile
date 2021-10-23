@@ -30,12 +30,15 @@ RUN set -e \
     cron curl gawk jq msmtp \
     git vim parted \
     quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools \
-    libarchive-tools libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc\
+    libarchive-tools libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc \
     binfmt-support ca-certificates qemu-utils kpartx \
 #
 # Clean-up
 #
 &&  rm --recursive --force \
     /var/lib/apt/lists/*
+#
+COPY "/opt/filer/os/src/pigen/*" "/pigen"
+VOLUME [ "/pi-gen/work", "/pi-gen/deploy"]
 #
 #ENTRYPOINT [ "bash" ]
