@@ -1,7 +1,8 @@
 #
 #APPNEW 1.0
 #
-FROM ubuntu:latest
+#FROM ubuntu:latest
+FROM i386/debian:buster
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -68,8 +69,8 @@ RUN set -e \
 #
 # Clone repos
 #
-git clone https://github.com/ipxe/ipxe.git /ipxe \
-git clone https://github.com/RPi-Distro/pi-gen.git /pi-gen \
+&&  git clone https://github.com/ipxe/ipxe.git /ipxe \
+&&  git clone https://github.com/RPi-Distro/pi-gen.git /pi-gen \
 #
 # Clean-up
 #
