@@ -52,6 +52,10 @@ RUN set -e \
     sbsigntool \
     software-properties-common \
     vim \
+    git vim parted \
+    quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools \
+    libarchive-tools libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc\
+    binfmt-support ca-certificates qemu-utils kpartx \
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
     imagemagick \
 #
@@ -62,17 +66,17 @@ RUN set -e \
 &&  curl -L -o/usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/"${YQNEW}"/yq_linux_amd64 \
 &&  chmod +x /usr/local/bin/yq \
 #
+# Clone repos
+#
+git clone https://github.com/ipxe/ipxe.git /ipxe \
+git clone https://github.com/RPi-Distro/pi-gen.git /pi-gen \
+#
 # Clean-up
 #
 &&  rm --recursive --force \
     /usr/share/doc/* \
     /usr/share/man/* \
-    /var/cache/apt/archives/*.deb \
-    /var/cache/apt/archives/partial/*.deb \
-    /var/cache/apt/*.bin \
-    /var/cache/debconf/*.old \
     /var/lib/apt/lists/* \
-    /var/lib/dpkg/info/* \
     /var/log/apt \
     /var/log/*.log
 #
