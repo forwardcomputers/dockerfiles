@@ -25,7 +25,7 @@ LABEL   org.label-schema.schema-version="1.0" \
 RUN set -e \
 #
 # Install apps
-#
+# [Ubuntu - Debian] mkisofs - genisoimage
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
     apt-transport-https \
     ca-certificates \
@@ -39,6 +39,7 @@ RUN set -e \
     gcc \
     gcc-aarch64-linux-gnu \
     gcc-arm-none-eabi \
+    genisoimage \
     git \
     gpg-agent \
     grub-efi \
@@ -47,7 +48,6 @@ RUN set -e \
     jq \
     liblzma-dev \
     libxml2-utils \
-    mkisofs \
     msmtp \
     p7zip-full \
     sbsigntool \
