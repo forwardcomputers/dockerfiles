@@ -22,10 +22,11 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
+ENV DEBIAN_FRONTEND noninteractive
 RUN set -e \
 #
 # Install apps
-&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+&&  apt-get update && apt-get install --no-install-recommends --yes \
     apt-transport-https \
     ca-certificates \
     coreutils \
@@ -56,11 +57,11 @@ RUN set -e \
     quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools \
     libarchive-tools libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc\
     binfmt-support ca-certificates qemu-utils kpartx \
-&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
+&&  apt-get update && apt-get install --yes \
     imagemagick \
 #
 &&  add-apt-repository ppa:arx/release \
-&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes innoextract \
+&&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
 #
 &&  YQNEW=$(curl -sL "https://api.github.com/repos/mikefarah/yq/releases/latest" | jq -r '.tag_name') \
 &&  curl -L -o/usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/"${YQNEW}"/yq_linux_amd64 \
