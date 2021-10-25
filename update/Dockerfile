@@ -42,13 +42,14 @@ RUN set -e \
     git \
     gpg-agent \
     grub-efi \
-    open-iscsi \
     isolinux \
     jq \
     liblzma-dev \
     libxml2-utils \
-    msmtp \
+    lsof \
     mkisofs \
+    msmtp \
+    open-iscsi \
     p7zip-full \
     sbsigntool \
     software-properties-common \
@@ -64,7 +65,7 @@ RUN set -e \
 &&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
 #
 &&  YQNEW=$(curl -sL "https://api.github.com/repos/mikefarah/yq/releases/latest" | jq -r '.tag_name') \
-&&  curl -L -o/usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/"${YQNEW}"/yq_linux_amd64 \
+&&  curl -L -o/usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQNEW}/yq_linux_amd64" \
 &&  chmod +x /usr/local/bin/yq \
 #
 # Clone repos
