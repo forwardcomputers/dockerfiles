@@ -100,5 +100,5 @@ fastcgi.server = ( \n\
 ' > /etc/lighttpd/mod_fastcgi_fpm.conf
 #
 EXPOSE 80
-CMD [ "/bin/sh", "-c" , "/usr/sbin/php-fpm7 & /usr/sbin/lighttpd -D -f /etc/lighttpd/lighttpd.conf" ]
+CMD [ "/bin/sh", "-c" , "/usr/sbin/php-fpm7 & /usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf & crond -n" ]
 #CMD [ "/bin/sh", "-c" , "/usr/sbin/php-fpm7 & /usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf & tail -f /dev/null" ]
