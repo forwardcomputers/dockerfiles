@@ -61,7 +61,10 @@ RUN echo '>>>>> Install packages' \
 #
 && echo '>>>>> Configure application'
 RUN mkdir -p /var/run/php-fpm7 \
-&&  sed -i -r 's|env python$|env python3|' /opt/pialert/back/pialert.py \
+&&  sed -i -r ' \
+        s|env python$|env python3| ;\
+        /smtp_connection.login/ s|^|#| \
+    ' /opt/pialert/back/pialert.py \
 &&  sed -i -r ' \
         s|python |python3 |g ; \
         s|~/pialert|/opt/pialert|g \
@@ -72,7 +75,8 @@ RUN mkdir -p /var/run/php-fpm7 \
         /mod_cgi.conf/ s|^#||g ; \
         /mod_fastcgi_fpm.conf/ s|^#||g ; \
         /^server.document-root/ s|var.basedir.*$|var.basedir|g ; \
-        /linux-sysepoll/ s|^#||g \
+        /linux-sysepoll/ s|^#||g ; \
+        s|^.*server.port.*$|server.port = 20211|g \
     ' /etc/lighttpd/lighttpd.conf \
 &&  sed -i -r ' \
         s|^.*listen =.*|listen = /var/run/php-fpm7/php7-fpm.sock|g ; \
@@ -97,3 +101,4 @@ fastcgi.server = ( \n\
 #
 EXPOSE 80
 CMD [ "/bin/sh", "-c" , "/usr/sbin/php-fpm7 & /usr/sbin/lighttpd -D -f /etc/lighttpd/lighttpd.conf" ]
+#CMD [ "/bin/sh", "-c" , "/usr/sbin/php-fpm7 & /usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf & tail -f /dev/null" ]
