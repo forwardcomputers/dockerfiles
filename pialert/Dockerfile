@@ -66,7 +66,7 @@ RUN mkdir -p /var/run/php-fpm7 \
 #s!^local_ip_cmd = .*!local_ip_cmd = ["ip route get 1 ! awk '{print $NF}'"] \
 &&  sed -i -r ' \
         s!env python$!env python3! ; \
-        /^[[:blank:]]*local_mac_cmd/ s!grep ether.*!grep HWaddr | awk {print \$5}"]! ; \
+        /^[[:blank:]]*local_mac_cmd/ s!grep ether.*!grep HWaddr | awk '\''{print $5}'\''"]! ; \
         /smtp_connection.login/ s!^!#! \
     ' /opt/pialert/back/pialert.py \
 &&  sed -i -r ' \
