@@ -62,30 +62,31 @@ RUN echo '>>>>> Install packages' \
 #
 && echo '>>>>> Configure application'
 RUN mkdir -p /var/run/php-fpm7 \
-#s|^local_mac_cmd = .*|local_mac_cmd = ["cat /sys/class/net/$(route | awk '/default/ {print $NF}')/address"] ; \
-#s|^local_ip_cmd = .*|local_ip_cmd = ["ip route get 1 | awk '{print $NF}'"] \
+#s!^local_mac_cmd = .*!local_mac_cmd = ["cat /sys/class/net/$(route ! awk '/default/ {print $NF}')/address"] ; \
+#s!^local_ip_cmd = .*!local_ip_cmd = ["ip route get 1 ! awk '{print $NF}'"] \
 &&  sed -i -r ' \
-        s|env python$|env python3| ;\
-        /smtp_connection.login/ s|^|#| \
+        s!env python$!env python3! ; \
+        /^[[:blank:]]*local_mac_cmd/ s!grep ether.*!grep HWaddr | awk {print \$5}"]! ; \
+        /smtp_connection.login/ s!^!#! \
     ' /opt/pialert/back/pialert.py \
 &&  sed -i -r ' \
-        s|python |python3 |g ; \
-        s|~/pialert|/opt/pialert|g \
+        s!python !python3 !g ; \
+        s!~/pialert!/opt/pialert!g \
     ' /opt/pialert/install/pialert.cron \
 &&  sed -i -r ' \
-        s|var/www/localhost|opt/pialert/front|g ; \
-        /mod_alias/ s|^#||g ; \
-        /mod_cgi.conf/ s|^#||g ; \
-        /mod_fastcgi_fpm.conf/ s|^#||g ; \
-        /^server.document-root/ s|var.basedir.*$|var.basedir|g ; \
-        /linux-sysepoll/ s|^#||g ; \
-        s|^.*server.port.*$|server.port = 20211|g \
+        s!var/www/localhost!opt/pialert/front!g ; \
+        /mod_alias/ s!^#!!g ; \
+        /mod_cgi.conf/ s!^#!!g ; \
+        /mod_fastcgi_fpm.conf/ s!^#!!g ; \
+        /^server.document-root/ s!var.basedir.*$!var.basedir!g ; \
+        /linux-sysepoll/ s!^#!!g ; \
+        s!^.*server.port.*$!server.port = 20211!g \
     ' /etc/lighttpd/lighttpd.conf \
 &&  sed -i -r ' \
-        s|^.*listen =.*|listen = /var/run/php-fpm7/php7-fpm.sock|g ; \
-        s|^.*listen.owner =.*|listen.owner = lighttpd|g ; \
-        s|^.*listen.group =.*|listen.group = lighttpd|g ; \
-        s|^.*listen.mode =.*|listen.mode = 0660|g \
+        s!^.*listen =.*!listen = /var/run/php-fpm7/php7-fpm.sock!g ; \
+        s!^.*listen.owner =.*!listen.owner = lighttpd!g ; \
+        s!^.*listen.group =.*!listen.group = lighttpd!g ; \
+        s!^.*listen.mode =.*!listen.mode = 0660!g \
     ' /etc/php*/php-fpm.d/www.conf \
 &&  ( crontab -l 2>/dev/null; cat /opt/pialert/install/pialert.cron ) | crontab - \
 #
