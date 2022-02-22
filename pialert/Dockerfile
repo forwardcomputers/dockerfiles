@@ -31,7 +31,9 @@ RUN echo '>>>>> Install packages' \
     php-json \
     php-sqlite3 \
     sqlite \
+    perl \
     perl-libwww \
+    perl-lwp-useragent-determined \
     python3 \
     bash \
     cronie \
