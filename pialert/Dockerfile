@@ -33,6 +33,7 @@ RUN echo '>>>>> Install packages' \
     sqlite \
     perl-libwww \
     python3 \
+    bash \
     cronie \
     curl \
     bind-tools \
@@ -62,8 +63,6 @@ RUN echo '>>>>> Install packages' \
 #
 && echo '>>>>> Configure application'
 RUN mkdir -p /var/run/php-fpm7 \
-#s!^local_mac_cmd = .*!local_mac_cmd = ["cat /sys/class/net/$(route ! awk '/default/ {print $NF}')/address"] ; \
-#s!^local_ip_cmd = .*!local_ip_cmd = ["ip route get 1 ! awk '{print $NF}'"] \
 &&  sed -i -r ' \
         s!env python$!env python3! ; \
         /^[[:blank:]]*local_mac_cmd/ s!grep ether.*!grep HWaddr | awk '\''{print $5}'\''"]! ; \
@@ -105,4 +104,3 @@ fastcgi.server = ( \n\
 #
 EXPOSE 80
 CMD [ "/bin/sh", "-c" , "/usr/sbin/php-fpm7 & /usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf & crond -n" ]
-#CMD [ "/bin/sh", "-c" , "/usr/sbin/php-fpm7 & /usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf & tail -f /dev/null" ]
