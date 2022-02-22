@@ -36,6 +36,7 @@ RUN echo '>>>>> Install packages' \
     cronie \
     curl \
     bind-tools \
+    iproute2-minimal \
     sudo \
 &&  apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing arp-scan \
 #
@@ -61,6 +62,8 @@ RUN echo '>>>>> Install packages' \
 #
 && echo '>>>>> Configure application'
 RUN mkdir -p /var/run/php-fpm7 \
+#s|^local_mac_cmd = .*|local_mac_cmd = ["cat /sys/class/net/$(route | awk '/default/ {print $NF}')/address"] ; \
+#s|^local_ip_cmd = .*|local_ip_cmd = ["ip route get 1 | awk '{print $NF}'"] \
 &&  sed -i -r ' \
         s|env python$|env python3| ;\
         /smtp_connection.login/ s|^|#| \
