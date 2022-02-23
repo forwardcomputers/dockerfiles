@@ -51,10 +51,10 @@ ENV LE_CONFIG_HOME /acme.sh
 ENV AUTO_UPGRADE 1
 #Install
 ADD ./ /install_acme.sh/
-RUN cd /install_acme.sh && ([ -f /install_acme.sh/acme.sh ] && /install_acme.sh/acme.sh --install || curl https://get.acme.sh | sh) && rm -rf /install_acme.sh/ \
-&&  mv /root/.acme.sh / \
-&&  chmod 755 /.acme.sh \
-&&  ln -s  /.acme.sh/acme.sh  /usr/local/bin/acme.sh && crontab -l | grep acme.sh | sed 's#> /dev/null##' | crontab - \
+RUN cd /install_acme.sh && ([ -f /install_acme.sh/acme.sh ] && /install_acme.sh/acme.sh --install --config-home /acme.sh || curl https://get.acme.sh | sh) && rm -rf /install_acme.sh/ \
+#&&  mv /root/.acme.sh / \
+#&&  chmod 755 /.acme.sh \
+&&  ln -s  /root/.acme.sh/acme.sh  /usr/local/bin/acme.sh && crontab -l | grep acme.sh | sed 's#> /dev/null##' | crontab - \
 &&  for verb in help \
   version \
   install \
