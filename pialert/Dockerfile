@@ -75,6 +75,7 @@ RUN rm -f /var/www/html/index.lighttpd.html \
         s!~/pialert!/opt/pialert!g \
     ' /opt/pialert/install/pialert.cron \
 &&  lighttpd-enable-mod fastcgi-php \
+&&  sed -i '/^include_shell/ a\\ninclude_shell "cat external.conf 2>/dev/null"\n' /etc/lighttpd/lighttpd.conf \
 &&  ( crontab -l 2>/dev/null; cat /opt/pialert/install/pialert.cron ) | crontab -
 #
 CMD [ "/bin/sh", "-c" , "service lighttpd start & service cron start & tail -f /dev/null" ]
