@@ -2,7 +2,7 @@
 #APPNEW curl -sL "https://api.github.com/repos/pucherot/Pi.Alert/releases/latest" | jq -r '.tag_name'
 #
 # Alpine image
-FROM alpine:latest
+FROM ubuntu:latest
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -22,29 +22,30 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
+ENV DEBIAN_FRONTEND noninteractive
 RUN echo '>>>>> Install packages' \
-&&  apk update -f && apk --no-cache add -f \
+&&  set -e \
+&&  apt-get update -qq && apt-get install --no-install-recommends -qq -y \
+    arp-scan \
+    ca-certificates \
+    cron \
+    curl \
+    dnsutils \
+    iproute2 \
     lighttpd \
+    net-tools \
     php \
     php-cgi \
     php-fpm \
-    php-json \
     php-sqlite3 \
-    sqlite \
-    perl \
-    perl-libwww \
-    perl-lwp-useragent-determined \
     python3 \
-    bash \
-    cronie \
-    curl \
-    bind-tools \
-    iproute2-minimal \
+    sqlite3 \
     sudo \
-&&  apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing arp-scan \
+    vim-tiny \
+#    apt-utils \
 #
 &&  echo '>>>>> Install application' \
-&&  wget -qO- https://github.com/pucherot/Pi.Alert/raw/main/tar/pialert_latest.tar | \
+&&  curl -sL "https://github.com/pucherot/Pi.Alert/raw/main/tar/pialert_latest.tar" | \
     tar -xC /opt \
         --exclude='pialert/config/pialert.conf' \
         --exclude='pialert/db' \
@@ -54,55 +55,26 @@ RUN echo '>>>>> Install packages' \
         --exclude='pialert/install/*.sh' \
 #
 &&  echo '>>>>> Clean-up files' \
-&& rm -rf \
-    /etc/apk \
-    /lib/apk \
-    /sbin/apk \
-    /usr/share/apk \
-    /usr/share/man \
-    /var/cache/apk \
-    /var/lib/apk \
+&&  rm --recursive --force \
+    /usr/share/doc/* \
+    /usr/share/man/* \
+    /var/lib/apt/lists/* \
+    /var/log/apt \
+    /var/log/*.log \
 #
 && echo '>>>>> Configure application'
-RUN mkdir -p /var/run/php-fpm7 \
+RUN rm -f /var/www/html/index.lighttpd.html \
+&&  ln -s /opt/pialert/install/index.html /var/www/html/index.html \
+&&  ln -s /opt/pialert/front /var/www/html/pialert  \
 &&  sed -i -r ' \
         s!env python$!env python3! ; \
-        /^[[:blank:]]*local_mac_cmd/ s!grep ether.*!grep HWaddr | awk '\''{print $5}'\''"]! ; \
         /smtp_connection.login/ s!^!#! \
     ' /opt/pialert/back/pialert.py \
 &&  sed -i -r ' \
         s!python !python3 !g ; \
         s!~/pialert!/opt/pialert!g \
     ' /opt/pialert/install/pialert.cron \
-&&  sed -i -r ' \
-        s!var/www/localhost!opt/pialert/front!g ; \
-        /mod_alias/ s!^#!!g ; \
-        /mod_cgi.conf/ s!^#!!g ; \
-        /mod_fastcgi_fpm.conf/ s!^#!!g ; \
-        /^server.document-root/ s!var.basedir.*$!var.basedir!g ; \
-        /linux-sysepoll/ s!^#!!g ; \
-        s!^.*server.port.*$!server.port = 20211!g \
-    ' /etc/lighttpd/lighttpd.conf \
-&&  sed -i -r ' \
-        s!^.*listen =.*!listen = /var/run/php-fpm7/php7-fpm.sock!g ; \
-        s!^.*listen.owner =.*!listen.owner = lighttpd!g ; \
-        s!^.*listen.group =.*!listen.group = lighttpd!g ; \
-        s!^.*listen.mode =.*!listen.mode = 0660!g \
-    ' /etc/php*/php-fpm.d/www.conf \
-&&  ( crontab -l 2>/dev/null; cat /opt/pialert/install/pialert.cron ) | crontab - \
+&&  lighttpd-enable-mod fastcgi-php \
+&&  ( crontab -l 2>/dev/null; cat /opt/pialert/install/pialert.cron ) | crontab -
 #
-&& echo -e '\
-server.modules += ( "mod_fastcgi" ) \n\
-index-file.names += ( "index.php" ) \n\
-fastcgi.server = ( \n\
-  ".php" => ( \n\
-    "localhost" => ( \n\
-      "socket"                => "/var/run/php-fpm7/php7-fpm.sock", \n\
-      "broken-scriptfilename" => "enable" \n\
-    ) \n\
-  ) \n\
-)\
-' > /etc/lighttpd/mod_fastcgi_fpm.conf
-#
-EXPOSE 80
-CMD [ "/bin/sh", "-c" , "/usr/sbin/php-fpm7 & /usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf & crond -n" ]
+CMD [ "/bin/sh", "-c" , "service lighttpd start & service cron start & tail -f /dev/null" ]
