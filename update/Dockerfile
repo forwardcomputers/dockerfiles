@@ -49,6 +49,7 @@ RUN set -e \
     mkisofs \
     msmtp \
     open-iscsi \
+    openssh-client \
     p7zip-full \
     sbsigntool \
     software-properties-common \
