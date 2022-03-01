@@ -58,7 +58,7 @@ RUN set -e \
 #
 # Install application
 #
-&&  curl -Lo /usr/local/bin/powerline-go https://github.com/justjanne/powerline-go/releases/download/v1.21.0/powerline-go-linux-amd64 \
+&&  curl -sLo /usr/local/bin/powerline-go https://github.com/justjanne/powerline-go/releases/download/v1.21.0/powerline-go-linux-amd64 \
 &&  chmod +x /usr/local/bin/powerline-go \
 &&  echo $'function _update_ps1() { \n\
   PS1="$(/usr/local/bin/powerline-go)" \n\
