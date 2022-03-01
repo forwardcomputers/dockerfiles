@@ -1,5 +1,5 @@
 #
-#APPNEW curl -sX GET "https://api.github.com/repos/cdr/code-server/releases/latest" | jq -r '.tag_name'
+#APPNEW 1.0
 #
 FROM alpine:edge
 ARG BUILD_DATE
