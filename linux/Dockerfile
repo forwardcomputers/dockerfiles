@@ -39,6 +39,7 @@ RUN set -e \
     ca-certificates \
     curl \
     docker-cli \
+    docker-compose \
     jq \
     openssh-client \
     gawk \
