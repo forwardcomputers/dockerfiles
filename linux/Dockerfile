@@ -46,7 +46,6 @@ RUN set -e \
     lastpass-cli \
     sudo \
     tzdata \
-    vim \
     bash-completion \
     docker-bash-completion \
     docker-compose-bash-completion \
@@ -61,7 +60,7 @@ RUN set -e \
 &&  curl -sLo /usr/local/bin/powerline-go https://github.com/justjanne/powerline-go/releases/download/v1.21.0/powerline-go-linux-amd64 \
 &&  chmod +x /usr/local/bin/powerline-go \
 &&  echo $'function _update_ps1() { \n\
-  PS1="$(/usr/local/bin/powerline-go)" \n\
+  PS1="$(/usr/local/bin/powerline-go -error 0)" \n\
 } \n\
 if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go" ]; then \n\
   PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND" \n\
