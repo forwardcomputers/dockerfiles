@@ -64,7 +64,7 @@ RUN set -e \
 &&  echo $'function _update_ps1() { \n\
   PS1="$(/usr/local/bin/powerline-go -colorize-hostname -error 0)" \n\
 } \n\
-if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go -colorize-hostname -error 0" ]; then \n\
+if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go" ]; then \n\
   PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND" \n\
 fi' > /etc/profile.d/powerline-go.sh \
 #
@@ -83,4 +83,3 @@ RUN addgroup -g "${gid}" "${user}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi
 #
 ENTRYPOINT [ "/bin/bash" ]
-
