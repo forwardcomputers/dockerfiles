@@ -1,5 +1,6 @@
 #
 #APPNEW 1.0
+#PLATFORM --platform=linux/arm64
 #
 FROM alpine:edge
 ARG BUILD_DATE
@@ -61,9 +62,9 @@ RUN set -e \
 &&  curl -sLo /usr/local/bin/powerline-go https://github.com/justjanne/powerline-go/releases/download/v1.21.0/powerline-go-linux-amd64 \
 &&  chmod +x /usr/local/bin/powerline-go \
 &&  echo $'function _update_ps1() { \n\
-  PS1="$(/usr/local/bin/powerline-go -error 0)" \n\
+  PS1="$(/usr/local/bin/powerline-go -colorize-hostname -error 0)" \n\
 } \n\
-if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go" ]; then \n\
+if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go -colorize-hostname -error 0" ]; then \n\
   PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND" \n\
 fi' > /etc/profile.d/powerline-go.sh \
 #
