@@ -27,59 +27,59 @@ ENV user="ali" \
     gid="1001" \
     tz="America/Toronto"
 #
-RUN set -e \
-&&  export user="${user}" uid="${uid}" gid="${gid}" tz="${tz}" \
+RUN set -e && \
+    export user="${user}" uid="${uid}" gid="${gid}" tz="${tz}" && \
 #
 # Update repos and install packages
 #
-&&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repositories \
-&&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/main"       >> /etc/apk/repositories \
-&&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories \
-&&  apk add --no-cache --update \
-    bash \
-    ca-certificates \
-    curl \
-    docker-cli \
-    docker-compose \
-    jq \
-    openssh-client \
-    gawk \
-    git \
-    lastpass-cli \
-    sudo \
-    tzdata \
-    bash-completion \
-    docker-bash-completion \
-    docker-compose-bash-completion \
-    git-bash-completion \
-    lastpass-cli-bash-completion \
-    util-linux-bash-completion \
-&&  cp /usr/share/zoneinfo/"${tz}" /etc/localtime \
-&&  echo "${tz}" > /etc/timezone \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/main"       >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories && \
+    apk add --no-cache --update \
+        bash \
+        ca-certificates \
+        curl \
+        docker-cli \
+        docker-compose \
+        jq \
+        openssh-client \
+        gawk \
+        git \
+        lastpass-cli \
+        sudo \
+        tzdata \
+        bash-completion \
+        docker-bash-completion \
+        docker-compose-bash-completion \
+        git-bash-completion \
+        lastpass-cli-bash-completion \
+        util-linux-bash-completion && \
+    cp /usr/share/zoneinfo/"${tz}" /etc/localtime && \
+    echo "${tz}" > /etc/timezone && \
 #
 # Install application
 #
-&&  curl -sLo /usr/local/bin/powerline-go https://github.com/justjanne/powerline-go/releases/download/v1.21.0/powerline-go-linux-amd64 \
-&&  chmod +x /usr/local/bin/powerline-go \
-&&  echo $'function _update_ps1() { \n\
+    curl -sLo /usr/local/bin/powerline-go https://github.com/justjanne/powerline-go/releases/download/v1.21.0/powerline-go-linux-amd64 && \
+    chmod +x /usr/local/bin/powerline-go && \
+    echo $'function _update_ps1() { \n\
   PS1="$(/usr/local/bin/powerline-go -colorize-hostname -error 0)" \n\
 } \n\
 if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go" ]; then \n\
   PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND" \n\
-fi' > /etc/profile.d/powerline-go.sh \
+fi' > /etc/profile.d/powerline-go.sh && \
 #
 # Clean-up
 #
-&& apk del tzdata \
-&& rm -rf \
-   /var/cache/apk \
-   /var/lib/apk
+   apk del tzdata && \
+   rm -rf \
+    /var/cache/apk \
+    /var/lib/apk
 #
 # Create unprivileged user
 #
-# &&  locale-gen en_US.UTF-8 || true \
-RUN addgroup -g "${gid}" "${user}" \
-&&  adduser -s /bin/bash -u 1001 -D -g "${user}" -G "${user}" "${user}" \
-&&  if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi
+#     locale-gen en_US.UTF-8 || true && \
+RUN addgroup -g "${gid}" "${user}" && \
+    adduser -s /bin/bash -u 1001 -D -g "${user}" -G "${user}" "${user}" && \
+    if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi
 #
 ENTRYPOINT [ "/bin/bash" ]
