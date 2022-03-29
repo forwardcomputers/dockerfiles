@@ -22,4 +22,3 @@ RUN set -e && \
     /var/log/apt \
     /var/log/*.log
 #
-
