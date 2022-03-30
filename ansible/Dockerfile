@@ -4,7 +4,7 @@
 FROM python:3
 #
 # Install apps
-RUN pip3 install ansible proxmoxer expect
+RUN pip3 install ansible proxmoxer requests
 #  pip3 install ansible proxmoxer expect && \
 #
 # Clean-up
