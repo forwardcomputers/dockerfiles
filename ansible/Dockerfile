@@ -4,16 +4,16 @@
 FROM python:3
 #
 # Install apps
-RUN pip3 install ansible proxmoxer requests
-#  pip3 install ansible proxmoxer expect && \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get full-upgrade -y && \ 
+    pip3 install ansible proxmoxer requests && \
 #
 # Clean-up
-#
-#  rm --recursive --force \
-#    /usr/share/doc/* \
-#    /usr/share/man/* \
-#    /var/lib/apt/lists/* \
-#    /var/log/apt \
-#    /var/log/*.log
+    rm -rf \
+      /usr/share/doc \
+      /usr/share/man \
+      /var/lib/apt \
+      /var/lib/dpkg/info \
+      /var/log/apt \
+      /var/log/*.log
 #
 
