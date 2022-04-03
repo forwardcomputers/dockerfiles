@@ -4,11 +4,7 @@
 FROM python:3
 #
 # Install apps
-RUN echo "America/Toronto" > /etc/timezone && \
-    apt-get update && DEBIAN_FRONTEND=noninteractive apt-get full-upgrade -y && \ 
-    pip3 install ansible proxmoxer requests && \
-#
-# Configuration
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y vim python3-winrm sshpass && \
     echo "America/Toronto" > /etc/timezone && \
     echo "PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /root/.bashrc && \
     if [ ! -d /root/.ssh ]; then mkdir /root/.ssh; chmod 700 /root/.ssh; fi && \
