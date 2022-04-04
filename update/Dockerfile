@@ -1,7 +1,7 @@
 #
 #APPNEW 1.0
 #
-FROM i386/ubuntu:latest
+FROM ubuntu:latest
 ARG BUILD_DATE
 ARG NAME
 ARG CO
