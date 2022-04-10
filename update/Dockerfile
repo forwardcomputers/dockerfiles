@@ -57,7 +57,7 @@ RUN set -e \
     git vim parted \
     quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools \
     libarchive-tools libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc\
-    binfmt-support ca-certificates qemu-utils kpartx \
+    binfmt-support ca-certificates qemu-utils \
 &&  apt-get update && apt-get install --yes \
     imagemagick \
 #
