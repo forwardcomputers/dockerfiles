@@ -31,6 +31,7 @@ RUN set -e \
     coreutils \
     binutils \
     build-essential \
+    cpio \
     cron \
     curl \
     file \
@@ -53,6 +54,7 @@ RUN set -e \
     p7zip-full \
     sbsigntool \
     software-properties-common \
+    squashfs-tools \
     vim \
     git vim parted \
     quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools \
