@@ -34,6 +34,7 @@ RUN set -e \
     cpio \
     cron \
     curl \
+    fdisk \
     file \
     gawk \
     gcc \
