@@ -63,4 +63,4 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
       /var/log/*.log \
       /tmp/*
 #
-CMD [ "/bin/sh", "-c" , "service cron restart && rm -f /run/apache2/apache2.pid && apache2ctl -D FOREGROUND && rm -f /run/rsyslogd.pid && rsyslogd -n" ]
+CMD [ "/bin/sh", "-c" , "service cron restart && rm -f /run/apache2/apache2.pid && apache2ctl -D FOREGROUND && rm -f /run/rsyslogd.pid && rsyslogd -n & tail -f /dev/null" ]
