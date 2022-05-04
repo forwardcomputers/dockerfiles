@@ -53,6 +53,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
 #
 &&  echo "America/Toronto" > /etc/timezone \
 #
+# change cron times from 6am to midnight
+&&  sed -i 's/6\t/0\t/' /etc/crontab \
 # Clean-up
 &&  rm -rf \
       /usr/share/doc \
