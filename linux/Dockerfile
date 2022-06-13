@@ -83,5 +83,5 @@ RUN addgroup -g "${gid}" "${user}" && \
     if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi
 #
 #ENTRYPOINT [ "/bin/bash" ]
-#ENTRYPOINT [ "exec", "bash" ]
+ENTRYPOINT [ "exec", "\"$@\"" ]
 CMD [ "/bin/bash" ]
