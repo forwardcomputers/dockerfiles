@@ -36,4 +36,4 @@ RUN apk add --no-cache --update \
    /usr/share/apk \
    /var/lib/apk
 #
-ENTRYPOINT "sh"
+ENTRYPOINT [ "/bin/sh" ]
