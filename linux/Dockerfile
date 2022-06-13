@@ -47,6 +47,7 @@ RUN set -e && \
         git \
         lastpass-cli \
         sudo \
+        ttyd \
         tzdata \
         bash-completion \
         docker-bash-completion \
@@ -82,5 +83,5 @@ RUN addgroup -g "${gid}" "${user}" && \
     adduser -s /bin/bash -u 1001 -D -g "${user}" -G "${user}" "${user}" && \
     if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi
 #
-ENTRYPOINT [ "/sbin/init" ]
+ENTRYPOINT "/sbin/init; ttyd -p 8888 /bin/bash"
 #CMD [ "/bin/bash", "-il" ]
