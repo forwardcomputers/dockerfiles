@@ -41,6 +41,7 @@ RUN set -e && \
         curl \
         docker-cli \
         docker-compose \
+        file \
         jq \
         openssh-client \
         gawk \
@@ -83,5 +84,5 @@ RUN addgroup -g "${gid}" "${user}" && \
     adduser -s /bin/bash -u 1001 -D -g "${user}" -G "${user}" "${user}" && \
     if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi
 #
-ENTRYPOINT /usr/bin/ttyd -p 8081 /bin/bash
+ENTRYPOINT /usr/bin/ttyd -p 8081 -t fontSize=11 -t fontFamily="DejaVu Sans Mono for Powerline" /bin/bash
 
