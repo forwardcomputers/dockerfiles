@@ -36,5 +36,5 @@ RUN apk add --no-cache --update \
    /usr/share/apk \
    /var/lib/apk
 #
-ENTRYPOINT [ "/usr/sbin/dnsmasq -k" ]
+ENTRYPOINT [ "/usr/sbin/dnsmasq", "-k" ]
 
