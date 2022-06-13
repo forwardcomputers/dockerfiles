@@ -1,5 +1,5 @@
 #
-#APPNEW curl -sL https://git.alpinelinux.org/aports/plain/community/telegram-desktop/APKBUILD | awk -F= '/pkgver=/ {print $2}'
+#APPNEW apk
 #
 # Alpine image
 FROM alpine:edge
