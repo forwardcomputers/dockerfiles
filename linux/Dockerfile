@@ -35,40 +35,50 @@ RUN set -e && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/main"       >> /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories && \
     apk add --no-cache --update \
-        bash \
         busybox-extras \
         ca-certificates \
         curl \
         docker-cli \
-        docker-compose \
+        docker-cli-compose \
         file \
+        inetutils-ftp \
         jq \
         openssh-client \
         gawk \
         git \
         lastpass-cli \
+        p7zip \
         sudo \
         ttyd \
         tzdata \
-        bash-completion \
-        docker-bash-completion \
-        docker-compose-bash-completion \
-        git-bash-completion \
-        lastpass-cli-bash-completion \
-        util-linux-bash-completion && \
+        xz \
+        zsh \
+        oh-my-zsh \
+        docker-zsh-completion \
+        git-zsh-completion \
+        lastpass-cli-zsh-completion && \
+#
+#        bash \
+#        bash-completion \
+#        docker-bash-completion \
+#        docker-compose-bash-completion \
+#        git-bash-completion \
+#        lastpass-cli-bash-completion \
+#        util-linux-bash-completion && \
+#
     cp /usr/share/zoneinfo/"${tz}" /etc/localtime && \
     echo "${tz}" > /etc/timezone && \
 #
 # Install application
 #
-    curl -sLo /usr/local/bin/powerline-go https://github.com/justjanne/powerline-go/releases/download/v1.21.0/powerline-go-linux-amd64 && \
-    chmod +x /usr/local/bin/powerline-go && \
-    echo $'function _update_ps1() { \n\
-  PS1="$(/usr/local/bin/powerline-go -colorize-hostname -error 0)" \n\
-} \n\
-if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go" ]; then \n\
-  PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND" \n\
-fi' > /etc/profile.d/powerline-go.sh && \
+#    curl -sLo /usr/local/bin/powerline-go https://github.com/justjanne/powerline-go/releases/download/v1.21.0/powerline-go-linux-amd64 && \
+#    chmod +x /usr/local/bin/powerline-go && \
+#    echo $'function _update_ps1() { \n\
+#  PS1="$(/usr/local/bin/powerline-go -colorize-hostname -error 0)" \n\
+#} \n\
+#if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go" ]; then \n\
+#  PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND" \n\
+#fi' > /etc/profile.d/powerline-go.sh && \
 #
 # Clean-up
 #
