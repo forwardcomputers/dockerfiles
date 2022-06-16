@@ -1,5 +1,5 @@
 #
-#APPNEW 1.0
+#APPNEW curl -sL "https://mirror.csclub.uwaterloo.ca/alpine/latest-stable/releases/x86_64/latest-releases.yaml" | yq e '.[0].version'
 #
 FROM alpine:edge
 ARG BUILD_DATE
