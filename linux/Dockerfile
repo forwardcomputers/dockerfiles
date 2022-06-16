@@ -95,5 +95,5 @@ RUN addgroup -g "${gid}" "${user}" && \
     adduser -s /bin/bash -u 1001 -D -g "${user}" -G "${user}" "${user}" && \
     if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi
 #
-ENTRYPOINT [ "tini", "--", "-v" "/usr/bin/ttyd", "-s", "SIGKILL", "-p", "8081", "/bin/zsh" ]
+ENTRYPOINT [ "tini", "--", "/usr/bin/ttyd", "-s SIGKILL", "-p 8081", "/bin/zsh" ]
 
