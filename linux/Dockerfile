@@ -41,6 +41,7 @@ RUN set -e && \
         docker-cli \
         docker-cli-compose \
         file \
+        findutils \
         grep \
         inetutils-ftp \
         jq \
@@ -76,7 +77,8 @@ RUN set -e && \
 # Create unprivileged user
 #
     addgroup -g "${gid}" "${user}" && \
-    adduser -s /bin/bash -u 1001 -D -g "${user}" -G "${user}" "${user}" && \
+    adduser -s /bin/zsh -u 1001 -D -g 20 -G "${user}" "${user}" && \
+    adduser ali dialout && \
     if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi
 #
 ENTRYPOINT [ "tini", "-v", "--", "/usr/bin/ttyd", "-s", "SIGKILL", "-p", "8081", "/bin/zsh" ]
