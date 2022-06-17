@@ -51,7 +51,7 @@ RUN set -e && \
         lastpass-cli \
         p7zip \
         sudo \
-        tini \
+        tmux \
         ttyd \
         tzdata \
         xz \
@@ -81,5 +81,6 @@ RUN set -e && \
     adduser ali dialout && \
     if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi
 #
-ENTRYPOINT [ "tini", "-v", "--", "/usr/bin/ttyd", "-s", "SIGKILL", "-p", "8081", "/bin/zsh" ]
+#ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/bin/zsh" ]
+#ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
 
