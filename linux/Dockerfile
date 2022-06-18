@@ -77,7 +77,7 @@ RUN set -e && \
 # Create unprivileged user
 #
     addgroup -g "${gid}" "${user}" && \
-    adduser -s /bin/zsh -u 1001 -D -g 20 -G "${user}" "${user}" && \
+    adduser -s /bin/zsh -u 1001 -D -g "ali@mustakim.com" -G "${user}" "${user}" && \
     adduser ali dialout && \
     if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi
 #
