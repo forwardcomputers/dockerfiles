@@ -51,6 +51,7 @@ RUN set -e && \
         p7zip \
         sudo \
         tmux \
+        tzdata \
         ttyd \
         xz \
         zsh \
