@@ -21,13 +21,13 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
-ENV user="ali" \
+ENV USER="ali" \
     uid="1001" \
     gid="1001" \
-    tz="America/Toronto"
+    TZ="America/Toronto"
 #
 RUN set -e && \
-    export user="${user}" uid="${uid}" gid="${gid}" tz="${tz}" && \
+    export USER="${USER}" uid="${uid}" gid="${gid}" TZ="${TZ}" && \
 #
 # Update repos and install packages
 #
@@ -61,8 +61,8 @@ RUN set -e && \
         git-zsh-completion \
         lastpass-cli-zsh-completion && \
 #
-    cp /usr/share/zoneinfo/"${tz}" /etc/localtime && \
-    echo "${tz}" > /etc/timezone && \
+    cp /usr/share/zoneinfo/"${TZ}" /etc/localtime && \
+    echo "${TZ}" > /etc/timezone && \
 #
 # Install application
 #
@@ -76,10 +76,10 @@ RUN set -e && \
 #
 # Create unprivileged user
 #
-    addgroup -g "${gid}" "${user}" && \
-    adduser -s /bin/zsh -u 1001 -D -g "ali@mustakim.com" -G "${user}" "${user}" && \
+    addgroup -g "${gid}" "${USER}" && \
+    adduser -s /bin/zsh -u 1001 -D -g "ali@mustakim.com" -G "${USER}" "${USER}" && \
     adduser ali dialout && \
-    if [ -d "/etc/sudoers.d" ]; then echo "${user} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${user}"; fi
+    if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi
 #
 #ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/bin/zsh" ]
 #ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
