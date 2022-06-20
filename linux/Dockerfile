@@ -23,11 +23,10 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 ENV USER="ali" \
     uid="1001" \
-    gid="1001" \
-    TZ="America/Toronto"
+    gid="1001"
 #
 RUN set -e && \
-    export USER="${USER}" uid="${uid}" gid="${gid}" TZ="${TZ}" && \
+    export USER="${USER}" uid="${uid}" gid="${gid}" && \
 #
 # Update repos and install packages
 #
@@ -53,7 +52,6 @@ RUN set -e && \
         sudo \
         tmux \
         ttyd \
-        tzdata \
         xz \
         zsh \
         oh-my-zsh \
@@ -61,15 +59,11 @@ RUN set -e && \
         git-zsh-completion \
         lastpass-cli-zsh-completion && \
 #
-    cp /usr/share/zoneinfo/"${TZ}" /etc/localtime && \
-    echo "${TZ}" > /etc/timezone && \
-#
 # Install application
 #
 #
 # Clean-up
 #
-    apk del tzdata && \
     rm -rf \
      /var/cache/apk \
      /var/lib/apk && \
