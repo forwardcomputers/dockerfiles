@@ -38,8 +38,8 @@ RUN set -e && \
 #
     rm -rf \
      /var/cache/apk \
-     /var/lib/apk && \
+     /var/lib/apk
 #
 ENTRYPOINT [ "/sbin/docker-init", "--", "/bin/bash" ]
-#CMD [ "df" ]
+CMD [ "df" ]
 
