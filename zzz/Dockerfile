@@ -23,6 +23,7 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 # Update repos and install packages
 #
+RUN set -e && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/main"       >> /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories && \
