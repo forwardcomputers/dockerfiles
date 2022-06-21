@@ -40,5 +40,5 @@ LABEL   org.label-schema.schema-version="1.0" \
      /var/lib/apk && \
 #
 ENTRYPOINT [ "/sbin/docker-init", "--", "/bin/bash" ]
-CMD [ "df" ]
+#CMD [ "df" ]
 
