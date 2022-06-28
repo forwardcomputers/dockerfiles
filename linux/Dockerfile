@@ -54,14 +54,15 @@ RUN set -e && \
         tzdata \
         ttyd \
         xz \
+        bash \
+        lastpass-cli-bash-completion && \
         zsh \
-        oh-my-zsh \
-        docker-zsh-completion \
-        git-zsh-completion \
         lastpass-cli-zsh-completion && \
 #
 # Install application
 #
+    git clone https://github.com/ohmyzsh/ohmyzsh.git /opt/oh-my-zsh
+    git clone https://github.com/ohmybash/oh-my-bash.git /opt/oh-my-bash
 #
 # Clean-up
 #
