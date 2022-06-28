@@ -61,8 +61,8 @@ RUN set -e && \
 #
 # Install application
 #
-    git clone https://github.com/ohmyzsh/ohmyzsh.git /opt/oh-my-zsh
-    git clone https://github.com/ohmybash/oh-my-bash.git /opt/oh-my-bash
+    git clone https://github.com/ohmyzsh/ohmyzsh.git /opt/oh-my-zsh && \
+    git clone https://github.com/ohmybash/oh-my-bash.git /opt/oh-my-bash && \
 #
 # Clean-up
 #
