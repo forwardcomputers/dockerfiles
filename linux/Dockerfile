@@ -55,7 +55,7 @@ RUN set -e && \
         ttyd \
         xz \
         bash \
-        lastpass-cli-bash-completion && \
+        lastpass-cli-bash-completion \
         zsh \
         lastpass-cli-zsh-completion && \
 #
