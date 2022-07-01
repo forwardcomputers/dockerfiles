@@ -61,8 +61,6 @@ RUN set -e && \
 #
 # Install application
 #
-    git clone https://github.com/ohmyzsh/ohmyzsh.git /opt/oh-my-zsh && \
-    git clone https://github.com/ohmybash/oh-my-bash.git /opt/oh-my-bash && \
 #
 # Clean-up
 #
@@ -77,6 +75,6 @@ RUN set -e && \
     adduser ali dialout && \
     if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi
 #
-#ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/bin/zsh" ]
+#ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
 #ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
-
+/usr/bin/tmux new -A -s 'ttyd'
