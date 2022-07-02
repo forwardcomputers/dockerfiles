@@ -57,6 +57,7 @@ RUN set -e && \
         bash \
         lastpass-cli-bash-completion \
         zsh \
+        zsh-vcs \
         lastpass-cli-zsh-completion && \
 #
 # Install application
