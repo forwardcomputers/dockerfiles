@@ -36,6 +36,7 @@ RUN set -e && \
     apk add --no-cache --update \
         busybox-extras \
         ca-certificates \
+        coreutils \
         curl \
         docker-cli \
         docker-cli-compose \
