@@ -31,6 +31,6 @@ jobs:
           sudo rm /etc/localtime
           sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-          curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/bin/raw/main/dapp
-          chmod +x ~/dapp
-          ~/dapp rebuild_all_ci
+          curl --silent --location --output ~/am-dapp --url https://github.com/forwardcomputers/bin/raw/main/am-dapp
+          chmod +x ~/am-dapp
+          ~/am-dapp rebuild_all_ci

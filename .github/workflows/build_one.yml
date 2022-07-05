@@ -27,8 +27,8 @@ jobs:
           sudo rm /etc/localtime
           sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-          curl --silent --location --output ~/dapp --url https://github.com/forwardcomputers/bin/raw/main/dapp
-          chmod +x ~/dapp
+          curl --silent --location --output ~/am-dapp --url https://github.com/forwardcomputers/bin/raw/main/am-dapp
+          chmod +x ~/am-dapp
           GH_SHA=$( \
             curl --silent --location --url https://api.github.com/repos/forwardcomputers/dockerfiles/commits | \
             jq -r '.[0].sha' \
@@ -38,9 +38,9 @@ jobs:
             jq --raw-output '[.files | .[] | select( .status == "added" or .status == "modified" and ( ( .filename | contains(".github") | not ) or ( .filename | contains(".github") | not ) ) and ( .filename | contains("/") ) ) | .filename | split("/")[0]] | unique[]') \
           )
           for APP in "${GH_APP[@]}"; do
-            ~/dapp build ${APP}
-            ~/dapp push ${APP}
-            ~/dapp readme
+            ~/am-dapp build ${APP}
+            ~/am-dapp push ${APP}
+            ~/am-dapp readme
           done
       - name: Tweet on Failure
         if: failure()
