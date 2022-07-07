@@ -1,7 +1,7 @@
 #
 #APPNEW curl -sL "https://mirror.csclub.uwaterloo.ca/alpine/latest-stable/releases/x86_64/latest-releases.yaml" | yq e '.[0].version'
 #
-FROM alpine:edge
+FROM debian:latest
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -25,57 +25,63 @@ ENV USER="ali" \
     uid="1001" \
     gid="1001"
 #
-RUN set -e && \
-    export USER="${USER}" uid="${uid}" gid="${gid}" && \
+RUN set -e \
+&&  export USER="${USER}" uid="${uid}" gid="${gid}" \
 #
 # Update repos and install packages
 #
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/main"       >> /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories && \
-    apk add --no-cache --update \
-        busybox-extras \
-        ca-certificates \
-        coreutils \
-        curl \
-        docker-cli \
-        docker-cli-compose \
-        file \
-        findutils \
-        grep \
-        inetutils-ftp \
-        jq \
-        openssh-client \
-        gawk \
-        git \
-        lastpass-cli \
-        p7zip \
-        sudo \
-        tmux \
-        tzdata \
-        ttyd \
-        xz \
-        bash \
-        lastpass-cli-bash-completion \
-        zsh \
-        zsh-vcs \
-        lastpass-cli-zsh-completion && \
+# &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
+#     apt-transport-https \
+#     ca-certificates \
+#     coreutils \
+    # apk add --no-cache --update \
+    #     busybox-extras \
+    #     ca-certificates \
+    #     coreutils \
+    #     curl \
+    #     docker-cli \
+    #     docker-cli-compose \
+    #     file \
+    #     findutils \
+    #     grep \
+    #     inetutils-ftp \
+    #     jq \
+    #     openssh-client \
+    #     gawk \
+    #     git \
+    #     lastpass-cli \
+    #     p7zip \
+    #     sudo \
+    #     tmux \
+    #     tzdata \
+    #     ttyd \
+    #     xz \
+    #     bash \
+    #     lastpass-cli-bash-completion \
+    #     zsh \
+    #     zsh-vcs \
+    #     lastpass-cli-zsh-completion && \
 #
 # Install application
 #
 #
 # Clean-up
 #
-    rm -rf \
-     /var/cache/apk \
-     /var/lib/apk && \
+# &&  rm -rf \
+#       /usr/share/doc \
+#       /usr/share/man \
+#       /var/lib/apt \
+#       /var/lib/dpkg/info \
+#       /var/log/apt \
+#       /var/log/*.log \
+#       /tmp/* \
 #
 # Create unprivileged user
 #
-    addgroup -g "${gid}" "${USER}" && \
-    adduser -s /bin/zsh -u 1001 -D -g "ali@mustakim.com" -G "${USER}" "${USER}" && \
-    adduser ali dialout && \
-    if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi
+&&  addgroup -g "${gid}" "${USER}" \
+&&  adduser -s /bin/zsh -u 1001 -D -g "ali@mustakim.com" -G "${USER}" "${USER}" \
+&&  adduser ali dialout \
+&&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi
 #
 #ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
 #ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
