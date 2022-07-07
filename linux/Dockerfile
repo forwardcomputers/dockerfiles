@@ -78,9 +78,9 @@ RUN set -e \
 #
 # Create unprivileged user
 #
-&&  addgroup -g "${gid}" "${USER}" \
-&&  adduser -s /bin/zsh -u 1001 -D -g "ali@mustakim.com" -G "${USER}" "${USER}" \
-&&  adduser ali dialout \
+&&  locale-gen en_US.UTF-8 || true \
+&&  groupadd -g "${gid}" "${USER}" \
+&&  useradd -m -s /bin/bash -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout "${USER}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi
 #
 #ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
