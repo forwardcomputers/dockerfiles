@@ -23,8 +23,7 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 ENV USER="ali" \
     uid="1001" \
-    gid="1001" \
-    locale="en_US.UTF-8"
+    gid="1001" 
 #
 RUN set -e \
 &&  export USER="${USER}" uid="${uid}" gid="${gid}" \
@@ -102,8 +101,8 @@ RUN set -e \
 # Create unprivileged user
 #
 # &&  sed -i 's/^#en_US.UTF/en_US.UTF/' /etc/locale.gen \
-&&  locale-gen "${locale}" \
-&&  update-locale LANG="${locale}" \
+&&  update-locale LANG="en_US.UTF-8" \
+&&  locale-gen "en_US.UTF-8" \
 &&  groupadd -g "${gid}" "${USER}" \
 &&  useradd -m -s /bin/bash -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout "${USER}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi
