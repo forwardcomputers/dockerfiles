@@ -1,7 +1,7 @@
 #
-#APPNEW curl -sL "https://mirror.csclub.uwaterloo.ca/alpine/latest-stable/releases/x86_64/latest-releases.yaml" | yq e '.[0].version'
+#APPNEW apt
 #
-FROM debian:bullseye-backports
+FROM debian:testing-slim
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -53,7 +53,6 @@ RUN set -e \
     psmisc \
     sudo \
     tmux \
-    ttyd/bullseye-backports \
     vim-tiny \
     \
     bash \
@@ -72,12 +71,6 @@ RUN set -e \
     # unzip \
     # xz-utils \
     # zpaq \
-    #     docker-cli \
-    #     docker-cli-compose \
-    #     pinentry-curses \ for lastpass
-    #     tzdata \
-    #     lastpass-cli-bash-completion \
-    #     lastpass-cli-zsh-completion && \
 &&  curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg \
 &&  echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
          $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \
@@ -87,6 +80,9 @@ RUN set -e \
 #
 # Install application
 #
+&&  TTYDNEW=$(curl -sL "https://api.github.com/repos/tsl0922/ttyd/releases/latest" | jq -r '.tag_name') \
+&&  curl -sLo /usr/local/bin/ttyd "https://github.com/tsl0922/ttyd/releases/download/${TTYDNEW}/ttyd.x86_64" \
+&&  chmod +x /usr/local/bin/ttyd \
 #
 # Clean-up
 #
@@ -102,7 +98,6 @@ RUN set -e \
 # Create unprivileged user
 #
 &&  sed -i '/en_US.UTF/ s/^#//;s/^ *//' /etc/locale.gen \
-# &&  dpkg-reconfigure --frontend=noninteractive locales \
 &&  update-locale --no-checks LANG="en_US.UTF-8" \
 &&  locale-gen "en_US.UTF-8" \
 &&  groupadd -g "${gid}" "${USER}" \
