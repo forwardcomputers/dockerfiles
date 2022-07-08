@@ -31,6 +31,7 @@ RUN set -e \
 # Update repos and install packages
 #
 &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
+    apt-utils \
     ca-certificates \
     coreutils \
     curl \
@@ -100,9 +101,10 @@ RUN set -e \
 #
 # Create unprivileged user
 #
-# &&  sed -i 's/^#en_US.UTF/en_US.UTF/' /etc/locale.gen \
-&&  update-locale --no-checks LANG="en_US.UTF-8" \
-&&  locale-gen "en_US.UTF-8" \
+&&  sed -i '/en_US.UTF/ s/^#//;s/^ *//' /etc/locale.gen \
+&&  dpkg-reconfigure --frontend=noninteractive locales \
+# &&  update-locale --no-checks LANG="en_US.UTF-8" \
+# &&  locale-gen "en_US.UTF-8" \
 &&  groupadd -g "${gid}" "${USER}" \
 &&  useradd -m -s /bin/bash -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout "${USER}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi
