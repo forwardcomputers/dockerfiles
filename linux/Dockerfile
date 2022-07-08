@@ -37,13 +37,18 @@ RUN set -e \
     file \
     findutils \
     grep \
+    iproute2 \
     ftp \
+    gnupg \
     jq \
     less \
     openssh-client \
     gawk \
     git \
     lastpass-cli \
+    locales \
+    lsb-release \
+    psmisc \
     sudo \
     tmux \
     ttyd/bullseye-backports \
@@ -68,9 +73,14 @@ RUN set -e \
     #     docker-cli-compose \
     #     pinentry-curses \ for lastpass
     #     tzdata \
-    #     ttyd \
     #     lastpass-cli-bash-completion \
     #     lastpass-cli-zsh-completion && \
+&&  curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg \
+&&  echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
+         $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
+    docker-ce-cli \
+    docker-compose-plugin \
 #
 # Install application
 #
