@@ -1,5 +1,5 @@
 #
-#APPNEW apt
+#APPNEW 1.0
 #
 FROM debian:testing-slim
 ARG BUILD_DATE
@@ -106,4 +106,3 @@ RUN set -e \
 #
 #ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
 #ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
-
