@@ -1,7 +1,7 @@
 #
 #APPNEW curl -sL "https://mirror.csclub.uwaterloo.ca/alpine/latest-stable/releases/x86_64/latest-releases.yaml" | yq e '.[0].version'
 #
-FROM debian:latest
+FROM debian:bullseye-backports
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -30,36 +30,46 @@ RUN set -e \
 #
 # Update repos and install packages
 #
-# &&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
-#     apt-transport-https \
-#     ca-certificates \
-#     coreutils \
-    # apk add --no-cache --update \
-    #     busybox-extras \
-    #     ca-certificates \
-    #     coreutils \
-    #     curl \
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
+    ca-certificates \
+    coreutils \
+    curl \
+    file \
+    findutils \
+    grep \
+    ftp \
+    jq \
+    less \
+    openssh-client \
+    gawk \
+    git \
+    lastpass-cli \
+    sudo \
+    tmux \
+    ttyd/bullseye-backports \
+    \
+    bash \
+    bash-completion \
+    zsh \
+    zsh-common \
+    \
+    # arc \
+    # bzip2\
+    # cabextract \
+    # cpio \
+    # extract \
+    # gzip \
+    # p7zip \
+    # unace \
+    # unzip \
+    # xz-utils \
+    # zpaq \
     #     docker-cli \
     #     docker-cli-compose \
-    #     file \
-    #     findutils \
-    #     grep \
-    #     inetutils-ftp \
-    #     jq \
-    #     openssh-client \
-    #     gawk \
-    #     git \
-    #     lastpass-cli \
-    #     p7zip \
-    #     sudo \
-    #     tmux \
+    #     pinentry-curses \ for lastpass
     #     tzdata \
     #     ttyd \
-    #     xz \
-    #     bash \
     #     lastpass-cli-bash-completion \
-    #     zsh \
-    #     zsh-vcs \
     #     lastpass-cli-zsh-completion && \
 #
 # Install application
