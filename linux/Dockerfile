@@ -101,7 +101,7 @@ RUN set -e \
 # Create unprivileged user
 #
 # &&  sed -i 's/^#en_US.UTF/en_US.UTF/' /etc/locale.gen \
-&&  update-locale LANG="en_US.UTF-8" \
+&&  update-locale --no-checks LANG="en_US.UTF-8" \
 &&  locale-gen "en_US.UTF-8" \
 &&  groupadd -g "${gid}" "${USER}" \
 &&  useradd -m -s /bin/bash -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout "${USER}" \
