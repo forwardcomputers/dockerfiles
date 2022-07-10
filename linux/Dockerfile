@@ -6,6 +6,7 @@ ARG BUILD_DATE
 ARG NAME
 ARG CO
 ARG APPNEW
+ARG DEBIAN_FRONTEND=noninteractive
 #
 LABEL   org.label-schema.schema-version="1.0" \
         org.label-schema.build-date="${BUILD_DATE}" \
@@ -30,7 +31,7 @@ RUN set -e \
 #
 # Update repos and install packages
 #
-&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
+&&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
     apt-utils \
     ca-certificates \
     coreutils \
@@ -84,7 +85,7 @@ RUN set -e \
 &&  echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
          bullseye stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \
         #  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \
-&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
+&&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
     docker-ce-cli \
     docker-compose-plugin \
 #
