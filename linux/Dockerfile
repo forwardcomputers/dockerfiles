@@ -120,7 +120,7 @@ RUN set -e \
 #
 &&  chown -R ali /etc/xrdp/ \
 &&  dirname $( readlink -f /etc/xrdp/key.pem ) | xargs chmod o+x \
-&&  readlinkf /etc/xrdp/key.pem | xargs chmod +r \
+&&  readlink -f /etc/xrdp/key.pem | xargs chmod +r \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|' /etc/xrdp/xrdp.ini \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
 &&  echo "auth required pam_permit.so" > /etc/pam.d/xrdp-sesman \
