@@ -60,6 +60,14 @@ RUN set -e \
     zsh \
     zsh-common \
     \
+    hsetroot \
+    openbox \
+    ltpanel \
+    lxterminal \
+    xorgxrdp \
+    xrdp \
+    xvfb \
+    \
     # arc \
     # bzip2\
     # cabextract \
@@ -94,6 +102,7 @@ RUN set -e \
       /var/lib/apt \
       /var/lib/dpkg/info \
       /var/log/apt \
+      /var/log/xrdp* \
       /var/log/*.log \
       /tmp/* \
 #
@@ -104,7 +113,18 @@ RUN set -e \
 &&  locale-gen "en_US.UTF-8" \
 &&  groupadd -g "${gid}" "${USER}" \
 &&  useradd -m -s /bin/bash -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout "${USER}" \
-&&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi
+&&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi \
+#
+# Modify configuration files
+#
+&&  chown -R ali /etc/xrdp/ \
+&&  dirname $(readlinkf /etc/xrdp/key.pem ) | xargs chmod o+x \
+&&  readlinkf /etc/xrdp/key.pem | xargs chmod +r \
+&&  sed -i 's|LogFile=|LogFile=/tmp/|' /etc/xrdp/xrdp.ini \
+&&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
+&&  echo "auth required pam_permit.so" > /etc/pam.d/xrdp-sesman \
+&&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession
 #
 #ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
 #ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
+ENTRYPOINT [ "/opt/filer/os/lnx/data/linux/docker/entrypoint.sh" ]
