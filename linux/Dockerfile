@@ -1,7 +1,7 @@
 #
 #APPNEW 1.0
 #
-FROM debian:testing-slim
+FROM debian:latest
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -123,9 +123,10 @@ RUN set -e \
 &&  readlink -f /etc/xrdp/key.pem | xargs chmod +r \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|' /etc/xrdp/xrdp.ini \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
+&&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession \
 # https://github.com/neutrinolabs/xrdp/issues/2279#issuecomment-1148373697
-&&  echo "auth required pam_permit.so" > /etc/pam.d/xrdp-sesman \
-&&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession
+# &&  echo "auth required pam_permit.so" > /etc/pam.d/xrdp-sesman \
+&&
 #
-#ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
-#ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
+# ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
+# ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
