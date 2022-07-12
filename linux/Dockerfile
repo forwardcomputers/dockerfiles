@@ -115,7 +115,6 @@ RUN set -e \
 &&  groupadd -g "${gid}" "${USER}" \
 &&  useradd -m -s /bin/bash -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi \
-&&  install -d -o "${uid}" -g "${gid}" -m 700 "/tmp/${uid}" \
 #
 # Modify configuration files
 #
@@ -124,8 +123,7 @@ RUN set -e \
 &&  readlink -f /etc/xrdp/key.pem | xargs chmod +r \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|' /etc/xrdp/xrdp.ini \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp; s|FuseMountName=|FuseMountName=/tmp/|' /etc/xrdp/sesman.ini \
-# &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/%u/.xorgxrdp|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp\/%u; s|FuseMountName=|FuseMountName=/tmp/%u/|' /etc/xrdp/sesman.ini \
-&&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp\/$UID|' /etc/X11/Xsession
+&&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession
 #
 # ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
 # ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
