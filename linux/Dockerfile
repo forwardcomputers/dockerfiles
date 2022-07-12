@@ -61,6 +61,7 @@ RUN set -e \
     zsh \
     zsh-common \
     \
+    fuse \
     hsetroot \
     openbox \
     ltpanel \
