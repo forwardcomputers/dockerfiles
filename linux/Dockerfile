@@ -61,7 +61,6 @@ RUN set -e \
     zsh \
     zsh-common \
     \
-    fuse \
     hsetroot \
     openbox \
     ltpanel \
@@ -104,6 +103,7 @@ RUN set -e \
       /var/lib/apt \
       /var/lib/dpkg/info \
       /var/log/apt \
+      /var/log/journal \
       /var/log/xrdp* \
       /var/log/*.log \
       /tmp/* \
