@@ -125,7 +125,7 @@ RUN set -e \
 &&  dirname $( readlink -f /etc/xrdp/key.pem ) | xargs chmod o+x \
 &&  readlink -f /etc/xrdp/key.pem | xargs chmod +r \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|' /etc/xrdp/xrdp.ini \
-&&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/%u/.xorgxrdp|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp/%u; s|FuseMountName=|FuseMountName=/tmp/%u/|' /etc/xrdp/sesman.ini \
+&&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/%u/.xorgxrdp|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp\/%u; s|FuseMountName=|FuseMountName=/tmp/%u/|' /etc/xrdp/sesman.ini \
 &&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp\/$UID|' /etc/X11/Xsession
 #
 # ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
