@@ -127,7 +127,7 @@ RUN set -e \
 &&  chown -R ali /etc/xrdp/ \
 &&  dirname $( readlink -f /etc/xrdp/key.pem ) | xargs chmod o+x \
 &&  readlink -f /etc/xrdp/key.pem | xargs chmod +r \
-&&  sed -i 's|LogFile=|LogFile=/tmp/|' /etc/xrdp/xrdp.ini \
+&&  sed -i 's|LogFile=|LogFile=/tmp/|; 0,/port=-1/{s/port=-1/port=ask/}' /etc/xrdp/xrdp.ini \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; s|FuseMountName=|FuseMountName=/tmp/|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
 &&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession
 #
