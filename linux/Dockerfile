@@ -115,9 +115,9 @@ RUN set -e \
 &&  groupadd -g "${gid}" "${USER}" \
 &&  useradd -m -s /bin/bash -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi \
-&&  mkdir -p "/tmp/${uid}" \
-&&  mkdir -p /run/user \
-&&  install -d -o "${uid}" -g "${gid}" -m 700 "/run/user/${uid}" \
+&&  install -d -o "${uid}" -g "${gid}" -m 600 "/tmp/${uid}" \
+# &&  mkdir -p /run/user \
+# &&  install -d -o "${uid}" -g "${gid}" -m 700 "/run/user/${uid}" \
 #
 # Modify configuration files
 #
