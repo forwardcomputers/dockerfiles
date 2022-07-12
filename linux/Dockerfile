@@ -81,6 +81,10 @@ RUN set -e \
     # xz-utils \
     # zpaq \
 #
+&&  apt-get -y install \
+    firefox-esr \
+    libpci3 \
+#
 &&  curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg \
 &&  echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
          bullseye stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \
