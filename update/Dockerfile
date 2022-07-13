@@ -41,6 +41,7 @@ RUN set -e \
     gcc-aarch64-linux-gnu \
     gcc-arm-none-eabi \
     git \
+    gnupg \
     gpg-agent \
     grub-efi \
     isolinux \
