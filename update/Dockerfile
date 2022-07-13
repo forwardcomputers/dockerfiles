@@ -64,7 +64,7 @@ RUN set -e \
 &&  apt-get update && apt-get install --yes \
     imagemagick \
 #
-&&  source /etc/os-release \
+&&  . /etc/os-release \
 &&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/Release.gpg" | \
         gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg \
 &&  echo "deb http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/ /" | \
