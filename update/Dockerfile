@@ -65,12 +65,10 @@ RUN set -e \
 &&  apt-get update && apt-get install --yes \
     imagemagick \
 #
-&&  cat /etc/os-release \
 &&  . /etc/os-release \
-&&  VERSION_ID="11" \
 &&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/Release.key" | \
         gpg --dearmor -o /etc/apt/trusted.gpg.d/arx.gpg \
-&&  echo "deb http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/ /" | \
+&&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/ /" | \
         tee /etc/apt/sources.list.d/arx.list > /dev/null \
 &&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
 #
