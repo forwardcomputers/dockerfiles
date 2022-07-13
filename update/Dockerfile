@@ -65,6 +65,7 @@ RUN set -e \
 &&  apt-get update && apt-get install --yes \
     imagemagick \
 #
+# For Ubuntu # &&  add-apt-repository ppa:arx/release \
 &&  . /etc/os-release \
 &&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/Release.key" | \
         gpg --dearmor -o /etc/apt/trusted.gpg.d/arx.gpg \
@@ -72,8 +73,8 @@ RUN set -e \
         tee /etc/apt/sources.list.d/arx.list > /dev/null \
 &&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
 #
-&&  YQNEW=$(curl -sL "https://api.github.com/repos/mikefarah/yq/releases/latest" | jq -r '.tag_name') \
-&&  curl -L -o/usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQNEW}/yq_linux_amd64" \
+&&  YQNEW=$( curl -sL "https://api.github.com/repos/mikefarah/yq/releases/latest" | jq -r '.tag_name' ) \
+&&  curl -sLo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQNEW}/yq_linux_amd64" \
 &&  chmod +x /usr/local/bin/yq \
 #
 # Clone repos
