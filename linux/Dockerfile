@@ -87,7 +87,7 @@ RUN set -e \
 #
 &&  curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg \
 &&  echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
-         bullseye stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \
+         bullseye stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null \
         #  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \
 &&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
     docker-ce-cli \

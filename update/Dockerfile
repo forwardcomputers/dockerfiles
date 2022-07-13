@@ -69,7 +69,7 @@ RUN set -e \
 &&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/Release.gpg" | \
         gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg \
 &&  echo "deb http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/ /" | \
-        sudo tee /etc/apt/sources.list.d/arx.list > /dev/null \
+        tee /etc/apt/sources.list.d/arx.list > /dev/null \
 &&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
 #
 &&  YQNEW=$(curl -sL "https://api.github.com/repos/mikefarah/yq/releases/latest" | jq -r '.tag_name') \
