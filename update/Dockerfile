@@ -1,7 +1,8 @@
 #
-#APPNEW 1.0
+#APPNEW 2.0
 #
-FROM ubuntu:latest
+# FROM ubuntu:latest
+FROM debian:latest
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -26,7 +27,6 @@ RUN set -e \
 #
 # Install apps
 &&  apt-get update && apt-get install --no-install-recommends --yes \
-    apt-transport-https \
     ca-certificates \
     coreutils \
     binutils \
