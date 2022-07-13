@@ -64,7 +64,11 @@ RUN set -e \
 &&  apt-get update && apt-get install --yes \
     imagemagick \
 #
-&&  add-apt-repository ppa:arx/release \
+&&  source /etc/os-release \
+&&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/Release.gpg" | \
+        gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg \
+&&  echo "deb http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/ /" | \
+        sudo tee /etc/apt/sources.list.d/arx.list > /dev/null \
 &&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
 #
 &&  YQNEW=$(curl -sL "https://api.github.com/repos/mikefarah/yq/releases/latest" | jq -r '.tag_name') \
