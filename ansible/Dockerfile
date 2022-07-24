@@ -24,4 +24,3 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
       /var/log/*.log
 #
 WORKDIR /root/ansible
-ENTRYPOINT [ "/usr/local/bin/ansible" ]
