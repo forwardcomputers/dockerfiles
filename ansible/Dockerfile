@@ -25,6 +25,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
 #
 WORKDIR /root/ansible
 SHELL [ "/bin/bash", "-c" ]
-ENTRYPOINT [ "ansible", "$@" ]
+# ENTRYPOINT [ "ansible", "$@" ]
 #
-CMD [ "--help" ]
+CMD [ "ansible", "--help" ]
