@@ -4,15 +4,18 @@
 FROM python:3
 #
 # Install apps
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y install vim python3-winrm sshpass && \
-    pip3 install ansible && \
-    echo "America/Toronto" > /etc/timezone && \
-    echo "PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /root/.bashrc && \
-    if [ ! -d /root/.ssh ]; then mkdir /root/.ssh; chmod 700 /root/.ssh; fi && \
-    echo "StrictHostKeyChecking no\nServerAliveInterval 300\nServerAliveCountMax 3\nIdentityFile /opt/filer/os/alim.pem" > /root/.ssh/config && \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y install \
+    vim \
+    python3-winrm \
+    sshpass \
+&&  pip3 install ansible \
+#
+&&  echo "PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /root/.bashrc \
+&&  if [ ! -d /root/.ssh ]; then mkdir /root/.ssh; chmod 700 /root/.ssh; fi\
+&&  echo "StrictHostKeyChecking no\nServerAliveInterval 300\nServerAliveCountMax 3\nIdentityFile /opt/filer/os/alim.pem" > /root/.ssh/config\
 #
 # Clean-up
-    rm -rf \
+&&  rm -rf \
       /usr/share/doc \
       /usr/share/man \
       /var/lib/apt \
@@ -20,3 +23,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
       /var/log/apt \
       /var/log/*.log
 #
+WORKDIR /root/ansible
+SHELL [ "/bin/bash", "-c" ]
+ENTRYPOINT [ "exec", "--", "ansible", "\"$@\"" ]
+#
+CMD [ "--help" ]
