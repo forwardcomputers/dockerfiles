@@ -27,4 +27,4 @@ WORKDIR /root/ansible
 SHELL [ "/bin/bash", "-c" ]
 # ENTRYPOINT [ "ansible", "$@" ]
 #
-CMD [ "ansible", "--help" ]
+# CMD [ "ansible", "--help" ]
