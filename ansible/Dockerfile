@@ -24,7 +24,4 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
       /var/log/*.log
 #
 WORKDIR /root/ansible
-SHELL [ "/bin/bash", "-c" ]
-# ENTRYPOINT [ "ansible", "$@" ]
-#
-# CMD [ "ansible", "--help" ]
+ENTRYPOINT [ "/usr/local/bin/ansible" ]
