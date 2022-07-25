@@ -23,3 +23,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
       /var/log/apt \
       /var/log/*.log
 #
+ENTRYPOINT \
+    if [ "${1#-}" != "${1}" ] || [ -z "$(command -v "${1}")" ]; then \
+        set -- ansible "$@" \
+    fi \
+    exec "$@"
+#
+CMD [ "ansible" ]
