@@ -12,7 +12,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
 #
 &&  echo "PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /root/.bashrc \
 &&  if [ ! -d /root/.ssh ]; then mkdir /root/.ssh; chmod 700 /root/.ssh; fi\
-&&  echo "StrictHostKeyChecking no\nServerAliveInterval 300\nServerAliveCountMax 3\nIdentityFile /opt/filer/os/alim.pem" > /root/.ssh/config\
+&&  echo "StrictHostKeyChecking no\nServerAliveInterval 300\nServerAliveCountMax 3\nIdentityFile /opt/filer/os/alim.pem\nUserKnownHostsFile /dev/null" > /root/.ssh/config\
 #
 # Clean-up
 &&  rm -rf \
