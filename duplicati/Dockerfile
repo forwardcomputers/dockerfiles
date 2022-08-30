@@ -23,6 +23,7 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 # Install apps
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y install \
+    curl \
     jq \
     libarchive-tools \
 #
