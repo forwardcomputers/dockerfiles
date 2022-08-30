@@ -26,6 +26,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
     curl \
     jq \
     libarchive-tools \
+    mono-complete \
+    libmono-sqlite4.0-cil \
+    libmono-system-drawing4.0-cil \
+    libmono-system-net-http-webrequest4.0-cil \
+    libmono-system-web4.0-cil \
+    referenceassemblies-pcl \
 #
 &&  APPNEW=$( curl -sX GET "https://api.github.com/repos/duplicati/duplicati/releases" | \
                 jq -r 'first( .[] | select( .tag_name | contains( "beta" ) ).tag_name )' ) \
