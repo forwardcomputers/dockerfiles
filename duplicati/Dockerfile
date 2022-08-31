@@ -40,6 +40,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
 &&  mkdir -p /opt/duplicati \
 &&  curl -sL "${APPURL}" | bsdtar -xf- -C /opt/duplicati \
 #
+&&  sed -i 's#mozilla/DST_Root_CA_X3.crt#!mozilla/DST_Root_CA_X3.crt#' /etc/ca-certificates.conf \
+&&  update-ca-certificates \
+#
 # Clean-up
 &&  rm -rf \
       /usr/share/doc \
