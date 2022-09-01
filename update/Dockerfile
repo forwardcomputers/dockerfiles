@@ -51,6 +51,7 @@ RUN set -e \
     lsof \
     mkisofs \
     msmtp \
+    netcat-openbsd \
     open-iscsi \
     openssh-client \
     p7zip-full \
