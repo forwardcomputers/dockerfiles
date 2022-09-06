@@ -40,12 +40,12 @@ ENTRYPOINT \
     usermod -u "${UID}" "${USER}" ; \
     groupmod -g "${GID}" "${USER}" ; \
     usermod -g "${GID}" "${USER}" ; \
-    ( /usr/bin/Xvfb :0 -screen 0 1024x768x24 & ) ; \
-    ( /usr/bin/x11vnc & ) ; \
-    ( /usr/share/novnc/utils/launch.sh & ) ; \
-    /usr/bin/thunderbird
+    ( /usr/bin/nohup /usr/bin/Xvfb :0 -screen 0 1024x768x24 & ) ; \
+    ( /usr/bin/nohup /usr/bin/x11vnc & ) ; \
+    ( /usr/bin/nohup /usr/share/novnc/utils/launch.sh & ) ; \
+    /usr/bin/openbox --startup /usr/bin/thunderbird
 #
 # Use
-# docker run -d -p 6080:6080 -v /opt/filer/os/lnx/data/thunderbird:/thunderbird forwardcomputers/thunderbird
+# docker run --name thunderbird -d -p 6080:6080 -v /opt/filer/os/lnx/data/thunderbird:/thunderbird forwardcomputers/thunderbird
 # http://virt:6080/vnc_lite.html
 # http://virt:6080/vnc.html?autoconnect=true
