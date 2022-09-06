@@ -40,9 +40,9 @@ ENTRYPOINT \
     usermod -u "${UID}" "${USER}" ; \
     groupmod -g "${GID}" "${USER}" ; \
     usermod -g "${GID}" "${USER}" ; \
-    /usr/bin/Xvfb :0 -screen 0 1024x768x24 & ; \
-    /usr/bin/x11vnc & ; \
-    /usr/share/novnc/utils/launch.sh & ; \
+    ( /usr/bin/Xvfb :0 -screen 0 1024x768x24 & ) ; \
+    ( /usr/bin/x11vnc & ) ; \
+    ( /usr/share/novnc/utils/launch.sh & ) ; \
     /usr/bin/thunderbird
 #
 # Use
