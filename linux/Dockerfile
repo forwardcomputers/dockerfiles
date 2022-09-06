@@ -42,6 +42,7 @@ RUN set -e \
     grep \
     iproute2 \
     ftp \
+    net-tools \
     gnupg \
     jq \
     less \
@@ -66,6 +67,8 @@ RUN set -e \
     openbox \
     ltpanel \
     lxterminal \
+    novnc \
+    x11vnc \
     xorgxrdp \
     xrdp \
     xvfb \
