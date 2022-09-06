@@ -36,7 +36,6 @@ RUN apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recomme
 &&  groupadd -g "${GID}" "${USER}" \
 &&  useradd -d "${DATA_DIR}" -m -s /bin/bash -u "${UID}" -g "${GID}" "${USER}"
 #
-USER "${USER}"
 ENTRYPOINT \
     usermod -u "${UID}" "${USER}" ; \
     groupmod -g "${GID}" "${USER}" ; \
