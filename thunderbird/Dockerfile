@@ -25,8 +25,11 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 # Update repos and install packages
 #
-RUN apt-get update && apt-get -y full-upgrade && apt-get -y install \
+RUN apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
+    openbox \
+    novnc \
     thunderbird \
+    xvfb \
 #
 # Clean-up
 #
@@ -38,7 +41,7 @@ RUN apt-get update && apt-get -y full-upgrade && apt-get -y install \
       /var/log/apt \
       /var/log/journal \
       /var/log/*.log \
-      /tmp/* \
+      /tmp/*
 #
 # Modify configuration files
 #
