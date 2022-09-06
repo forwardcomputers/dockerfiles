@@ -44,7 +44,8 @@ ENTRYPOINT \
     ( /usr/bin/nohup /usr/bin/Xvfb :0 -screen 0 1024x768x24 & ) ; \
     ( /usr/bin/nohup /usr/bin/x11vnc & ) ; \
     ( /usr/bin/nohup /usr/share/novnc/utils/launch.sh & ) ; \
-    /usr/bin/openbox --startup /usr/bin/thunderbird
+    ( /usr/bin/nohup /usr/bin/openbox & ) ; \
+    /bin/su -c "/usr/bin/thunderbird" "${USER}"
 #
 # Use
 # docker run --name thunderbird -d -p 6080:6080 -v /opt/filer/os/lnx/data/thunderbird:/thunderbird forwardcomputers/thunderbird
