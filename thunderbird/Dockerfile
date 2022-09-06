@@ -1,7 +1,7 @@
 FROM debian:latest
 #
 ENV DISPLAY=:0
-ENV DATA_DIR=/thunderbird
+ENV DATA_DIR="/thunderbird"
 ENV USER="thunderbird"
 ENV UID=1999
 ENV GID=1999
