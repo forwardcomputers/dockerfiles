@@ -1,3 +1,6 @@
+#
+#APPNEW 1.0
+#
 FROM debian:latest
 #
 ENV DISPLAY=:0
