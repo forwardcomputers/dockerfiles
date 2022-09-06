@@ -1,35 +1,22 @@
-#
-#APPNEW 1.0
-#PLATFORM --platform=linux/amd64,linux/arm64
-#
 FROM debian:latest
-ARG BUILD_DATE
-ARG NAME
-ARG CO
-ARG APPNEW
-ARG DEBIAN_FRONTEND=noninteractive
 #
-LABEL   org.label-schema.schema-version="1.0" \
-        org.label-schema.build-date="${BUILD_DATE}" \
-        org.label-schema.name="${NAME}" \
-        org.label-schema.vcs-url="https://github.com/forwardcomputers/dockerfiles/tree/master/${NAME}" \
-        org.label-schema.vendor="${CO}" \
-        org.label-schema.version="${APPNEW}" \
-        org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${NAME}" \
-        org.opencontainers.image.created="${BUILD_DATE}" \
-        org.opencontainers.image.title="${NAME}" \
-        org.opencontainers.image.source="https://github.com/forwardcomputers/dockerfiles/tree/master/${NAME}" \
-        org.opencontainers.image.vendor="${CO}" \
-        org.opencontainers.image.version="${APPNEW}" \
-        org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
+ENV DISPLAY=:0
+ENV DATA_DIR=/thunderbird
+ENV USER="thunderbird"
+ENV UID=1999
+ENV GID=1999
+EXPOSE 6080
 #
 # Update repos and install packages
 #
 RUN apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
     openbox \
+    net-tools \
     novnc \
-    thunderbird \
+    procps \
+    x11vnc \
     xvfb \
+    thunderbird \
 #
 # Clean-up
 #
@@ -41,11 +28,21 @@ RUN apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recomme
       /var/log/apt \
       /var/log/journal \
       /var/log/*.log \
-      /tmp/*
+      /tmp/* \
 #
-# Modify configuration files
+&&  groupadd -g "${GID}" "${USER}" \
+&&  useradd -d "${DATA_DIR}" -m -s /bin/bash -u "${UID}" -g "${GID}" "${USER}"
 #
+ENTRYPOINT \
+    usermod -u "${UID}" "${USER}" ; \
+    groupmod -g "${GID}" "${USER}" ; \
+    usermod -g "${GID}" "${USER}" ; \
+    /usr/bin/Xvfb :0 -screen 0 1024x768x24 & ; \
+    /usr/bin/x11vnc & ; \
+    /usr/share/novnc/utils/launch.sh & ; \
+    /usr/bin/thunderbird
 #
-# ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
-# ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
-
+# Use
+# docker run -d -p 6080:6080 -v /opt/filer/os/lnx/data/thunderbird:/thunderbird forwardcomputers/thunderbird
+# http://virt:6080/vnc_lite.html
+# http://virt:6080/vnc.html?autoconnect=true
