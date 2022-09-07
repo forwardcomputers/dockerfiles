@@ -1,6 +1,5 @@
 #
 #APPNEW 1.0
-#PLATFORM --platform=linux/amd64,linux/arm64
 #
 FROM debian:latest
 ARG BUILD_DATE
