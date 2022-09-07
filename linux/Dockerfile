@@ -122,17 +122,18 @@ RUN set -e \
 &&  groupadd -g "${gid}" "${USER}" \
 &&  useradd -m -s /bin/zsh -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi \
-&&  install -d -o "${uid}" -g "${gid}" -m 700 "/run/user/${uid}"
+&&  install -d -o "${uid}" -g "${gid}" -m 700 "/run/user/${uid}" \
 #
 # Modify configuration files
 #
-# &&  chown -R ali /etc/xrdp/ \
-# &&  dirname $( readlink -f /etc/xrdp/key.pem ) | xargs chmod o+x \
-# &&  readlink -f /etc/xrdp/key.pem | xargs chmod +r \
+&&  chown -R ali /etc/xrdp/ \
+&&  dirname $( readlink -f /etc/xrdp/key.pem ) | xargs chmod o+x \
+&&  readlink -f /etc/xrdp/key.pem | xargs chmod +r \
 # &&  sed -i 's|LogFile=|LogFile=/tmp/|' /etc/xrdp/xrdp.ini \
-# &&  sed -i 's|port=ask5900|port=5900|; s|ip=ask|ip=127.0.0.1|' /etc/xrdp/xrdp.ini \
-# &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; s|FuseMountName=|FuseMountName=/tmp/|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
-# &&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession
+# &&  sed -i '/=Xvnc/,/port/ s/port=-1/port=5900/' /etc/xrdp/xrdp.ini \
+&&  sed -i 's|LogFile=|LogFile=/tmp/|; /=Xvnc/,/port/ s|port=-1|port=5900|' /etc/xrdp/xrdp.ini \
+&&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; s|FuseMountName=|FuseMountName=/tmp/|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
+&&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession
 #
 # ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
 # ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
