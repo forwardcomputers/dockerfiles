@@ -1,5 +1,6 @@
 #
 #APPNEW 1.0
+#PLATFORM --platform=linux/amd64,linux/arm64
 #
 FROM debian:latest
 ARG BUILD_DATE
@@ -41,7 +42,6 @@ RUN set -e \
     grep \
     iproute2 \
     ftp \
-    net-tools \
     gnupg \
     jq \
     less \
@@ -66,8 +66,6 @@ RUN set -e \
     openbox \
     ltpanel \
     lxterminal \
-    novnc \
-    x11vnc \
     xorgxrdp \
     xrdp \
     xvfb \
@@ -91,6 +89,7 @@ RUN set -e \
 &&  curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg \
 &&  echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
          bullseye stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null \
+        #  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \
 &&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
     docker-ce-cli \
     docker-compose-plugin \
@@ -122,17 +121,17 @@ RUN set -e \
 &&  groupadd -g "${gid}" "${USER}" \
 &&  useradd -m -s /bin/zsh -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi \
-&&  install -d -o "${uid}" -g "${gid}" -m 700 "/run/user/${uid}"
+&&  install -d -o "${uid}" -g "${gid}" -m 700 "/run/user/${uid}" \
 #
 # Modify configuration files
 #
-# &&  chown -R ali /etc/xrdp/ \
-# &&  dirname $( readlink -f /etc/xrdp/key.pem ) | xargs chmod o+x \
-# &&  readlink -f /etc/xrdp/key.pem | xargs chmod +r \
-# &&  sed -i 's|LogFile=|LogFile=/tmp/|' /etc/xrdp/xrdp.ini \
-# &&  sed -i 's|port=ask5900|port=5900|; s|ip=ask|ip=127.0.0.1|' /etc/xrdp/xrdp.ini \
-# &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; s|FuseMountName=|FuseMountName=/tmp/|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
-# &&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession
+&&  chown -R ali /etc/xrdp/ \
+&&  dirname $( readlink -f /etc/xrdp/key.pem ) | xargs chmod o+x \
+&&  readlink -f /etc/xrdp/key.pem | xargs chmod +r \
+&&  sed -i 's|LogFile=|LogFile=/tmp/|' /etc/xrdp/xrdp.ini \
+&&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; s|FuseMountName=|FuseMountName=/tmp/|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
+&&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession
 #
 # ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
 # ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
+

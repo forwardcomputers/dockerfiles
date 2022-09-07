@@ -1,0 +1,34 @@
+version: '3'
+
+networks:
+  linux_network:
+    name: pubnet
+
+services:
+  linux:  
+    container_name: linux
+    entrypoint: /usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s 'ttyd'
+    entrypoint: tail -f /dev/null
+    hostname: linux
+    image: forwardcomputers/linux
+    init: true
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    mac_address: d0:ca:ab:cd:ef:02
+    networks:
+      linux_network:
+        ipv4_address: 10.13.1.162
+    restart: always
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    user: ali
+    working_dir: /home/ali
+    tmpfs:
+      /tmp
+    volumes:
+      - /opt/filer:/opt/filer
+      - /opt/filer/os/lnx/data/docker/etc/localtime:/etc/localtime:ro
+      - /opt/filer/os/lnx/data/docker/etc/timezone:/etc/timezone:ro
+      - /opt/filer/os/lnx/data/linux:/home/ali
+
+
