@@ -54,6 +54,7 @@ RUN set -e \
     procps \
     psmisc \
     sudo \
+    supervisor \
     tmux \
     vim-tiny \
     \
@@ -129,11 +130,33 @@ RUN set -e \
 &&  chown -R ali /etc/xrdp/ \
 &&  dirname $( readlink -f /etc/xrdp/key.pem ) | xargs chmod o+x \
 &&  readlink -f /etc/xrdp/key.pem | xargs chmod +r \
-# &&  sed -i 's|LogFile=|LogFile=/tmp/|' /etc/xrdp/xrdp.ini \
-# &&  sed -i '/=Xvnc/,/port/ s/port=-1/port=5900/' /etc/xrdp/xrdp.ini \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; /=Xvnc/,/port/ s|port=-1|port=5900|' /etc/xrdp/xrdp.ini \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; s|FuseMountName=|FuseMountName=/tmp/|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
-&&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession
+&&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession \
+#
+&&  echo "[supervisord] \
+nodaemon=true \
+user=${USER} \
+\
+[program:xvfb] \
+command=/usr/bin/Xvfb -screen 0  1024x768x24 -ac -noreset \
+autorestart=true \
+priority=100 \
+\
+[program:x11vnc] \
+command=/usr/bin/x11vnc -display :0 -forever -loop -nopw -ncache -ncache_cr -noxdamage -N -q -shared \
+autorestart=true \
+priority=200 \
+\
+[program:novnc] \
+command=/usr/share/novnc/utils/launch.sh \
+autorestart=true \
+priority=200 \
+\
+[program:openbox] \
+command=/usr/bin/openbox-session \
+autorestart=true \
+priority=200" > /etc/supervisor/conf.d/supervisord.conf \
 #
 # ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
 # ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
