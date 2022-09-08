@@ -134,30 +134,60 @@ RUN set -e \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; s|FuseMountName=|FuseMountName=/tmp/|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
 &&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession \
 #
-&&  echo "[supervisord] \
-nodaemon=true \
-user=${USER} \
-\
-[program:xvfb] \
-command=/usr/bin/Xvfb -screen 0  1024x768x24 -ac -noreset \
-autorestart=true \
-priority=100 \
-\
-[program:x11vnc] \
-command=/usr/bin/x11vnc -display :0 -forever -loop -nopw -ncache -ncache_cr -noxdamage -N -q -shared \
-autorestart=true \
-priority=200 \
-\
-[program:novnc] \
-command=/usr/share/novnc/utils/launch.sh \
-autorestart=true \
-priority=200 \
-\
-[program:openbox] \
-command=/usr/bin/openbox-session \
-autorestart=true \
-priority=200" > /etc/supervisor/conf.d/supervisord.conf \
+&&  echo "[unix_http_server] \n\
+file=/tmp/supervisor.sock \n\
+\n\
+[supervisord] \n\
+logfile=/dev/null \n\
+nodaemon=true \n\
+pidfile=/tmp/supervisord.pid \n\
+user=${USER} \n\
+\n\
+[program:xvfb] \n\
+autorestart=true \n\
+command=/usr/bin/Xvfb -screen 0 1194x834x24 -ac -noreset \n\
+priority=100 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0 \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+\n\
+[program:x11vnc] \n\
+autorestart=true \n\
+command=/usr/bin/x11vnc -display :0 -forever -loop -nopw -ncache_cr -noxdamage -N -q -shared \n\
+priority=200 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0 \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+\n\
+[program:novnc] \n\
+autorestart=true \n\
+command=/usr/share/novnc/utils/launch.sh \n\
+priority=200 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0 \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+\n\
+[program:openbox] \n\
+autorestart=true \n\
+command=/usr/bin/openbox-session \n\
+environment=DISPLAY=':0' \n\
+priority=200 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0 \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+\n\
+[program:ttyd] \n\
+autorestart=true \n\
+command=/usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s 'ttyd' \n\
+priority=200 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0 \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+\n" > /etc/supervisor/conf.d/supervisord.conf
 #
-# ENTRYPOINT [ "/sbin/docker-init", "--", "/usr/bin/ttyd", "-p", "8081", "/usr/bin/tmux", "new", "-A", "-s", "ttyd" ]
-# ENTRYPOINT /sbin/docker-init -- /usr/bin/ttyd -p 8081 /usr/bin/tmux new -A -s 'ttyd'
-
+ENTRYPOINT [ "supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
