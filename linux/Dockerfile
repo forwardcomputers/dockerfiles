@@ -221,3 +221,4 @@ user=xrdp \n\
 \n" > /etc/supervisor/conf.d/supervisord.conf
 #
 ENTRYPOINT [ "supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
+
