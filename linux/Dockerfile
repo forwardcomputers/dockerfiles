@@ -54,7 +54,7 @@ RUN set -e \
     locales \
     lsb-release \
     openssh-server \
-    p7zip \
+    p7zip-full \
     procps \
     psmisc \
     sudo \
@@ -69,14 +69,15 @@ RUN set -e \
     zsh \
     zsh-common \
     \
-    fspanel \
     hsetroot \
     openbox \
     lxterminal \
     novnc \
+    tint2 \
     x11vnc \
     xorgxrdp \
     xrdp \
+    x11-xserver-utils \
     xvfb \
 #
 &&  apt-get -y install \
@@ -127,20 +128,34 @@ RUN set -e \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; /=Xvnc/,/port/ s|port=-1|port=5900|' /etc/xrdp/xrdp.ini \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; s|FuseMountName=|FuseMountName=/tmp/|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
 &&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession \
+&&  mkdir -p '/run/sshd' \
 #
 &&  echo "[unix_http_server] \n\
 file=/tmp/supervisor.sock \n\
+\n\
+[inet_http_server] \n\
+port=:9001 \n\
 \n\
 [supervisord] \n\
 logfile=/dev/null \n\
 nodaemon=true \n\
 pidfile=/tmp/supervisord.pid \n\
+\n\
+[program:ttyd] \n\
+autorestart=true \n\
+command=/usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s 'ttyd' \n\
+directory=/home/${USER} \n\
+priority=100 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0 \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
 user=${USER} \n\
 \n\
 [program:sshd] \n\
 autorestart=true \n\
-command=/usr/sbin/sshd -D' \n\
-priority=100 \n\
+command=/usr/sbin/sshd -D \n\
+priority=110 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
@@ -149,7 +164,7 @@ stdout_logfile_maxbytes=0 \n\
 [program:xvfb] \n\
 autorestart=true \n\
 command=/usr/bin/Xvfb -ac +extension GLX -noreset +render -screen 0 1194x834x24 \n\
-priority=110 \n\
+priority=120 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
@@ -158,7 +173,7 @@ stdout_logfile_maxbytes=0 \n\
 [program:x11vnc] \n\
 autorestart=true \n\
 command=/usr/bin/x11vnc -display :0 -forever -loop -ncache_cr -nopw -noxdamage -N -q -shared \n\
-priority=200 \n\
+priority=122 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
@@ -167,35 +182,28 @@ stdout_logfile_maxbytes=0 \n\
 [program:novnc] \n\
 autorestart=true \n\
 command=/usr/share/novnc/utils/launch.sh \n\
-priority=210 \n\
+priority=124 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
 stdout_logfile_maxbytes=0 \n\
+user=${USER} \n\
 \n\
 [program:openbox] \n\
 autorestart=true \n\
-command=/usr/bin/openbox-session \n\
+command=sudo -u ${USER} /usr/bin/openbox-session \n\
 environment=DISPLAY=':0' \n\
-priority=220 \n\
+priority=126 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
 stdout_logfile_maxbytes=0 \n\
+user=${USER} \n\
 \n\
-[program:ttyd] \n\
-autorestart=true \n\
-command=/usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s 'ttyd' \n\
-priority=230 \n\
-stderr_logfile=/dev/stderr \n\
-stderr_logfile_maxbytes=0 \n\
-stdout_logfile=/dev/stdout \n\
-stdout_logfile_maxbytes=0 \n\
-\n\
-[program:sesman] \n\
+[program:xrdp-sesman] \n\
 autorestart=true \n\
 command=/usr/sbin/xrdp-sesman --nodaemon \n\
-priority=300 \n\
+priority=130 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
@@ -204,11 +212,12 @@ stdout_logfile_maxbytes=0 \n\
 [program:xrdp] \n\
 autorestart=true \n\
 command=/usr/sbin/xrdp --nodaemon \n\
-priority=310 \n\
+priority=132 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
 stdout_logfile_maxbytes=0 \n\
+user=xrdp \n\
 \n" > /etc/supervisor/conf.d/supervisord.conf
 #
 ENTRYPOINT [ "supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
