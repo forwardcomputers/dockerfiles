@@ -33,6 +33,7 @@ RUN set -e \
 #
 &&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
     apt-utils \
+    bzip2\
     ca-certificates \
     coreutils \
     curl \
@@ -48,42 +49,35 @@ RUN set -e \
     openssh-client \
     gawk \
     git \
+    gzip \
     lastpass-cli \
     locales \
     lsb-release \
+    openssh-server \
+    p7zip \
     procps \
     psmisc \
     sudo \
     supervisor \
     tmux \
+    unzip \
     vim-tiny \
+    xz-utils \
     \
     bash \
     bash-completion \
     zsh \
     zsh-common \
     \
+    fspanel \
     hsetroot \
     openbox \
-    ltpanel \
     lxterminal \
     novnc \
     x11vnc \
     xorgxrdp \
     xrdp \
     xvfb \
-    \
-    # arc \
-    # bzip2\
-    # cabextract \
-    # cpio \
-    # extract \
-    # gzip \
-    # p7zip \
-    # unace \
-    # unzip \
-    # xz-utils \
-    # zpaq \
 #
 &&  apt-get -y install \
     firefox-esr \
@@ -105,15 +99,15 @@ RUN set -e \
 # Clean-up
 #
 &&  rm -rf \
-      /usr/share/doc \
-      /usr/share/man \
-      /var/lib/apt \
-      /var/lib/dpkg/info \
-      /var/log/apt \
-      /var/log/journal \
-      /var/log/xrdp* \
-      /var/log/*.log \
-      /tmp/* \
+    /usr/share/doc \
+    /usr/share/man \
+    /var/lib/apt \
+    /var/lib/dpkg/info \
+    /var/log/apt \
+    /var/log/journal \
+    /var/log/xrdp* \
+    /var/log/*.log \
+    /tmp/* \
 #
 # Create unprivileged user
 #
@@ -143,10 +137,19 @@ nodaemon=true \n\
 pidfile=/tmp/supervisord.pid \n\
 user=${USER} \n\
 \n\
+[program:sshd] \n\
+autorestart=true \n\
+command=/usr/sbin/sshd -D' \n\
+priority=100 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0 \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+\n\
 [program:xvfb] \n\
 autorestart=true \n\
-command=/usr/bin/Xvfb -screen 0 1194x834x24 -ac -noreset \n\
-priority=100 \n\
+command=/usr/bin/Xvfb -ac +extension GLX -noreset +render -screen 0 1194x834x24 \n\
+priority=110 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
@@ -154,7 +157,7 @@ stdout_logfile_maxbytes=0 \n\
 \n\
 [program:x11vnc] \n\
 autorestart=true \n\
-command=/usr/bin/x11vnc -display :0 -forever -loop -nopw -ncache_cr -noxdamage -N -q -shared \n\
+command=/usr/bin/x11vnc -display :0 -forever -loop -ncache_cr -nopw -noxdamage -N -q -shared \n\
 priority=200 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
@@ -164,7 +167,7 @@ stdout_logfile_maxbytes=0 \n\
 [program:novnc] \n\
 autorestart=true \n\
 command=/usr/share/novnc/utils/launch.sh \n\
-priority=200 \n\
+priority=210 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
@@ -174,7 +177,7 @@ stdout_logfile_maxbytes=0 \n\
 autorestart=true \n\
 command=/usr/bin/openbox-session \n\
 environment=DISPLAY=':0' \n\
-priority=200 \n\
+priority=220 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
@@ -183,7 +186,25 @@ stdout_logfile_maxbytes=0 \n\
 [program:ttyd] \n\
 autorestart=true \n\
 command=/usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s 'ttyd' \n\
-priority=200 \n\
+priority=230 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0 \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+\n\
+[program:sesman] \n\
+autorestart=true \n\
+command=/usr/sbin/xrdp-sesman --nodaemon \n\
+priority=300 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0 \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+\n\
+[program:xrdp] \n\
+autorestart=true \n\
+command=/usr/sbin/xrdp --nodaemon \n\
+priority=310 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
