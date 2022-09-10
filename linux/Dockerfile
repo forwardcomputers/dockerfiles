@@ -217,7 +217,6 @@ stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
 stdout_logfile_maxbytes=0 \n\
-user=xrdp \n\
 \n" > /etc/supervisor/conf.d/supervisord.conf
 #
 ENTRYPOINT [ "supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
