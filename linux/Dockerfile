@@ -143,7 +143,7 @@ pidfile=/tmp/supervisord.pid \n\
 \n\
 [program:ttyd] \n\
 autorestart=true \n\
-command=su - ${USER} /usr/local/bin/ttyd -w /home/${USER} -p 8081 /usr/bin/tmux -u new -A -s 'ttyd' \n\
+command=su - ${USER} -c /usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s 'ttyd' \n\
 directory=/home/${USER} \n\
 priority=100 \n\
 stderr_logfile=/dev/stderr \n\
@@ -191,7 +191,7 @@ user=${USER} \n\
 \n\
 [program:openbox] \n\
 autorestart=true \n\
-command=su - ${USER} /usr/bin/openbox-session \n\
+command=su - ${USER} -c /usr/bin/openbox-session \n\
 environment=DISPLAY=':0' \n\
 priority=126 \n\
 stderr_logfile=/dev/stderr \n\
