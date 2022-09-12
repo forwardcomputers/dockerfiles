@@ -143,14 +143,12 @@ pidfile=/tmp/supervisord.pid \n\
 \n\
 [program:ttyd] \n\
 autorestart=true \n\
-command=/bin/su -P - ali -c '/usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s ttyd' \n\
-directory=/home/${USER} \n\
+command=/bin/su - ali -c '/usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s ttyd' \n\
 priority=100 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
 stdout_logfile=/dev/stdout \n\
 stdout_logfile_maxbytes=0 \n\
-user=${USER} \n\
 \n\
 [program:sshd] \n\
 autorestart=true \n\
