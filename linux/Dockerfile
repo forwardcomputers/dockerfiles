@@ -143,7 +143,7 @@ pidfile=/tmp/supervisord.pid \n\
 \n\
 [program:ttyd] \n\
 autorestart=true \n\
-command=su - ${USER} /usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s 'ttyd' \n\
+command=su - ${USER} /usr/local/bin/ttyd -w /home/${USER} -p 8081 /usr/bin/tmux -u new -A -s 'ttyd' \n\
 directory=/home/${USER} \n\
 priority=100 \n\
 stderr_logfile=/dev/stderr \n\
