@@ -143,7 +143,7 @@ pidfile=/tmp/supervisord.pid \n\
 \n\
 [program:ttyd] \n\
 autorestart=true \n\
-command=/bin/su - ali -c \"/usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s ttyd\" \n\
+command=/bin/su -P - ali -c '/usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s ttyd' \n\
 directory=/home/${USER} \n\
 priority=100 \n\
 stderr_logfile=/dev/stderr \n\
@@ -181,7 +181,7 @@ stdout_logfile_maxbytes=0 \n\
 \n\
 [program:novnc] \n\
 autorestart=true \n\
-command=/bin/su - ali -c \"/usr/share/novnc/utils/launch.sh\" \n\
+command=/bin/su - ali -c '/usr/share/novnc/utils/launch.sh' \n\
 priority=124 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
@@ -190,7 +190,7 @@ stdout_logfile_maxbytes=0 \n\
 \n\
 [program:openbox] \n\
 autorestart=true \n\
-command=/bin/su - ali -c \"DISPLAY=:0 /usr/bin/openbox-session\" \n\
+command=/bin/su - ali -c 'DISPLAY=:0 /usr/bin/openbox-session' \n\
 priority=126 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
