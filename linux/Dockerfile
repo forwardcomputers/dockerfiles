@@ -1,7 +1,7 @@
 #
 #APPNEW 1.0
 #
-FROM debian:latest
+FROM debian:testing
 ARG BUILD_DATE
 ARG NAME
 ARG CO
