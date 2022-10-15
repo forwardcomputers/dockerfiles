@@ -23,7 +23,7 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 # Install application
 #
-RUN apk add --no-cache --update bash openssh-client \
+RUN apk add --no-cache --update bash net-snmp-tools openssh-client \
 &&  wget -qO - https://install.speedtest.net/app/cli/ookla-speedtest-${APPNEW}-linux-x86_64.tgz | tar -xzf - -C /usr/local/bin speedtest \
 #
 # Clean-up
