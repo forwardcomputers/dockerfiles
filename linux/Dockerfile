@@ -33,6 +33,7 @@ RUN set -e \
 #
 &&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
     apt-utils \
+    busybox \
     bzip2\
     ca-certificates \
     coreutils \
