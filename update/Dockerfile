@@ -46,6 +46,7 @@ RUN set -e \
     grub-efi \
     isolinux \
     jq \
+    libguestfs-tools \
     liblzma-dev \
     libxml2-utils \
     lsof \
