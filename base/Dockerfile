@@ -82,5 +82,5 @@ RUN set -e \
 &&  install -d -o "${PUID}" -g "${PGID}" -m 700 "/run/user/${uid}" \
 #
 #
-ENTRYPOINT [ "/init" ]
+ENTRYPOINT [ "bash" ]
 
