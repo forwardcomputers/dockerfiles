@@ -180,7 +180,7 @@ stdout_logfile_maxbytes=0 \n\
 \n\
 [program:novnc] \n\
 autorestart=true \n\
-command=/bin/su - ali -c '/usr/share/novnc/utils/launch.sh' \n\
+command=/bin/su - ali -c '/usr/share/novnc/utils/novnc_proxy' \n\
 priority=124 \n\
 stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0 \n\
