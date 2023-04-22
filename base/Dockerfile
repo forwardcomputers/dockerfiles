@@ -22,18 +22,18 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
-ENV _CHAR="UTF-8" \
-    _LANG="en" \
-    _CNTRY="US"
 ENV USER="ali" \
     PUID="1001" \
     PGID="1001" \
     APP_DIR="/app" \
     CONFIG_DIR="/config" \
-    XDG_CONFIG_HOME=${CONFIG_DIR}/.config \
+    TZ="America/Toronto" \
+    _CHAR="UTF-8" \
+    _LANG="en" \
+    _CNTRY="US"
+ENV XDG_CONFIG_HOME=${CONFIG_DIR}/.config \
     XDG_CACHE_HOME=${CONFIG_DIR}/.cache \
     XDG_DATA_HOME=${CONFIG_DIR}/.local/share \
-    TZ="America/Toronto" \
     LANG=${_LANG}_${_CNTRY}.${_CHAR} \
     LANGUAGE=${_LANG} \
     LC_ALL=${_LANG}_${_CNTRY}.${_CHAR}
@@ -85,7 +85,7 @@ RUN set -e \
 &&  locale \
 &&  env \
 &&  set -x \
-# &&  sed -i "/${LANG}/ s/^#//;s/^ *//" /etc/locale.gen \
+&&  sed -i "/${LANG}/ s/^#//;s/^ *//" /etc/locale.gen \
 &&  update-locale --no-checks LANG="${LANG}" \
 &&  locale-gen "${LANG}" \
 &&  set +x \
