@@ -31,8 +31,9 @@ ENV USER="ali" \
     XDG_CACHE_HOME="${CONFIG_DIR}/.cache" \
     XDG_DATA_HOME="${CONFIG_DIR}/.local/share" \
     TZ="America/Toronto" \
-    CHAR="UTF-8" \
-    LANG="en_US"
+    _CHAR="UTF-8" \
+    _LANG="en_US" \
+    LANG="${_LANG}.${_CHAR}"
 #
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
@@ -77,7 +78,7 @@ RUN set -e \
 # Configure
 #
 # Create locales
-&&  localedef -i "${LANG}" -c -f "${CHAR}" -A /usr/share/locale/locale.alias "${LANG}.${CHAR}" \
+&&  localedef -i "${_LANG}" -c -f "${_CHAR}" -A /usr/share/locale/locale.alias "${LANG}" \
 # Create timezone
 &&  ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
 &&  echo "${TZ}" > /etc/timezone \
