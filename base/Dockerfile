@@ -1,7 +1,7 @@
 #
 #APPNEW 1.0
 #
-FROM debian:testing as final
+FROM debian:testing
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -22,7 +22,7 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
-ENV USER="amfc" \
+ENV USER="ali" \
     PUID="1001" \
     PGID="1001" \
     APP_DIR="/app" \
@@ -49,7 +49,6 @@ RUN set -e \
     jq \
     locales \
     p7zip-full \
-    sudo \
     tzdata \
     unrar \
     unzip \
@@ -81,14 +80,15 @@ RUN set -e \
 # Create locales
 &&  sed -i '/$LANG/ s/^#//;s/^ *//' /etc/locale.gen \
 &&  update-locale --no-checks LANG="${LANG}" \
-&&  locale-gen "${TZ}" \
+&&  locale-gen \
+# Create timezone
+&&  ln -snf /usr/share/zoneinfo/"${TZ}" /etc/localtime \
+&&  echo "${TZ}" > /etc/timezone \
 # Create folders
 &&  echo mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} | bash \
 # Create user
 &&  useradd -U -d "${CONFIG_DIR}" -s /bin/false -u "${PUID}" "${USER}" \
 &&  usermod -G users "${USER}"
 #
-#
-FROM final
 ENTRYPOINT [ "/init" ]
 
