@@ -1,7 +1,7 @@
 #
 #APPNEW 1.0
 #
-FROM debian:testing
+FROM debian:testing-slim
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -30,10 +30,13 @@ ENV USER="ali" \
     XDG_CONFIG_HOME="${CONFIG_DIR}/.config" \
     XDG_CACHE_HOME="${CONFIG_DIR}/.cache" \
     XDG_DATA_HOME="${CONFIG_DIR}/.local/share" \
-    LANG="en_US.UTF-8" \
-    LANGUAGE="en_US:en" \
-    LC_ALL="en_US.UTF-8" \
-    TZ="America/Toronto"
+    TZ="America/Toronto" \
+    CLANG="en" \
+    CNTRY="US" \
+    CHAR="UTF-8" \
+    LANG="{$CLANG}_{$CNTRY}.{$CHAR}" \
+    LANGUAGE="{$CLANG}_{$CNTRY}:{$CLANG}" \
+    LC_ALL="{$CLANG}_{$CNTRY}.{$CHAR}"
 #
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
@@ -78,9 +81,7 @@ RUN set -e \
 # Configure
 #
 # Create locales
-&&  sed -i '/$LANG/ s/^#//;s/^ *//' /etc/locale.gen \
-&&  update-locale --no-checks LANG="${LANG}" \
-&&  locale-gen \
+&&  localedef -i "{$CLANG}_{$CNTRY}" -c -f "{$CHAR}" -A /usr/share/locale/locale.alias "{$CLANG}_{$CNTRY}.{$CHAR}" \
 # Create timezone
 &&  ln -snf /usr/share/zoneinfo/"${TZ}" /etc/localtime \
 &&  echo "${TZ}" > /etc/timezone \
