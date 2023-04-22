@@ -1,7 +1,7 @@
 #
 #APPNEW 1.0
 #
-FROM debian:testing
+FROM debian:testing as final
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -76,19 +76,19 @@ RUN set -e \
     /var/log/*.log \
     /tmp/* \
 #
-# Create unprivileged user
+# Configure
 #
+# Create locales
 &&  sed -i '/$LANG/ s/^#//;s/^ *//' /etc/locale.gen \
 &&  update-locale --no-checks LANG="${LANG}" \
 &&  locale-gen "${TZ}" \
-#
-&&  ls -la \
+# Create folders
 &&  echo mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} | bash \
-&&  ls -la \
-# &&  groupadd -g "${PGID}" "${USER}" \
+# Create user
 &&  useradd -U -d "${CONFIG_DIR}" -s /bin/false -u "${PUID}" "${USER}" \
-&&  usermod -G users ali
+&&  usermod -G users amfc
 #
 #
+FROM final
 ENTRYPOINT [ "/init" ]
 
