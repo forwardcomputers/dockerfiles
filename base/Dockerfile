@@ -82,8 +82,8 @@ RUN set -e \
 &&  update-locale --no-checks LANG="${LANG}" \
 &&  locale-gen "${TZ}" \
 #
-&&  groupadd -g "${PGID}" "${USER}" \
-&&  useradd -U -d "${CONFIG_DIR}" -s /bin/false -u "${PUID}" \
+# &&  groupadd -g "${PGID}" "${USER}" \
+&&  useradd -U -d "${CONFIG_DIR}" -s /bin/false -u "${PUID}" "${USER}" \
 &&  usermod -G users ali
 #
 #
