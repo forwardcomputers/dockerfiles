@@ -79,6 +79,7 @@ RUN set -e \
 #
 # Create locales
 &&  localedef -i "${_LANG}" -c -f "${_CHAR}" -A /usr/share/locale/locale.alias "${LANG}" \
+&&  locale \
 # Create timezone
 &&  ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
 &&  echo "${TZ}" > /etc/timezone \
