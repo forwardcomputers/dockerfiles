@@ -82,8 +82,9 @@ RUN set -e \
 &&  update-locale --no-checks LANG="${LANG}" \
 &&  locale-gen "${TZ}" \
 #
-mkdir -p "${APP_DIR}" \
-mkdir -p "${CONFIG_DIR}" \
+&&  ls -la \
+&&  mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} \
+&&  ls -la \
 # &&  groupadd -g "${PGID}" "${USER}" \
 &&  useradd -U -d "${CONFIG_DIR}" -s /bin/false -u "${PUID}" "${USER}" \
 &&  usermod -G users ali
