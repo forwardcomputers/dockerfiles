@@ -25,6 +25,11 @@ LABEL   org.label-schema.schema-version="1.0" \
 ENV USER="ali" \
     PUID="1001" \
     PGID="1001" \
+    APP_DIR="/app" \
+    CONFIG_DIR="/config" \
+    XDG_CONFIG_HOME="${CONFIG_DIR}/.config" \
+    XDG_CACHE_HOME="${CONFIG_DIR}/.cache" \
+    XDG_DATA_HOME="${CONFIG_DIR}/.local/share" \
     LANG="en_US.UTF-8" \
     LANGUAGE="en_US:en" \
     LC_ALL="en_US.UTF-8" \
@@ -76,10 +81,10 @@ RUN set -e \
 &&  sed -i '/$LANG/ s/^#//;s/^ *//' /etc/locale.gen \
 &&  update-locale --no-checks LANG="${LANG}" \
 &&  locale-gen "${TZ}" \
-&&  groupadd -g "${PGID}" "${USER}" \
-&&  useradd -m -s /bin/bash -u "${PUID}" -g "${PGID}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
-&&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi \
-&&  install -d -o "${PUID}" -g "${PGID}" -m 700 "/run/user/${uid}"
+#
+#&&  groupadd -g "${PGID}" "${USER}" \
+&&  useradd -U -d "${CONFIG_DIR}" -s /bin/false -u "${PUID}" -g "${PGID}" \
+&&  usermod -G users ali
 #
 #
 ENTRYPOINT [ "/init" ]
