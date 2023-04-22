@@ -81,7 +81,7 @@ RUN set -e \
 # Configure
 #
 # Create locales
-&&  localedef -i "{$CLANG}_{$CNTRY}" -c -f "{$CHAR}" -A /usr/share/locale/locale.alias "{$CLANG}_{$CNTRY}.{$CHAR}" \
+&&  localedef -i "$CLANG_$CNTRY" -c -f "$CHAR" -A /usr/share/locale/locale.alias "$LANG" \
 # Create timezone
 &&  ln -snf /usr/share/zoneinfo/"${TZ}" /etc/localtime \
 &&  echo "${TZ}" > /etc/timezone \
