@@ -82,7 +82,6 @@ RUN set -e \
 &&  update-locale --no-checks LANG="${LANG}" \
 &&  locale-gen "${TZ}" \
 #
-&&  ps -ef \
 &&  ls -la \
 &&  eval mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} \
 &&  ls -la \
