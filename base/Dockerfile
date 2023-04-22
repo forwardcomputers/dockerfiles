@@ -22,7 +22,7 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
-ENV USER="ali" \
+ENV USER="amfc" \
     PUID="1001" \
     PGID="1001" \
     APP_DIR="/app" \
@@ -86,7 +86,7 @@ RUN set -e \
 &&  echo mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} | bash \
 # Create user
 &&  useradd -U -d "${CONFIG_DIR}" -s /bin/false -u "${PUID}" "${USER}" \
-&&  usermod -G users amfc
+&&  usermod -G users "${USER}"
 #
 #
 FROM final
