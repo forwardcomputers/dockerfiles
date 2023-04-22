@@ -83,7 +83,7 @@ RUN set -e \
 &&  locale-gen "${TZ}" \
 #
 &&  ls -la \
-&&  eval mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} \
+&&  echo mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} | bash \
 &&  ls -la \
 # &&  groupadd -g "${PGID}" "${USER}" \
 &&  useradd -U -d "${CONFIG_DIR}" -s /bin/false -u "${PUID}" "${USER}" \
