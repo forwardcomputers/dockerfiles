@@ -81,10 +81,8 @@ RUN set -e \
 # Configure
 #
 # Create locales
-&&  localedef -i "${_LANG}_${_CNTRY}" -c -f "${_CHAR}" -A /usr/share/locale/locale.alias "${LANG}" \
-# &&  sed -i "/${LANG}/ s/^#//;s/^ *//" /etc/locale.gen \
-# &&  update-locale --no-checks LANG="${LANG}" \
-# &&  locale-gen "${LANG}" \
+&&  localedef -c -i "${_LANG}_${_CNTRY}" -f "${_CHAR}" -A /usr/share/locale/locale.alias "${LANG}" \
+&&  update-locale --no-checks LANG="${LANG}" \
 # Create timezone
 &&  ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
 &&  echo "${TZ}" > /etc/timezone \
