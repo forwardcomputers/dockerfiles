@@ -78,8 +78,7 @@ RUN set -e \
     findutils \
     grep \
     jq \
-    locales \
-    p7zip-full \
+    p7zip \
     sed \
     tzdata \
     unzip \
