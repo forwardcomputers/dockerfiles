@@ -1,5 +1,5 @@
 #
-#APPNEW 1.0
+#APPNEW curl -sL "https://raw.githubusercontent.com/debuerreotype/docker-debian-artifacts/dist-amd64/testing/slim/rootfs.debian_version"
 #
 FROM debian:testing-slim
 ARG BUILD_DATE
