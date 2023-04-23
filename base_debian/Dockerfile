@@ -39,7 +39,8 @@ ENV XDG_CONFIG_HOME=${CONFIG_DIR}/.config \
     LC_ALL=${_LANG}_${_CNTRY}.${_CHAR}
 #
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
-    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
+    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
+    S6_VERBOSITY=1
 #
 RUN set -e \
 #
@@ -88,7 +89,6 @@ RUN set -e \
     /var/lib/dpkg/info \
     /var/log/apt \
     /var/log/journal \
-    /var/log/xrdp* \
     /var/log/*.log \
     /tmp/*
 #
