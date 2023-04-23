@@ -63,6 +63,20 @@ RUN set -e \
 &&  curl -fsSL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-symlinks-noarch.tar.xz" | tar Jpxf - -C / \
 &&  curl -fsSL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-symlinks-arch.tar.xz" | tar Jpxf - -C / \
 #
+# Configure
+#
+# Create locales
+&&  localedef -c -i "${_LANG}_${_CNTRY}" -f "${_CHAR}" -A /usr/share/locale/locale.alias "${LANG}" \
+&&  update-locale --no-checks LANG="${LANG}" \
+# Create timezone
+&&  ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
+&&  echo "${TZ}" > /etc/timezone \
+# Create folders
+&&  echo mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} | bash \
+# Create user
+&&  useradd -U -d "${CONFIG_DIR}" -s /bin/false -u "${PUID}" "${USER}" \
+&&  usermod -G users "${USER}" \
+#
 # Clean-up
 #
 &&  apt autoremove -y \
@@ -76,20 +90,6 @@ RUN set -e \
     /var/log/journal \
     /var/log/xrdp* \
     /var/log/*.log \
-    /tmp/* \
-#
-# Configure
-#
-# Create locales
-&&  localedef -c -i "${_LANG}_${_CNTRY}" -f "${_CHAR}" -A /usr/share/locale/locale.alias "${LANG}" \
-&&  update-locale --no-checks LANG="${LANG}" \
-# Create timezone
-&&  ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
-&&  echo "${TZ}" > /etc/timezone \
-# Create folders
-&&  echo mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} | bash \
-# Create user
-&&  useradd -U -d "${CONFIG_DIR}" -s /bin/false -u "${PUID}" "${USER}" \
-&&  usermod -G users "${USER}"
+    /tmp/*
 #
 ENTRYPOINT [ "/init" ]
