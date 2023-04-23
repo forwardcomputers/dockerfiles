@@ -47,6 +47,7 @@ RUN set -e \
 #
 &&  sed -i 's/main.*/main contrib non-free non-free-firmware/' /etc/apt/sources.list.d/debian.sources \
 &&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
+    bash \
     ca-certificates \
     curl \
     jq \
@@ -90,4 +91,3 @@ RUN set -e \
     /tmp/*
 #
 ENTRYPOINT [ "/init" ]
-
