@@ -77,7 +77,8 @@ RUN set -e \
 #
 # Clean-up
 #
-&&  apt autoremove -y \
+&&  apt purge -y tzdata \
+&&  apt autoremove --purge -y \
 &&  apt clean \
 &&  rm -rf \
     /usr/share/doc \
