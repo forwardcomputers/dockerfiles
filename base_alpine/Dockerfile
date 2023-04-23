@@ -96,7 +96,7 @@ RUN set -e \
 # Create folders
 &&  echo mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} | bash \
 # Create user
-&&  adduser -D -h "${CONFIG_DIR}" -s /bin/false "${PUID}" "${USER}" \
+&&  adduser -D -h "${CONFIG_DIR}" -s /bin/false -u "${PUID}" "${USER}" \
 # &&  addgroup "${USER}" users \
 #
 # Clean-up
