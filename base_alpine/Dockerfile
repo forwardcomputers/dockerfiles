@@ -1,27 +1,6 @@
 #
 #APPNEW curl -sL "https://mirror.csclub.uwaterloo.ca/alpine/latest-stable/releases/x86_64/latest-releases.yaml" | yq e '.[0].version'
 #
-FROM alpine:latest AS builder
-
-RUN apk --update --no-cache add \
-    autoconf \
-    automake \
-    binutils \
-    build-base \
-    cmake \
-    cppunit-dev \
-    curl-dev \
-    libtool \
-    linux-headers \
-    zlib-dev \
-# Install unrar from source
-&&  UNRAR_VER=$( wget -qO- https://www.rarlab.com/rar_add.htm | awk -F'"' '/unrarsrc/ {print $2}' ) \
-&&  cd /tmp \
-&&  wget -qO- "https://www.rarlab.com/${UNRAR_VER}" | tar -xzf - \
-&&  cd unrar \
-&&  make -f makefile \
-&&  install -Dm 755 unrar /usr/bin/unrar
-
 FROM alpine:latest
 
 ARG BUILD_DATE
@@ -72,21 +51,16 @@ RUN set -e \
 &&  apk --update --no-cache add \
     bash \
     ca-certificates \
-    coreutils \
     curl \
-    findutils \
-    grep \
     jq \
-    p7zip \
-    sed \
     tzdata \
-    unzip \
+    xz \
 #
 &&  S6NEW=$( curl -sL "https://api.github.com/repos/just-containers/s6-overlay/releases/latest" | jq -r '.tag_name | gsub("v";"")' ) \
-&&  curl -fsSL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-noarch.tar.xz" | tar Jpxf - -C / \
-&&  curl -fsSL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-x86_64.tar.xz" | tar Jpxf - -C / \
-&&  curl -fsSL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-symlinks-noarch.tar.xz" | tar Jpxf - -C / \
-&&  curl -fsSL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-symlinks-arch.tar.xz" | tar Jpxf - -C / \
+&&  curl -fsSL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-noarch.tar.xz" | tar -Jpxf - -C / \
+&&  curl -fsSL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-x86_64.tar.xz" | tar -Jpxf - -C / \
+&&  curl -fsSL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-symlinks-noarch.tar.xz" | tar -Jpxf - -C / \
+&&  curl -fsSL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-symlinks-arch.tar.xz" | tar -Jpxf - -C / \
 #
 # Configure
 #
@@ -105,7 +79,5 @@ RUN set -e \
 &&  rm -rf \
     /var/cache/apk \
     /var/lib/apk
-#
-COPY --from=builder /usr/bin/unrar /usr/bin/
 #
 ENTRYPOINT [ "/init" ]
