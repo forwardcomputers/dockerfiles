@@ -37,7 +37,6 @@ ENV XDG_CONFIG_HOME=${CONFIG_DIR}/.config \
     LANG=${_LANG}_${_CNTRY}.${_CHAR} \
     LANGUAGE=${_LANG} \
     LC_ALL=${_LANG}_${_CNTRY}.${_CHAR}
-#
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
     S6_VERBOSITY=1
@@ -53,6 +52,7 @@ RUN set -e \
     ca-certificates \
     curl \
     jq \
+    musl-locales \
     tzdata \
     xz \
 #
