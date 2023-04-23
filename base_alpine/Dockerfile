@@ -15,9 +15,9 @@ RUN apk --update --no-cache add \
     linux-headers \
     zlib-dev \
 # Install unrar from source
-&&  UNRAR_VER=$( wget -O- https://www.rarlab.com/rar_add.htm | awk -F'"' '/unrarsrc/ {print $2}' ) \
+&&  UNRAR_VER=$( wget -qO- https://www.rarlab.com/rar_add.htm | awk -F'"' '/unrarsrc/ {print $2}' ) \
 &&  cd /tmp \
-&&  curl -sL "https://www.rarlab.com/${UNRAR_VER}" | tar -xzf - \
+&&  wget -qO- "https://www.rarlab.com/${UNRAR_VER}" | tar -xzf - \
 &&  cd unrar \
 &&  make -f makefile \
 &&  install -Dm 755 unrar /usr/bin/unrar
