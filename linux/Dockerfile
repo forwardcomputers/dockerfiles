@@ -214,3 +214,4 @@ RUN set -e \
 #
 # ENTRYPOINT [ "supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
 ENTRYPOINT [ "/init" ]
+
