@@ -1,7 +1,8 @@
 #
 #APPNEW 1.0
 #
-FROM debian:testing
+# FROM debian:testing
+FROM forwardcomputers/base_debian
 ARG BUILD_DATE
 ARG NAME
 ARG CO
