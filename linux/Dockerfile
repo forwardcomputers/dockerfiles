@@ -114,11 +114,12 @@ RUN set -e \
 #
 # Create unprivileged user
 #
-&&  sed -i '/en_US.UTF/ s/^#//;s/^ *//' /etc/locale.gen \
-&&  update-locale --no-checks LANG="en_US.UTF-8" \
-&&  locale-gen "en_US.UTF-8" \
-&&  groupadd -g "${gid}" "${USER}" \
-&&  useradd -m -s /bin/zsh -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
+# &&  sed -i '/en_US.UTF/ s/^#//;s/^ *//' /etc/locale.gen \
+# &&  update-locale --no-checks LANG="en_US.UTF-8" \
+# &&  locale-gen "en_US.UTF-8" \
+# &&  groupadd -g "${gid}" "${USER}" \
+# &&  useradd -m -s /bin/zsh -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
+&&  usermod -s /bin/zsh -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi \
 &&  install -d -o "${uid}" -g "${gid}" -m 700 "/run/user/${uid}" \
 #
