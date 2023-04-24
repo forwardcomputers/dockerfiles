@@ -55,7 +55,6 @@ RUN set -e \
     procps \
     psmisc \
     sudo \
-    supervisor \
     tmux \
     unzip \
     vim-tiny \
@@ -76,6 +75,8 @@ RUN set -e \
     xrdp \
     x11-xserver-utils \
     xvfb \
+#
+#    supervisor \
 #
 &&  apt-get -y install \
     firefox-esr \
