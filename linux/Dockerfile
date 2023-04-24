@@ -23,12 +23,7 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
-ENV USER="ali" \
-    uid="1001" \
-    gid="1001" 
-#
 RUN set -e \
-&&  export USER="${USER}" uid="${uid}" gid="${gid}" \
 #
 # Update repos and install packages
 #
@@ -117,11 +112,11 @@ RUN set -e \
 # &&  sed -i '/en_US.UTF/ s/^#//;s/^ *//' /etc/locale.gen \
 # &&  update-locale --no-checks LANG="en_US.UTF-8" \
 # &&  locale-gen "en_US.UTF-8" \
-# &&  groupadd -g "${gid}" "${USER}" \
-# &&  useradd -m -s /bin/zsh -u "${uid}" -g "${gid}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
-&&  usermod -s /bin/zsh -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
+# &&  groupadd -g "${PGID}" "${USER}" \
+# &&  useradd -m -s /bin/zsh -u "${PUID}" -g "${PGID}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
+&&  usermod -s /bin/zsh -d "/home/${USER}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi \
-&&  install -d -o "${uid}" -g "${gid}" -m 700 "/run/user/${uid}" \
+&&  install -d -o "${PUID}" -g "${PGID}" -m 700 "/run/user/${PUID}" \
 #
 # Modify configuration files
 #
