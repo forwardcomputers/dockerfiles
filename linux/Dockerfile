@@ -120,4 +120,4 @@ RUN set -e \
     /var/log/journal \
     /var/log/xrdp* \
     /var/log/*.log \
-    /tmp/* \
+    /tmp/*
