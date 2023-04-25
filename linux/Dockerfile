@@ -1,7 +1,6 @@
 #
-#APPNEW 1.0
+#APPNEW curl -sL "https://raw.githubusercontent.com/debuerreotype/docker-debian-artifacts/dist-amd64/testing/rootfs.debian_version"
 #
-# FROM debian:testing
 FROM forwardcomputers/base_debian
 ARG BUILD_DATE
 ARG NAME
@@ -94,19 +93,6 @@ RUN set -e \
 &&  curl -sLo /usr/local/bin/ttyd "https://github.com/tsl0922/ttyd/releases/download/${TTYDNEW}/ttyd.x86_64" \
 &&  chmod +x /usr/local/bin/ttyd \
 #
-# Clean-up
-#
-&&  rm -rf \
-    /usr/share/doc \
-    /usr/share/man \
-    /var/lib/apt \
-    /var/lib/dpkg/info \
-    /var/log/apt \
-    /var/log/journal \
-    /var/log/xrdp* \
-    /var/log/*.log \
-    /tmp/* \
-#
 # Create unprivileged user
 #
 &&  usermod -m -s /bin/zsh -d "/home/${USER}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
@@ -121,7 +107,17 @@ RUN set -e \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; /=Xvnc/,/port/ s|port=-1|port=5900|' /etc/xrdp/xrdp.ini \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; s|FuseMountName=|FuseMountName=/tmp/|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
 &&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession \
-&&  mkdir -p '/run/sshd'
+&&  mkdir -p '/run/sshd' \
 #
-# ENTRYPOINT [ "supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
-
+# Clean-up
+#
+&&  rm -rf \
+    /usr/share/doc \
+    /usr/share/man \
+    /var/lib/apt \
+    /var/lib/dpkg/info \
+    /var/log/apt \
+    /var/log/journal \
+    /var/log/xrdp* \
+    /var/log/*.log \
+    /tmp/* \
