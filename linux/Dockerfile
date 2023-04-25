@@ -55,6 +55,7 @@ RUN set -e \
     procps \
     psmisc \
     sudo \
+    supervisor \
     tmux \
     unzip \
     vim-tiny \
@@ -75,8 +76,6 @@ RUN set -e \
     xrdp \
     x11-xserver-utils \
     xvfb \
-#
-#    supervisor \
 #
 &&  apt-get -y install \
     firefox-esr \
@@ -110,11 +109,6 @@ RUN set -e \
 #
 # Create unprivileged user
 #
-# &&  sed -i '/en_US.UTF/ s/^#//;s/^ *//' /etc/locale.gen \
-# &&  update-locale --no-checks LANG="en_US.UTF-8" \
-# &&  locale-gen "en_US.UTF-8" \
-# &&  groupadd -g "${PGID}" "${USER}" \
-# &&  useradd -m -s /bin/zsh -u "${PUID}" -g "${PGID}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
 &&  usermod -m -s /bin/zsh -d "/home/${USER}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi \
 &&  install -d -o "${PUID}" -g "${PGID}" -m 700 "/run/user/${PUID}" \
@@ -128,90 +122,6 @@ RUN set -e \
 &&  sed -i 's|LogFile=|LogFile=/tmp/|; s|#EnableFuseMount|EnableFuseMount|; s|param=.xorgxrdp|param=/tmp/.xorgxrdp|; s|FuseMountName=|FuseMountName=/tmp/|; /SessionVariables/aCHANSRV_LOG_PATH=\/tmp' /etc/xrdp/sesman.ini \
 &&  sed -i 's|ERRFILE=$HOME|ERRFILE=\/tmp|' /etc/X11/Xsession \
 &&  mkdir -p '/run/sshd'
-#
-# &&  echo "[unix_http_server] \n\
-# file=/run/supervisor.sock \n\
-# \n\
-# [inet_http_server] \n\
-# port=:9001 \n\
-# \n\
-# [supervisord] \n\
-# logfile=/dev/null \n\
-# nodaemon=true \n\
-# pidfile=/tmp/supervisord.pid \n\
-# \n\
-# [program:ttyd] \n\
-# autorestart=true \n\
-# command=/bin/su - ali -c '/usr/local/bin/ttyd -p 8081 /usr/bin/tmux -u new -A -s ttyd' \n\
-# priority=100 \n\
-# stderr_logfile=/dev/stderr \n\
-# stderr_logfile_maxbytes=0 \n\
-# stdout_logfile=/dev/stdout \n\
-# stdout_logfile_maxbytes=0 \n\
-# \n\
-# [program:sshd] \n\
-# autorestart=true \n\
-# command=/usr/sbin/sshd -D \n\
-# priority=110 \n\
-# stderr_logfile=/dev/stderr \n\
-# stderr_logfile_maxbytes=0 \n\
-# stdout_logfile=/dev/stdout \n\
-# stdout_logfile_maxbytes=0 \n\
-# \n\
-# [program:xvfb] \n\
-# autorestart=true \n\
-# command=/usr/bin/Xvfb -ac +extension GLX -noreset +render -screen 0 1194x834x24 \n\
-# priority=120 \n\
-# stderr_logfile=/dev/stderr \n\
-# stderr_logfile_maxbytes=0 \n\
-# stdout_logfile=/dev/stdout \n\
-# stdout_logfile_maxbytes=0 \n\
-# \n\
-# [program:x11vnc] \n\
-# autorestart=true \n\
-# command=/usr/bin/x11vnc -display :0 -forever -loop -ncache_cr -nopw -noxdamage -N -q -shared \n\
-# priority=122 \n\
-# stderr_logfile=/dev/stderr \n\
-# stderr_logfile_maxbytes=0 \n\
-# stdout_logfile=/dev/stdout \n\
-# stdout_logfile_maxbytes=0 \n\
-# \n\
-# [program:novnc] \n\
-# autorestart=true \n\
-# command=/bin/su - ali -c '/usr/share/novnc/utils/novnc_proxy' \n\
-# priority=124 \n\
-# stderr_logfile=/dev/stderr \n\
-# stderr_logfile_maxbytes=0 \n\
-# stdout_logfile=/dev/stdout \n\
-# stdout_logfile_maxbytes=0 \n\
-# \n\
-# [program:openbox] \n\
-# autorestart=true \n\
-# command=/bin/su - ali -c 'DISPLAY=:0 /usr/bin/openbox-session' \n\
-# priority=126 \n\
-# stderr_logfile=/dev/stderr \n\
-# stderr_logfile_maxbytes=0 \n\
-# stdout_logfile=/dev/stdout \n\
-# stdout_logfile_maxbytes=0 \n\
-# \n\
-# [program:xrdp-sesman] \n\
-# autorestart=true \n\
-# command=/usr/sbin/xrdp-sesman --nodaemon \n\
-# priority=130 \n\
-# stderr_logfile=/dev/stderr \n\
-# stderr_logfile_maxbytes=0 \n\
-# stdout_logfile=/dev/stdout \n\
-# stdout_logfile_maxbytes=0 \n\
-# \n\
-# [program:xrdp] \n\
-# autorestart=true \n\
-# command=/usr/sbin/xrdp --nodaemon \n\
-# priority=132 \n\
-# stderr_logfile=/dev/stderr \n\
-# stderr_logfile_maxbytes=0 \n\
-# stdout_logfile=/dev/stdout \n\
-# stdout_logfile_maxbytes=0 \n\
-# \n" > /etc/supervisor/conf.d/supervisord.conf
 #
 # ENTRYPOINT [ "supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
 
