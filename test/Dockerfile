@@ -22,11 +22,11 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
-# RUN set -e \
-# #
-# # Update repos and install packages
-# #
-# &&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
+RUN set -e \
+#
+# Update repos and install packages
+#
+&&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
 #     apt-utils \
 #     busybox \
 #     bzip2\
@@ -49,7 +49,7 @@ LABEL   org.label-schema.schema-version="1.0" \
 #     lastpass-cli \
 #     locales \
 #     lsb-release \
-#     openssh-server \
+    openssh-server
 #     p7zip-full \
 #     procps \
 #     psmisc \
