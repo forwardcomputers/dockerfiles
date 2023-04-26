@@ -57,9 +57,9 @@ RUN set -e \
     xz-utils \
 #
 &&  case $TARGETARCH in \
-&&      "amd64") TARGETARCH="x86_64" ;; \
-&&      "arm64") TARGETARCH="aarch64" ;; \
-&&  esac \
+        "amd64") TARGETARCH="x86_64" ;; \
+        "arm64") TARGETARCH="aarch64" ;; \
+    esac \
 &&  S6NEW=$( curl -sL "https://api.github.com/repos/just-containers/s6-overlay/releases/latest" | jq -r '.tag_name | gsub("v";"")' ) \
 &&  curl -sL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-noarch.tar.xz" | tar -Jpxf - -C / \
 &&  curl -sL "https://github.com/just-containers/s6-overlay/releases/download/v${S6NEW}/s6-overlay-${TARGETARCH}.tar.xz" | tar -Jpxf - -C / \
