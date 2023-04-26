@@ -1,5 +1,6 @@
 #
 #APPNEW curl -sL "https://mirror.csclub.uwaterloo.ca/alpine/latest-stable/releases/x86_64/latest-releases.yaml" | yq e '.[0].version'
+#PLATFORM --platform=linux/amd64,linux/arm64
 #
 FROM alpine:latest
 
