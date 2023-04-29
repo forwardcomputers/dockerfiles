@@ -72,7 +72,7 @@ RUN set -e \
 &&  localedef -c -i "${_LANG}_${_CNTRY}" -f "${_CHAR}" -A /usr/share/locale/locale.alias "${LANG}" \
 &&  update-locale --no-checks LANG="${LANG}" \
 # Create timezone
-&&  cp -f "/usr/share/zoneinfo/${TZ}" /etc/localtime \
+&&  ln -s "/usr/share/zoneinfo/${TZ}" /etc/localtime \
 &&  echo "${TZ}" > /etc/timezone \
 # Create folders
 &&  echo mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} | bash \
@@ -82,7 +82,6 @@ RUN set -e \
 #
 # Clean-up
 #
-&&  apt purge -y tzdata \
 &&  apt autoremove --purge -y \
 &&  apt clean \
 &&  rm -rf \
