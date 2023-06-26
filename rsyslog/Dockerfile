@@ -1,7 +1,7 @@
 #
 #APPNEW apt
 #
-FROM debian:latest
+FROM debian:bullseye
 ARG BUILD_DATE
 ARG NAME
 ARG CO
