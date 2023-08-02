@@ -67,11 +67,9 @@ RUN set -e \
     imagemagick \
 #
 &&  . /etc/os-release \
-&&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/Release.key" | \
-        gpg --dearmor -o /etc/apt/trusted.gpg.d/arx.gpg \
-&&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/ /" | \
-        tee /etc/apt/sources.list.d/arx.list > /dev/null \
-&&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
+# &&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/Release.key" | gpg --dearmor -o /etc/apt/trusted.gpg.d/arx.gpg \
+# &&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/ /" | tee /etc/apt/sources.list.d/arx.list > /dev/null \
+# &&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
 #
 &&  YQNEW=$( curl -sL "https://api.github.com/repos/mikefarah/yq/releases/latest" | jq -r '.tag_name' ) \
 &&  curl -sLo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQNEW}/yq_linux_amd64" \
