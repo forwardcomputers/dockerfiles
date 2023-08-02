@@ -1,8 +1,7 @@
 #
 #APPNEW 2.0
 #
-# FROM ubuntu:latest
-FROM debian:latest
+FROM forwardcomputers/base_debian
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -67,13 +66,10 @@ RUN set -e \
 &&  apt-get update && apt-get install --yes \
     imagemagick \
 #
-# For Ubuntu # &&  add-apt-repository ppa:arx/release \
 &&  . /etc/os-release \
-# &&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/Release.key" | \
-&&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/Release.key" | \
+&&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/Release.key" | \
         gpg --dearmor -o /etc/apt/trusted.gpg.d/arx.gpg \
-# &&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/ /" | \
-&&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/ /" | \
+&&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/ /" | \
         tee /etc/apt/sources.list.d/arx.list > /dev/null \
 &&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
 #
