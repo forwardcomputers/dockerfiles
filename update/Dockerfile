@@ -69,11 +69,11 @@ RUN set -e \
 #
 # For Ubuntu # &&  add-apt-repository ppa:arx/release \
 &&  . /etc/os-release \
-# &&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/Release.key" | \
-&&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/Release.key" | \
+# &&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/Release.key" | \
+&&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/Release.key" | \
         gpg --dearmor -o /etc/apt/trusted.gpg.d/arx.gpg \
-# &&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/ /" | \
-&&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/ /" | \
+# &&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/ /" | \
+&&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_${VERSION_ID}/ /" | \
         tee /etc/apt/sources.list.d/arx.list > /dev/null \
 &&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
 #
@@ -96,5 +96,4 @@ RUN set -e \
     /var/log/*.log
 #
 ENTRYPOINT [ "bash" ]
-
 
