@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_one:
+  other:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     runs-on: ubuntu-latest
     steps:
@@ -23,15 +23,16 @@ jobs:
           set -x
           sudo rm /etc/localtime
           sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
+          pwd
+          ls -la
           # obico-server
-          git config --global --add safe.directory /opt/filer/os/public/dockerfiles/obico-server
-          _local=$( git -C /opt/filer/os/dockerfiles/obico-server rev-parse @ )
-          _remote=$( git ls-remote https://github.com/TheSpaghettiDetective/obico-server.git HEAD | cut -f1 )
-          [ $_local != $_remote ]; then
-            git -C /opt/filer/os/dockerfiles/obico-server pull
-            ln -fs obico-server/backend/Dockerfile obico-server/
-          fi
-          done
+          #git config --global --add safe.directory /opt/filer/os/public/dockerfiles/obico-server
+          #_local=$( git -C /opt/filer/os/dockerfiles/obico-server rev-parse @ )
+          #_remote=$( git ls-remote https://github.com/TheSpaghettiDetective/obico-server.git HEAD | cut -f1 )
+          #[ $_local != $_remote ]; then
+          #  git -C /opt/filer/os/dockerfiles/obico-server pull
+          #  ln -fs obico-server/backend/Dockerfile obico-server/
+          #fi
       - name: Tweet on Failure
         if: failure()
         env:
