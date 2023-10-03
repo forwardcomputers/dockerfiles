@@ -30,7 +30,13 @@ jobs:
           if [ $_local = $_remote ]; then
             git submodule update --init -- obico-server
             ln -fs ./obico-server/backend/Dockerfile ./obico-server/
-          fi
+            #
+            git config --local user.email "alim@forwardcomputers.com"
+            git config --local user.name "Ali Mustakim"
+            git add .
+            git diff-index --quiet HEAD || git commit -a -m "github actions update"
+            git push origin
+            fi
       - name: Tweet on Failure
         if: failure()
         env:
