@@ -28,7 +28,7 @@ jobs:
           _local=$( git ls-files -s obico-server | tr -s ' ' | cut -d ' ' -f 2 )
           _remote=$( git ls-remote https://github.com/TheSpaghettiDetective/obico-server.git HEAD | cut -f1 )
           if [ $_local = $_remote ]; then
-            git submodule update ./obico-server
+            git submodule update --remote obico-server
             ln -fs ./obico-server/backend/Dockerfile ./obico-server/
           fi
       - name: Tweet on Failure
