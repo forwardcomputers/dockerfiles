@@ -27,12 +27,9 @@ jobs:
           git config --global --add safe.directory ./obico-server
           _local=$( git ls-files -s obico-server | tr -s ' ' | cut -d ' ' -f 2 )
           _remote=$( git ls-remote https://github.com/TheSpaghettiDetective/obico-server.git HEAD | cut -f1 )
-          if [ $_local != $_remote ]; then
-            df
-          #  git submodule update ./obico-server
-          #  ln -fs ./obico-server/backend/Dockerfile ./obico-server/
-          else
-            ls -la
+          if [ $_local = $_remote ]; then
+            git submodule update ./obico-server
+            ln -fs ./obico-server/backend/Dockerfile ./obico-server/
           fi
       - name: Tweet on Failure
         if: failure()
