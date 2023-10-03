@@ -23,13 +23,11 @@ jobs:
           set -x
           sudo rm /etc/localtime
           sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
-          pwd
-          ls -la
           # obico-server
           git config --global --add safe.directory obico-server
           _local=$( git -C obico-server rev-parse @ )
           _remote=$( git ls-remote https://github.com/TheSpaghettiDetective/obico-server.git HEAD | cut -f1 )
-          [ $_local != $_remote ]; then
+          if [ $_local != $_remote ]; then
             df
           #  git -C /opt/filer/os/dockerfiles/obico-server pull
           #  ln -fs obico-server/backend/Dockerfile obico-server/
