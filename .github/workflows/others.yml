@@ -25,9 +25,7 @@ jobs:
           sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
           # obico-server
           git config --global --add safe.directory ./obico-server
-          cd ./obico-server
-          _local=$( git rev-parse @  )
-          cd ..
+          _local=$( git -C ./obico-server/ rev-parse @  )
           _remote=$( git ls-remote https://github.com/TheSpaghettiDetective/obico-server.git HEAD | cut -f1 )
           if [ $_local != $_remote ]; then
             df
