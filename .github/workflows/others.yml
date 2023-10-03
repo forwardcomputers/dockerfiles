@@ -1,8 +1,8 @@
 name: other
 
 on:
-  schedule:
-    - cron: "0 2 * * SUN"
+  #  schedule:
+  #    - cron: "0 2 * * SUN"
 
   workflow_dispatch:
 
