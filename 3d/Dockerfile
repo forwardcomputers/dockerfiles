@@ -122,3 +122,4 @@ COPY --from=build --chown=printer:printer /opt/ustreamer ./ustreamer
 
 ENTRYPOINT ["/bin/start"]
 # ENTRYPOINT ["sleep", "infinity"]
+
