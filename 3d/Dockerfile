@@ -1,25 +1,7 @@
 #
-#APPNEW 2.0
+#APPNEW 1.0
 #
 FROM python:3.11-bookworm AS build
-ARG BUILD_DATE
-ARG NAME
-ARG CO
-ARG APPNEW
-#
-LABEL   org.label-schema.schema-version="1.0" \
-        org.label-schema.build-date="${BUILD_DATE}" \
-        org.label-schema.name="${NAME}" \
-        org.label-schema.vcs-url="https://github.com/forwardcomputers/dockerfiles/tree/main/${NAME}" \
-        org.label-schema.vendor="${CO}" \
-        org.label-schema.version="${APPNEW}" \
-        org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${NAME}" \
-        org.opencontainers.image.created="${BUILD_DATE}" \
-        org.opencontainers.image.title="${NAME}" \
-        org.opencontainers.image.source="https://github.com/forwardcomputers/dockerfiles/tree/main/${NAME}" \
-        org.opencontainers.image.vendor="${CO}" \
-        org.opencontainers.image.version="${APPNEW}" \
-        org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
 ## The build image
 ENV DEBIAN_FRONTEND noninteractive
@@ -88,7 +70,25 @@ RUN make -C klipper PYTHON=python3 \
 ## The final image
 
 FROM python:3.11-slim AS final
-
+ARG BUILD_DATE
+ARG NAME
+ARG CO
+ARG APPNEW
+#
+LABEL   org.label-schema.schema-version="1.0" \
+        org.label-schema.build-date="${BUILD_DATE}" \
+        org.label-schema.name="${NAME}" \
+        org.label-schema.vcs-url="https://github.com/forwardcomputers/dockerfiles/tree/main/${NAME}" \
+        org.label-schema.vendor="${CO}" \
+        org.label-schema.version="${APPNEW}" \
+        org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${NAME}" \
+        org.opencontainers.image.created="${BUILD_DATE}" \
+        org.opencontainers.image.title="${NAME}" \
+        org.opencontainers.image.source="https://github.com/forwardcomputers/dockerfiles/tree/main/${NAME}" \
+        org.opencontainers.image.vendor="${CO}" \
+        org.opencontainers.image.version="${APPNEW}" \
+        org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
+#
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y \
     --no-install-recommends \
