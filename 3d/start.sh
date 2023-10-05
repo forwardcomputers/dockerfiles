@@ -35,7 +35,7 @@ export PYTHONPATH="/home/printer/moonraker-obico"
 --format=MJPEG \
 --desired-fps=30 &
 
-nginx
+# nginx
 nginx -g 'daemon off;'
 
 # sleep infinity

@@ -103,7 +103,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
     ca-certificates \
     curl \
-    ffmpeg \
     git \
     gnupg1 \
     iproute2 \
@@ -126,7 +125,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
     ### clean up
 &&  apt-get -y autoremove \
 &&  apt-get clean \
-&&  rm -rf /var/lib/apt/lists/* /var/log/apt /var/log/dpkg.log /tmp/* /var/tmp/* /etc/nginx/sites-enabled/default \
+&&  rm -rf \
+    /etc/nginx/sites-enabled/default \
+    /tmp/* /var/tmp/* \
+    /usr/local/share/man/* \
+    /usr/share/doc/* \
+    /usr/share/doc-base/* \
+    /usr/share/vim \
+    /usr/share/zsh \
+    /var/lib/apt/lists/* \
+    /var/cache/* \
+    /var/log/* \
+    /var/www \
 # add user
 &&  groupadd printer --force -g 1001 \
 &&  useradd printer -rm -d /home/printer -g 1001 -u 1001 \
