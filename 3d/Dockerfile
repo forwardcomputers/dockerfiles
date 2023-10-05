@@ -2,9 +2,10 @@
 #APPNEW 1.0
 #
 # Based on the work from https://github.com/mkuf/prind
+# On python 3.11 due to greenlet
 FROM python:3.11-bookworm AS build
 #
-## The build image
+## the build image
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y \
     avr-libc \
@@ -36,20 +37,27 @@ RUN apt-get update && apt-get install -y \
     python3-virtualenv \
     stm32flash \
     swig \
-    zlib1g-dev \
-    ### clean up
-&&  apt-get -y autoremove \
-&&  apt-get clean \
-&&  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+    zlib1g-dev
+#     ### clean up
+# &&  apt-get -y autoremove \
+# &&  apt-get clean \
+# &&  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
 WORKDIR /opt
 
 #### klipper
+COPY simulavr.config .config
 RUN git clone https://github.com/klipper3d/klipper \
 &&  python -m venv klippy-env \
 &&  klippy-env/bin/pip install -r klipper/scripts/klippy-requirements.txt \
 &&  klippy-env/bin/python -m compileall klipper/klippy \
-&&  klippy-env/bin/python klipper/klippy/chelper/__init__.py
+&&  klippy-env/bin/python klipper/klippy/chelper/__init__.py \
+    # build the firmware
+&&  mv .config klipper/.config \
+&&  make -C klipper PYTHON=python3 \
+&&  mv klipper/out/klipper.elf ./simulavr.elf \
+&&  rm -f klipper/.config*.* \
+&&  make -C klipper PYTHON=python3 clean
 
 #### moonraker
 RUN git clone https://github.com/Arksine/moonraker \
@@ -70,18 +78,11 @@ RUN curl -sLo /tmp/mainsail.zip https://github.com/mainsail-crew/mainsail/releas
 &&  unzip /tmp/mainsail.zip -d mainsail
 
 #### simulavr
-    # Build the firmware
-COPY simulavr.config klipper/.config
-RUN make -C klipper PYTHON=python3 \
-&&  mv klipper/out/klipper.elf ./simulavr.elf \
-&&  rm -f klipper/.config*.* \
-&&  make -C klipper PYTHON=python3 clean \
-    # Build simulavr
-&&  git clone -b master https://git.savannah.nongnu.org/git/simulavr.git \
+RUN git clone -b master https://git.savannah.nongnu.org/git/simulavr.git \
 &&  make -C simulavr cfgclean python build clean
 
-## The final image
-
+## the final image
+#
 FROM python:3.11-slim AS final
 ARG BUILD_DATE
 ARG NAME
@@ -103,12 +104,12 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get install -y \
-    --no-install-recommends \
-    --no-install-suggests \
+RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
+    ca-certificates \
     curl \
     ffmpeg \
     git \
+    gnupg1 \
     iproute2 \
     janus \
     libcurl4 \
@@ -121,6 +122,7 @@ RUN apt-get update && apt-get install -y \
     libssl3 \
     libtiff6 \
     libxcb1 \
+    lsb-release \
     nginx \
     sudo \
     systemd \
@@ -128,14 +130,19 @@ RUN apt-get update && apt-get install -y \
     ### clean up
 &&  apt-get -y autoremove \
 &&  apt-get clean \
-&&  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
-
-COPY --chmod=755 start.sh /bin/start
-
-RUN groupadd printer --force -g 1001 \
+&&  rm -rf /var/lib/apt/lists/* /var/log/apt /var/log/dpkg.log /tmp/* /var/tmp/* /etc/nginx/sites-enabled/default \
+# add user
+&&  groupadd printer --force -g 1001 \
 &&  useradd printer -rm -d /home/printer -g 1001 -u 1001 \
 &&  usermod printer -aG dialout,tty,video \
-&&  echo 'printer ALL=(ALL:ALL) NOPASSWD:ALL' > /etc/sudoers.d/printer
+&&  echo 'printer ALL=(ALL:ALL) NOPASSWD:ALL' > /etc/sudoers.d/printer \
+# nginx
+&&  sed -i 's@/var/log/nginx/access.log@/dev/stdout@g' /etc/nginx/nginx.conf \
+&&  sed -i 's@/var/log/nginx/error.log@/dev/stderr@g' /etc/nginx/nginx.conf \
+&&  touch /var/run/nginx.pid \
+&&  chown -R printer:printer /etc/nginx/conf.d /var/lib/nginx /var/run/nginx.pid /usr/share/nginx
+
+COPY --chmod=755 start.sh /bin/start
 
 USER printer
 WORKDIR /home/printer
@@ -144,7 +151,7 @@ RUN mkdir -p \
     printer_data \
 &&  chown -R printer:printer /home/printer/*
 
-# Copy prebuilt applications from the build stage
+# copy prebuilt applications from the build stage
 COPY --from=build --chown=printer:printer /opt/klippy-env ./klippy-env
 COPY --from=build --chown=printer:printer /opt/klipper/ ./klipper/
 COPY --from=build --chown=printer:printer /opt/moonraker ./moonraker
@@ -157,5 +164,3 @@ COPY --from=build --chown=printer:printer /opt/ustreamer ./ustreamer
 COPY --from=build --chown=printer:printer /opt/mainsail ./mainsail
 
 ENTRYPOINT ["/bin/start"]
-# ENTRYPOINT ["sleep", "infinity"]
-
