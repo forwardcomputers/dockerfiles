@@ -38,10 +38,6 @@ RUN apt-get update && apt-get install -y \
     stm32flash \
     swig \
     zlib1g-dev
-#     ### clean up
-# &&  apt-get -y autoremove \
-# &&  apt-get clean \
-# &&  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
 WORKDIR /opt
 
