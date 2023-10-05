@@ -160,3 +160,4 @@ COPY --from=build --chown=printer:printer /opt/ustreamer ./ustreamer
 COPY --from=build --chown=printer:printer /opt/mainsail ./mainsail
 
 ENTRYPOINT ["/bin/start"]
+
