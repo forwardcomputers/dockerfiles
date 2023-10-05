@@ -1,7 +1,7 @@
 #
 #APPNEW 1.0
 #
-# Based on the work from https://github.com/mkuf/prind/tree/main
+# Based on the work from https://github.com/mkuf/prind
 FROM python:3.11-bookworm AS build
 #
 ## The build image
@@ -65,6 +65,10 @@ RUN git clone https://github.com/TheSpaghettiDetective/moonraker-obico.git \
 RUN git clone https://github.com/pikvm/ustreamer \
 &&  make -C ustreamer
 
+#### mainsail
+RUN curl -sLo /tmp/mainsail.zip https://github.com/mainsail-crew/mainsail/releases/latest/download/mainsail.zip \
+&&  unzip /tmp/mainsail.zip -d mainsail
+
 #### simulavr
     # Build the firmware
 COPY simulavr.config klipper/.config
@@ -117,6 +121,7 @@ RUN apt-get update && apt-get install -y \
     libssl3 \
     libtiff6 \
     libxcb1 \
+    nginx \
     sudo \
     systemd \
     zlib1g \
@@ -149,6 +154,7 @@ COPY --from=build --chown=printer:printer /opt/obico-env ./obico-env
 COPY --from=build --chown=printer:printer /opt/simulavr ./simulavr
 COPY --from=build --chown=printer:printer /opt/simulavr.elf ./simulavr.elf
 COPY --from=build --chown=printer:printer /opt/ustreamer ./ustreamer
+COPY --from=build --chown=printer:printer /opt/mainsail ./mainsail
 
 ENTRYPOINT ["/bin/start"]
 # ENTRYPOINT ["sleep", "infinity"]
