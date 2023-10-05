@@ -1,23 +1,42 @@
 #
 #APPNEW 1.0
 #
+# Based on the work from https://github.com/mkuf/prind/tree/main
 FROM python:3.11-bookworm AS build
 #
 ## The build image
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y \
     avr-libc \
+    avrdude \
+    binutils-arm-none-eabi \
     binutils-avr \
     build-essential \
     cmake \
+    dfu-util \
+    gcc-arm-none-eabi \
     gcc-avr \
+    git \
     libbsd-dev \
-    # libcurl4-openssl-dev \
-    # libssl-dev \
+    libcurl4-openssl-dev \
+    libffi-dev \
+    libjpeg-dev \
+    liblmdb-dev \
+    libncurses-dev \
+    libnewlib-arm-none-eabi \
+    libsodium-dev \
+    libssl-dev \
+    libusb-1.0-0 \
+    libusb-1.0-0-dev \
+    pkg-config \
     python3-dev \
-    # python3-libgpiod \
+    python3-libgpiod \
+    python3-numpy \
+    python3-matplotlib \
+    python3-virtualenv \
+    stm32flash \
     swig \
-    # virtualenv \
+    zlib1g-dev \
     ### clean up
 &&  apt-get -y autoremove \
 &&  apt-get clean \
@@ -29,7 +48,6 @@ WORKDIR /opt
 RUN git clone https://github.com/klipper3d/klipper \
 &&  python -m venv klippy-env \
 &&  klippy-env/bin/pip install -r klipper/scripts/klippy-requirements.txt \
-# &&  klippy-env/bin/pip install numpy \
 &&  klippy-env/bin/python -m compileall klipper/klippy \
 &&  klippy-env/bin/python klipper/klippy/chelper/__init__.py
 
@@ -47,16 +65,7 @@ RUN git clone https://github.com/TheSpaghettiDetective/moonraker-obico.git \
 RUN git clone https://github.com/pikvm/ustreamer \
 &&  make -C ustreamer
 
-# #### mjpg-streamer
-# RUN git clone --depth 1 https://github.com/jacksonliam/mjpg-streamer \
-# &&  mkdir mjpg-streamer/mjpg-streamer-experimental/_build \
-# &&  cd mjpg-streamer/mjpg-streamer-experimental/_build \
-# &&  cmake -DPLUGIN_INPUT_HTTP=OFF -DPLUGIN_INPUT_UVC=OFF -DPLUGIN_OUTPUT_FILE=OFF -DPLUGIN_OUTPUT_RTSP=OFF -DPLUGIN_OUTPUT_UDP=OFF .. \
-# &&  cd .. \
-# &&  make \
-# &&  cd /opt
-
-#### Simulavr
+#### simulavr
     # Build the firmware
 COPY simulavr.config klipper/.config
 RUN make -C klipper PYTHON=python3 \
@@ -98,20 +107,19 @@ RUN apt-get update && apt-get install -y \
     git \
     iproute2 \
     janus \
-    # libcurl4 \
+    libcurl4 \
     libevent-2.1-7 \
     libevent-pthreads-2.1-7 \
     libjpeg62-turbo \
-    # liblmdb0 \
-    # libopenjp2-7 \
+    liblmdb0 \
+    libopenjp2-7 \
     libsodium23 \
-    # libssl3 \
-    # libtiff6 \
-    # libxcb1 \
-    # python3-libgpiod \
+    libssl3 \
+    libtiff6 \
+    libxcb1 \
     sudo \
     systemd \
-    # zlib1g \
+    zlib1g \
     ### clean up
 &&  apt-get -y autoremove \
 &&  apt-get clean \
@@ -140,7 +148,6 @@ COPY --from=build --chown=printer:printer /opt/moonraker-obico ./moonraker-obico
 COPY --from=build --chown=printer:printer /opt/obico-env ./obico-env
 COPY --from=build --chown=printer:printer /opt/simulavr ./simulavr
 COPY --from=build --chown=printer:printer /opt/simulavr.elf ./simulavr.elf
-# COPY --from=build --chown=printer:printer /opt/mjpg-streamer/mjpg-streamer-experimental ./mjpg-streamer
 COPY --from=build --chown=printer:printer /opt/ustreamer ./ustreamer
 
 ENTRYPOINT ["/bin/start"]
