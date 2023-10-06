@@ -2,7 +2,7 @@ name: rebuild_all
 
 on:
   schedule:
-    # Times are in UTC, this job is run daily @ 14HRS = 9AM EST, 20HRS = 3PM EST
+    # Times are in UTC, this job is run daily @ 3HRS = 11PM EST
     - cron: "0 3 * * SUN"
 
   workflow_dispatch:
