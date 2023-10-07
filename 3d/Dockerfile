@@ -42,7 +42,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /opt
 
 #### klipper
-COPY simulavr.config .config
+COPY config/simulavr.config .config
 RUN git clone https://github.com/klipper3d/klipper \
 &&  python -m venv klippy-env \
 &&  klippy-env/bin/pip install -r klipper/scripts/klippy-requirements.txt \
@@ -143,12 +143,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
 &&  usermod printer -aG dialout,tty,video \
 &&  echo 'printer ALL=(ALL:ALL) NOPASSWD:ALL' > /etc/sudoers.d/printer \
 # nginx
-&&  sed -i 's@/var/log/nginx/access.log@/dev/stdout@g' /etc/nginx/nginx.conf \
-&&  sed -i 's@/var/log/nginx/error.log@/dev/stderr@g' /etc/nginx/nginx.conf \
-&&  touch /var/run/nginx.pid \
-&&  chown -R printer:printer /etc/nginx/conf.d /var/lib/nginx /var/run/nginx.pid /usr/share/nginx
+&&  sed -i 's@/var/log/nginx/access.log@/dev/null@g' /etc/nginx/nginx.conf \
+&&  sed -i 's@/var/log/nginx/error.log@/dev/null@g' /etc/nginx/nginx.conf
 
-COPY --chmod=755 start.sh /bin/start
+COPY config/moonraker.service /etc/systemd/system
+COPY config/obico.service /etc/systemd/system
+COPY config/klipper.service /etc/systemd/system
+COPY config/ustreamer.service /etc/systemd/system
+COPY config/simulavr.service /etc/systemd/system
+RUN systemctl enable moonraker obico klipper ustreamer simulavr
 
 USER printer
 WORKDIR /home/printer
@@ -168,5 +171,3 @@ COPY --from=build --chown=printer:printer /opt/simulavr ./simulavr
 COPY --from=build --chown=printer:printer /opt/simulavr.elf ./simulavr.elf
 COPY --from=build --chown=printer:printer /opt/ustreamer ./ustreamer
 COPY --from=build --chown=printer:printer /opt/mainsail ./mainsail
-
-ENTRYPOINT ["/bin/start"]

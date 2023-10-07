@@ -1,0 +1,19 @@
+[Unit]
+Description=SimulAVR
+Requires=network-online.target
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+User=printer
+RemainAfterExit=yes
+Environment=PYTHONPATH="/home/printer/simulavr/build/pysimulavr"
+ExecStart=/home/printer/klippy-env/bin/python $PARAMETER1 $PARAMETER2 $PARAMETER3
+Environment=PARAMETER1="/home/printer/klipper/scripts/avrsim.py"
+Environment=PARAMETER2="-p /home/printer/printer_data/run/simulavr.tty"
+Environment=PARAMETER3="/home/printer/simulavr.elf"
+Restart=always
+RestartSec=10
