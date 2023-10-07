@@ -1,7 +1,7 @@
 #
 #APPNEW apt
 #
-FROM forwardcomputers/base_debian
+FROM debian:bullseye
 ARG BUILD_DATE
 ARG NAME
 ARG CO
