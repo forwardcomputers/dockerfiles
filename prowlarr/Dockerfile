@@ -32,7 +32,6 @@ RUN set -e \
 #
 &&  curl -sL "http://prowlarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64" | tar xzf - -C "/opt" --exclude "Prowlarr.Update" \
 &&  chown -R 1001:1001 /opt/* \
-&&  /usr/bin/cert-sync /etc/ssl/certs/ca-certificates.crt \
 #
 &&  rm -rf \
     /var/cache/apk \
