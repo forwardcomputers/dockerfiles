@@ -26,10 +26,9 @@ RUN set -e \
 # Update repos and install packages
 #
 &&  apk add --no-cache \
-    libmediainfo \
-    mono \
+    libintl \
     sqlite-libs \
-    tinyxml2 \
+    icu-libs \
 #
 &&  _URL=$( curl -sL "https://services.sonarr.tv/v1/download/main" | jq -r '.linux.manual.url' ) \
 &&  curl -sL "${_URL}" | tar xzf - -C "/opt" --exclude "Sonarr.Update" \
