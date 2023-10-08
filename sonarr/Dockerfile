@@ -34,6 +34,7 @@ RUN set -e \
 &&  _URL=$( curl -sL "https://services.sonarr.tv/v1/download/main" | jq -r '.linux.manual.url' ) \
 &&  curl -sL "${_URL}" | tar xzf - -C "/opt" --exclude "Sonarr.Update" \
 &&  chown -R 1001:1001 /opt/* \
+&&  /usr/bin/cert-sync/cert-sync /etc/ssl/certs/ca-certificates.crt \
 #
 &&  rm -rf \
     /var/cache/apk \
