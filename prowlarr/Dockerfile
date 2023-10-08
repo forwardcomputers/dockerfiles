@@ -30,8 +30,7 @@ RUN set -e \
     sqlite-libs \
     icu-libs \
 #
-&&  _URL=$( curl -sL "https://services.sonarr.tv/v1/download/main" | jq -r '.linux.manual.url' ) \
-&&  curl -sL "${_URL}" | tar xzf - -C "/opt" --exclude "Sonarr.Update" \
+&&  curl -sL "http://prowlarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64" | tar xzf - -C "/opt" --exclude "Prowlarr.Update" \
 &&  chown -R 1001:1001 /opt/* \
 &&  /usr/bin/cert-sync /etc/ssl/certs/ca-certificates.crt \
 #
