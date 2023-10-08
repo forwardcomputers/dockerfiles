@@ -28,7 +28,7 @@ RUN set -e \
 &&  apk add --no-cache \
     libmediainfo \
     mono \
-    sqlite-libs \
+    # sqlite-libs \
     tinyxml2 \
 #
 &&  _URL=$( curl -sL "https://services.sonarr.tv/v1/download/main" | jq -r '.linux.manual.url' ) \
