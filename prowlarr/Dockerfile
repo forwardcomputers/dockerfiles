@@ -30,7 +30,7 @@ RUN set -e \
     sqlite-libs \
     icu-libs \
 #
-&&  curl -sL "http://prowlarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64" | tar xzf - -C "/opt" --exclude "Prowlarr.Update" \
+&&  curl -sL "http://prowlarr.servarr.com/v1/update/master/updatefile?os=linuxmusl&runtime=netcore&arch=x64" | tar xzf - -C "/opt" --exclude "Prowlarr.Update" \
 &&  chown -R 1001:1001 /opt/* \
 #
 &&  rm -rf \
