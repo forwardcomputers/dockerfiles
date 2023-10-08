@@ -26,7 +26,7 @@ RUN set -e \
 # Update repos and install packages
 #
 &&  apk add --no-cache \
-    # sqlite-libs \
+    sqlite-libs \
     tinyxml2 \
     libmediainfo \
     mono \
