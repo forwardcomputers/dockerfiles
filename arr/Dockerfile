@@ -1,0 +1,41 @@
+#
+#APPNEW curl -sL "https://mirror.csclub.uwaterloo.ca/alpine/latest-stable/releases/x86_64/latest-releases.yaml" | yq e '.[0].version'
+#
+FROM forwardcomputers/base_alpine
+ARG BUILD_DATE
+ARG NAME
+ARG CO
+ARG APPNEW
+#
+LABEL   org.label-schema.schema-version="1.0" \
+        org.label-schema.build-date="${BUILD_DATE}" \
+        org.label-schema.name="${NAME}" \
+        org.label-schema.vcs-url="https://github.com/forwardcomputers/dockerfiles/tree/master/${NAME}" \
+        org.label-schema.vendor="${CO}" \
+        org.label-schema.version="${APPNEW}" \
+        org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${NAME}" \
+        org.opencontainers.image.created="${BUILD_DATE}" \
+        org.opencontainers.image.title="${NAME}" \
+        org.opencontainers.image.source="https://github.com/forwardcomputers/dockerfiles/tree/master/${NAME}" \
+        org.opencontainers.image.vendor="${CO}" \
+        org.opencontainers.image.version="${APPNEW}" \
+        org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
+#
+RUN set -e \
+#
+# Update repos and install packages
+#
+&&  apk add --no-cache \
+    sqlite-libs \
+    tinyxml2 \
+    libmediainfo \
+    mono \
+#
+&&  _URL=$( curl -sL "https://services.sonarr.tv/v1/download/main" | jq -r '.linux.manual.url' ) \
+&&  curl -sL "${_URL}" | tar xzf - -C "/opt" --exclude "Sonarr.Update" \
+&&  chown -R 1001:1001 /opt/* \
+#
+&&  rm -rf \
+    /var/cache/apk \
+    /var/lib/apk
+#
