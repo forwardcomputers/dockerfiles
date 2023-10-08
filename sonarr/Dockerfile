@@ -31,8 +31,7 @@ RUN set -e \
     # sqlite-libs \
     tinyxml2 \
 #
-&&  _URL=$( curl -sL "https://services.sonarr.tv/v1/download/main" | jq -r '.linux.manual.url' ) \
-&&  curl -sL "${_URL}" | tar xzf - -C "/opt" --exclude "Sonarr.Update" \
+&&  curl -sL "https://services.sonarr.tv/v1/download/develop/latest?version=4&os=linux-musl&arch=arm64" | tar xzf - -C "/opt" --exclude "Sonarr.Update" \
 &&  chown -R 1001:1001 /opt/* \
 &&  /usr/bin/cert-sync /etc/ssl/certs/ca-certificates.crt \
 #
