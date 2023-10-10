@@ -28,7 +28,7 @@ RUN set -e \
 &&  apk add --no-cache \
     libmediainfo \
     mono \
-    # sqlite-libs \
+    sqlite-libs \
     tinyxml2 \
 #
 &&  curl -sL "https://services.sonarr.tv/v1/download/develop/latest?version=4&os=linux-musl&arch=arm64" | tar xzf - -C "/opt" --exclude "Sonarr.Update" \
