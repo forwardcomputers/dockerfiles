@@ -1,5 +1,5 @@
 #
-#APPNEW curl -sL "https://mirror.csclub.uwaterloo.ca/alpine/latest-stable/releases/x86_64/latest-releases.yaml" | yq e '.[0].version'
+#APPNEW curl -sL "https://services.sonarr.tv/v1/download/main" | jq -r '.version'
 #
 FROM forwardcomputers/base_alpine
 ARG BUILD_DATE
