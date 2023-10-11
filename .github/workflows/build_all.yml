@@ -33,6 +33,5 @@ jobs:
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
           curl --silent --location --output ~/am-dapp --url https://github.com/forwardcomputers/bin/raw/main/am-dapp
           chmod +x ~/am-dapp
-          set +x
           ~/am-dapp upgrade_all_ci
 
