@@ -1,5 +1,5 @@
 #
-#APPNEW curl -sL "https://pypi.org/pypi/ansible/json" | jq -r '.info.version'
+#APPNEW curl -sL "https://api.github.com/repos/duplicati/duplicati/releases" | jq -r 'first ( .[] | select( .tag_name | contains( "beta" ) ).tag_name )[1:]'
 #
 FROM mono:6-slim
 ARG BUILD_DATE
