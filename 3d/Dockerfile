@@ -73,6 +73,10 @@ RUN git clone https://github.com/pikvm/ustreamer \
 RUN curl -sLo /tmp/mainsail.zip https://github.com/mainsail-crew/mainsail/releases/latest/download/mainsail.zip \
 &&  unzip /tmp/mainsail.zip -d mainsail
 
+#### fluidd
+RUN curl -sLo /tmp/fluidd.zip https://github.com/fluidd-core/fluidd/releases/latest/download/fluidd.zip \
+&&  unzip /tmp/fluidd.zip -d fluidd
+
 #### simulavr
 RUN git clone -b master https://git.savannah.nongnu.org/git/simulavr.git \
 &&  make -C simulavr cfgclean python build clean
@@ -171,3 +175,4 @@ COPY --from=build --chown=printer:printer /opt/simulavr ./simulavr
 COPY --from=build --chown=printer:printer /opt/simulavr.elf ./simulavr.elf
 COPY --from=build --chown=printer:printer /opt/ustreamer ./ustreamer
 COPY --from=build --chown=printer:printer /opt/mainsail ./mainsail
+COPY --from=build --chown=printer:printer /opt/fluidd ./fluidd
