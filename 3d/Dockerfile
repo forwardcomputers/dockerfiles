@@ -1,5 +1,5 @@
 #
-#APPNEW 1.0
+#APPNEW curl -sL "https://api.github.com/repos/klipper3d/klipper/tags" | jq -r '.[0].name[1:]'
 #
 # Based on the work from https://github.com/mkuf/prind
 # On python 3.11 due to greenlet
