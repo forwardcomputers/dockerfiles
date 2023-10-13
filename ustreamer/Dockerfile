@@ -1,6 +1,7 @@
+#
 #APPNEW apk
-
-FROM alpine:latest as build
+#
+FROM alpine:latest
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -25,19 +26,28 @@ RUN apk add --no-cache \
 		libjpeg-turbo-dev \
 		libevent-dev \
 		libbsd-dev \
-		libgpiod-dev
+		libgpiod-dev \
 #
-WORKDIR /build/ustreamer/
-COPY . .
-#
-FROM alpine:latest as run
-RUN apk add --no-cache \
 		libevent \
 		libjpeg-turbo \
 		libevent \
 		libgpiod \
 		libbsd \
-		v4l-utils \
+		v4l-utils
+#
+WORKDIR /opt
+RUN git clone https://github.com/pikvm/ustreamer \
+&&  make -C ustreamer \
+&&  rm -rf .git \
+#
+# FROM alpine:latest as run
+# RUN apk add --no-cache \
+# 		libevent \
+# 		libjpeg-turbo \
+# 		libevent \
+# 		libgpiod \
+# 		libbsd \
+# 		v4l-utils \
 #
 # Clean-up
 #
@@ -48,8 +58,6 @@ RUN apk add --no-cache \
     /usr/share/apk \
     /var/lib/apk
 #
-WORKDIR /ustreamer
-COPY --from=build /build/ustreamer/src/ustreamer.bin ustreamer
-#
+
 EXPOSE 8080
-ENTRYPOINT ["./ustreamer", "--host=0.0.0.0"]
+ENTRYPOINT ["/opt/ustreamer/src/ustreamer.bin", "--host=0.0.0.0"]
