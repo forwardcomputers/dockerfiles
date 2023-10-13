@@ -1,5 +1,5 @@
 #
-#APPNEW apk
+#APPNEW curl -sL "https://api.github.com/repos/pikvm/ustreamer/tags" | jq -r '.[0].name[1:]'
 #
 FROM alpine:latest
 ARG BUILD_DATE
