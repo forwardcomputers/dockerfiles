@@ -1,3 +1,4 @@
+#APPNEW apk
 
 FROM alpine:latest as build
 
