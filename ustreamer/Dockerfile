@@ -1,7 +1,7 @@
 #
 #APPNEW curl -sL "https://api.github.com/repos/pikvm/ustreamer/tags" | jq -r '.[0].name[1:]'
 #
-FROM alpine:latest
+FROM alpine:latest as build
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -26,28 +26,22 @@ RUN apk add --no-cache \
 		libjpeg-turbo-dev \
 		libevent-dev \
 		libbsd-dev \
-		libgpiod-dev \
+		libgpiod-dev
 #
+WORKDIR /opt
+RUN git clone https://github.com/pikvm/ustreamer \
+&&  make -C ustreamer
+#
+#
+#
+FROM alpine:latest as run
+RUN apk add --no-cache \
 		libevent \
 		libjpeg-turbo \
 		libevent \
 		libgpiod \
 		libbsd \
-		v4l-utils
-#
-WORKDIR /opt
-RUN git clone https://github.com/pikvm/ustreamer \
-&&  make -C ustreamer \
-&&  rm -rf .git \
-#
-# FROM alpine:latest as run
-# RUN apk add --no-cache \
-# 		libevent \
-# 		libjpeg-turbo \
-# 		libevent \
-# 		libgpiod \
-# 		libbsd \
-# 		v4l-utils \
+		v4l-utils \
 #
 # Clean-up
 #
@@ -58,6 +52,5 @@ RUN git clone https://github.com/pikvm/ustreamer \
     /usr/share/apk \
     /var/lib/apk
 #
-
+COPY --from=build /opt/ustreamer/src/ustreamer.bin /usr/local/bin/ustreamer
 EXPOSE 8080
-ENTRYPOINT ["/opt/ustreamer/src/ustreamer.bin", "--host=0.0.0.0"]
