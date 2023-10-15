@@ -26,12 +26,11 @@ RUN set -e \
 # Update repos and install packages
 #
 &&  apk add --no-cache \
-    libmediainfo \
-    mono \
-    sqlite-libs \
-    tinyxml2 \
+    icu-libs \
+    libintl \
 #
 &&  curl -sL "https://services.sonarr.tv/v1/download/develop/latest?version=4&os=linuxmusl" | tar xzf - -C "/opt" --exclude "Sonarr.Update" \
+&&  rm -rf /opt/Sonarr/Sonarr.Update \
 &&  chown -R 1001:1001 /opt/* \
 &&  /usr/bin/cert-sync /etc/ssl/certs/ca-certificates.crt \
 #
