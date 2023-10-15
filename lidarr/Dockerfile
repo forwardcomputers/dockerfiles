@@ -30,7 +30,8 @@ RUN set -e \
     icu-libs \
     libintl \
 #
-&&  curl -sL "https://lidarr.servarr.com/v1/update/master/updatefile?os=linuxmusl&runtime=netcore&arch=x64" | tar xzf - -C "/opt" --exclude "Lidarr.Update" \
+&&  curl -sL "https://lidarr.servarr.com/v1/update/master/updatefile?os=linuxmusl&runtime=netcore&arch=x64" | tar xzf - -C "/opt" \
+&&  rm -rf /opt/Lidarr/Lidarr.Update \
 &&  chown -R 1001:1001 /opt/* \
 #
 &&  rm -rf \
