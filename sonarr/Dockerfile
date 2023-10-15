@@ -29,7 +29,7 @@ RUN set -e \
     icu-libs \
     libintl \
 #
-&&  curl -sL "https://services.sonarr.tv/v1/download/develop/latest?version=4&os=linuxmusl" | tar xzf - -C "/opt" --exclude "Sonarr.Update" \
+&&  curl -sL "https://services.sonarr.tv/v1/download/develop/latest?version=4&os=linuxmusl" | tar xzf - -C "/opt" \
 &&  rm -rf /opt/Sonarr/Sonarr.Update \
 &&  chown -R 1001:1001 /opt/* \
 #
