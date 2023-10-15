@@ -1,5 +1,5 @@
 #
-#APPNEW curl -sL "https://radarr.servarr.com/v1/update/master/changes?os=linuxmusl&runtime=netcore&arch=x64" | jq -r '.[0].version' 
+#APPNEW curl -sL "https://radarr.servarr.com/v1/update/master/changes?os=linuxmusl&runtime=netcore&arch=x64" | jq -r '.[0].version'
 #
 FROM forwardcomputers/base_alpine
 ARG BUILD_DATE
