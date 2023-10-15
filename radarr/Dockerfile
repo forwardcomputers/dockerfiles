@@ -1,5 +1,5 @@
 #
-#APPNEW curl -fsSL "https://services.sonarr.tv/v1/releases" | jq -r '.["v4-preview"].version'
+#APPNEW curl -sL "https://radarr.servarr.com/v1/update/master/changes?os=linuxmusl&runtime=netcore&arch=x64" | jq -r '.[0].version' 
 #
 FROM forwardcomputers/base_alpine
 ARG BUILD_DATE
@@ -29,8 +29,7 @@ RUN set -e \
     icu-libs \
     libintl \
 #
-&&  curl -sL "https://services.sonarr.tv/v1/download/develop/latest?version=4&os=linuxmusl" | tar xzf - -C "/opt" --exclude "Sonarr.Update" \
-&&  rm -rf /opt/Sonarr/Sonarr.Update \
+&&  curl -sL "https://radarr.servarr.com/v1/update/master/updatefile?os=linuxmusl&runtime=netcore&arch=x64" | tar xzf - -C "/opt" --exclude "Radarr.Update" \
 &&  chown -R 1001:1001 /opt/* \
 #
 &&  rm -rf \
