@@ -35,4 +35,3 @@ RUN set -e \
 &&  rm -rf \
     /var/cache/apk \
     /var/lib/apk
-#
