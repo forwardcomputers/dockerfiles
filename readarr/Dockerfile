@@ -29,7 +29,7 @@ RUN set -e \
     icu-libs \
     libintl \
 #
-&&  curl -sL "https://readarr.servarr.com/v1/update/develop/updatefile?os=linuxmusl&runtime=netcore&arch=x64" | tar xzf - -C "/opt" --exclude "Readarr.Update" \
+&&  curl -sL "https://readarr.servarr.com/v1/update/develop/updatefile?os=linuxmusl&runtime=netcore&arch=x64" | tar xzf - -C "/opt" \
 &&  rm -rf /opt/Readarr/Readarr.Update \
 &&  chown -R 1001:1001 /opt/* \
 #
