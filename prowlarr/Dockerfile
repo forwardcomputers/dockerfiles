@@ -26,9 +26,8 @@ RUN set -e \
 # Update repos and install packages
 #
 &&  apk add --no-cache \
-    libintl \
-    sqlite-libs \
     icu-libs \
+    libintl \
 #
 &&  curl -sL "http://prowlarr.servarr.com/v1/update/master/updatefile?os=linuxmusl&runtime=netcore&arch=x64" | tar xzf - -C "/opt" --exclude "Prowlarr.Update" \
 &&  chown -R 1001:1001 /opt/* \
