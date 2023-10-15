@@ -30,6 +30,7 @@ RUN set -e \
     libintl \
 #
 &&  curl -sL "https://readarr.servarr.com/v1/update/develop/updatefile?os=linuxmusl&runtime=netcore&arch=x64" | tar xzf - -C "/opt" --exclude "Readarr.Update" \
+&&  rm -rf /opt/Readarr/Readarr.Update \
 &&  chown -R 1001:1001 /opt/* \
 #
 &&  rm -rf \
