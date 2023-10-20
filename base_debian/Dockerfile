@@ -53,6 +53,7 @@ RUN set -e \
     curl \
     jq \
     locales \
+    netbase \
     tzdata \
     xz-utils \
 #
