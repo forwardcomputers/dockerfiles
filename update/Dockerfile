@@ -26,10 +26,13 @@ RUN set -e \
 #
 # Install apps
 &&  apt-get update && apt-get install --no-install-recommends --yes \
+    aria2 \
     ca-certificates \
+    cabextract \
     coreutils \
     binutils \
     build-essential \
+    chntpw \
     cpio \
     cron \
     curl \
@@ -39,6 +42,7 @@ RUN set -e \
     gcc \
     gcc-aarch64-linux-gnu \
     gcc-arm-none-eabi \
+    genisoimage \
     git \
     gnupg \
     gpg-agent \
@@ -59,6 +63,7 @@ RUN set -e \
     software-properties-common \
     squashfs-tools \
     vim \
+    wimtools \
     git vim parted \
     quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools \
     libarchive-tools libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc\
