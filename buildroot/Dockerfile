@@ -1,6 +1,5 @@
 #
 #APPNEW curl -sL "https://raw.githubusercontent.com/debuerreotype/docker-debian-artifacts/dist-amd64/testing/rootfs.debian_version" | cut -f1 -d\/
-#PLATFORM --platform=linux/amd64,linux/arm64
 #
 FROM debian:testing-slim
 ARG TARGETARCH
@@ -28,7 +27,6 @@ RUN set -e \
 #
 # Update repos and install packages
 #
-&&  sed -i 's/main.*/main contrib non-free non-free-firmware/' /etc/apt/sources.list.d/debian.sources \
 &&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
     bash \
     bc \
@@ -50,19 +48,19 @@ RUN set -e \
     perl \
     sed \
     unzip \
+    vim \
     wget \
 #
 # Configure
 #
 # create locales
-&&  localedef -c -i en_US -f UTF8 -A /usr/share/locale/locale.alias en_US.UTF8 \
-&&  update-locale --no-checks LANG=en_US.UTF8 \
+&&  sed -e '/en_US.UTF-8/s/^# *//g' -i /etc/locale.gen \
+&&  echo "LANG=en_US.UTF-8" > /etc/default/locale \
+&&  locale-gen \
 #
 # clone buildroot
 &&  git clone git://git.buildroot.net/buildroot \
 #
-# &&  touch /buildroot/.config \
-# &&  touch /buildroot/kernel.config \
 #
 # Clean-up
 #
@@ -78,6 +76,5 @@ RUN set -e \
     /var/log/*.log \
     /tmp/*
 #
-WORKDIR /buildroot
-
+#
 RUN ["/bin/bash"]
