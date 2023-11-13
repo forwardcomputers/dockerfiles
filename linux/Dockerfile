@@ -28,6 +28,7 @@ RUN set -e \
 #
 &&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
     apt-utils \
+    bat \
     busybox \
     bzip2\
     ca-certificates \
@@ -49,6 +50,7 @@ RUN set -e \
     lastpass-cli \
     locales \
     lsb-release \
+    lsd \
     openssh-server \
     p7zip-full \
     procps \
