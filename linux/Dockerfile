@@ -58,6 +58,7 @@ RUN set -e \
     sudo \
     supervisor \
     tmux \
+    trash-cli \
     unzip \
     vim-tiny \
     xz-utils \
