@@ -76,6 +76,12 @@ RUN set -e \
 # &&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/ /" | tee /etc/apt/sources.list.d/arx.list > /dev/null \
 # &&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
 #
+&&  curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg \
+&&  echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
+         bullseye stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null \
+&&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
+    docker-ce-cli \
+#
 &&  YQNEW=$( curl -sL "https://api.github.com/repos/mikefarah/yq/releases/latest" | jq -r '.tag_name' ) \
 &&  curl -sLo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQNEW}/yq_linux_amd64" \
 &&  chmod +x /usr/local/bin/yq \
