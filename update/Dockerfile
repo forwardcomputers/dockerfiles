@@ -91,10 +91,6 @@ RUN set -e \
 &&  git clone https://github.com/ipxe/ipxe.git /ipxe \
 &&  git clone https://github.com/RPi-Distro/pi-gen.git /pi-gen \
 #
-&&  install -o root -m 700 -d /root/.ssh \
-&&  install -o root -m 600 <( cat /mnt/os/alim.pub ) /root/.ssh/authorized_keys \
-&&  install -o root -m 600 <(cat << EOF StrictHostKeyChecking=accept-new \n AddKeysToAgent yes \n IdentityFile /opt/filer/os/alim.pem \n EOF ) /root/.ssh/config \
-#
 # Clean-up
 #
 &&  rm --recursive --force \
