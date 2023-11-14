@@ -93,12 +93,12 @@ RUN set -e \
 #
 &&  install -o root -m 700 -d /root/.ssh \
 &&  install -o root -m 600 <( cat /mnt/os/alim.pub ) /root/.ssh/authorized_keys \
-&&  install <(cat << EOF
-StrictHostKeyChecking=accept-new
-AddKeysToAgent yes
-IdentityFile /opt/filer/os/alim.pem
-EOF
-) "$install_target" \
+&&  install -o root -m 600 <(cat << EOF \
+&&  StrictHostKeyChecking=accept-new \
+&&  AddKeysToAgent yes \
+&&  IdentityFile /opt/filer/os/alim.pem \
+&&  EOF \
+&&  ) /root/.ssh/config \
 #
 # Clean-up
 #
