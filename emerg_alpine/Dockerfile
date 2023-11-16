@@ -35,6 +35,7 @@ RUN set -e \
     e2fsprogs \
     eudev \
     qemu-img \
+    git \
     rsync \
     sfdisk \
 #
