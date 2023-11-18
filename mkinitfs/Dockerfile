@@ -30,16 +30,8 @@ RUN set -e \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/community"  >> /etc/apk/repositories \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main"       >> /etc/apk/repositories \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/testing"    >> /etc/apk/repositories \
-&&  apk --update --no-cache add \
-    dosfstools \
-    e2fsprogs \
-    eudev \
-    qemu-img \
-    git \
-    rsync \
-    sfdisk \
-#
-&&  git clone https://github.com/alpinelinux/alpine-make-vm-image \
+&&  apk --quiet --no-progress --update --no-cache add \
+    mkinitfs \
 #
 # Clean-up
 #
