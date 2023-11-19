@@ -1,6 +1,5 @@
 #
-#APPNEW curl -sL "https://mirror.csclub.uwaterloo.ca/alpine/latest-stable/releases/x86_64/latest-releases.yaml" | yq e '.[0].version'
-#
+#APPNEW apk
 FROM alpine:latest
 
 ARG BUILD_DATE
@@ -31,6 +30,7 @@ RUN set -e \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main"       >> /etc/apk/repositories \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/testing"    >> /etc/apk/repositories \
 &&  apk --quiet --no-progress --update --no-cache add \
+    linux-lts \
     mkinitfs \
 #
 # Clean-up
