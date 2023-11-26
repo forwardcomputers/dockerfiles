@@ -26,7 +26,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
     vim \
     python3-winrm \
     sshpass \
-&&  pip3 install ansible ansible-lint yamllint jmespath pywinrm \
+&&  pip3 install ansible ansible-lint dnspython yamllint jmespath pywinrm \
 &&  pip3 install -r https://raw.githubusercontent.com/linode/ansible_linode/main/requirements.txt \
 #
 &&  echo "PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /root/.bashrc \
