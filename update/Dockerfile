@@ -50,7 +50,7 @@ RUN set -e \
     isolinux \
     jq \
     libc6-dev-i386 \
-    libgcc-s1:i386 \
+    libgcc-s1 \
     libguestfs-tools \
     liblzma-dev \
     libxml2-utils \
