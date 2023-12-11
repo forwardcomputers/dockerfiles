@@ -49,6 +49,8 @@ RUN set -e \
     grub-efi \
     isolinux \
     jq \
+    libc6-dev-i386 \
+    libgcc-s1:i386 \
     libguestfs-tools \
     liblzma-dev \
     libxml2-utils \
