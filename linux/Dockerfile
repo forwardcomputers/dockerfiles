@@ -55,6 +55,7 @@ RUN set -e \
     p7zip-full \
     procps \
     psmisc \
+    rsync \
     sudo \
     supervisor \
     tmux \
