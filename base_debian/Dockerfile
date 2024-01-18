@@ -76,7 +76,7 @@ RUN set -e \
 &&  ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
 &&  echo "${TZ}" > /etc/timezone \
 # Create user
-&&  useradd -U -s /bin/false -u "${PUID}" "${USER}" \
+&&  useradd -m -s /bin/false -U -u "${PUID}" "${USER}" \
 &&  usermod -G users "${USER}" \
 # Create folders
 # &&  HOME_DIR=$( awk -F: -v v=$_qaz '{if ($1==v) print $6}' /etc/passwd ) \
