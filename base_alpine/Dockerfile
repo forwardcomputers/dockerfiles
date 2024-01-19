@@ -27,15 +27,11 @@ ENV USER="ali" \
     PUID="1001" \
     PGID="1001" \
     APP_DIR="/app" \
-    CONFIG_DIR="/config" \
     TZ="America/Toronto" \
     _CHAR="UTF-8" \
     _LANG="en" \
     _CNTRY="US"
-ENV XDG_CONFIG_HOME=${CONFIG_DIR}/.config \
-    XDG_CACHE_HOME=${CONFIG_DIR}/.cache \
-    XDG_DATA_HOME=${CONFIG_DIR}/.local/share \
-    LANG=${_LANG}_${_CNTRY}.${_CHAR} \
+ENV LANG=${_LANG}_${_CNTRY}.${_CHAR} \
     LANGUAGE=${_LANG} \
     LC_ALL=${_LANG}_${_CNTRY}.${_CHAR}
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
@@ -72,7 +68,7 @@ RUN set -e \
 # Create folders
 &&  echo mkdir -p {"${APP_DIR}","${CONFIG_DIR}"} | bash \
 # Create user
-&&  adduser -D -h "${CONFIG_DIR}" -s /bin/false -u "${PUID}" "${USER}" \
+&&  adduser -D -s /bin/false -u "${PUID}" "${USER}" \
 &&  addgroup "${USER}" users \
 #
 # Clean-up
