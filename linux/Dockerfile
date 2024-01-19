@@ -125,4 +125,3 @@ RUN set -ex \
     /var/log/xrdp* \
     /var/log/*.log \
     /tmp/*
-
