@@ -99,9 +99,7 @@ RUN set -ex \
 #
 # Create unprivileged user
 #
-&&  XDG_CONFIG_HOME=$"/home/${USER}/.config" \
-&&  XDG_CACHE_HOME="/home/${USER}/.cache" \
-&&  XDG_DATA_HOME="/home/${USER}/.local/share" \
+&&  export XDG_CONFIG_HOME=$"/home/${USER}/.config" \
 &&  usermod -m -s /bin/zsh -d "/home/${USER}" -c "ali@mustakim.com" -G dialout -p '$6$4XUjCfv1D9MC4RRh$JvANIuUtqK5aDNbHJMU0eCrlxg9TNnUpy3sYoK.jeCea0wdyjOH09uQublejMbsE83CcXTCSWK.x/LxvgJ4Pv0' "${USER}" \
 &&  if [ -d "/etc/sudoers.d" ]; then echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/"${USER}"; fi \
 &&  install -d -o "${PUID}" -g "${PGID}" -m 700 "/run/user/${PUID}" \
