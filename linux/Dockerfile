@@ -22,7 +22,7 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
-RUN set -e \
+RUN set -ex \
 #
 # Update repos and install packages
 #
