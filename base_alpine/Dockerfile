@@ -79,4 +79,3 @@ RUN set -e \
     /var/lib/apk
 #
 ENTRYPOINT [ "/init" ]
-
