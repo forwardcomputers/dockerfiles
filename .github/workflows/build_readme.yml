@@ -1,0 +1,29 @@
+name: build_readme
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_one:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Build and push to docker
+        run: |
+          set -x
+          sudo rm /etc/localtime
+          sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
+          curl --silent --location --output ~/am-dapp --url https://github.com/forwardcomputers/bin/raw/main/am-dapp
+          chmod +x ~/am-dapp
+          ~/am-dapp readme
+
+      - name: Commit and push to github
+        if: ${{ ! failure() }}
+        run: |
+          git config --local user.email "alim@forwardcomputers.com"
+          git config --local user.name "Ali Mustakim"
+          git add README.md
+          git diff-index --quiet HEAD || git commit -a -m "github actions update"
+          git push origin
