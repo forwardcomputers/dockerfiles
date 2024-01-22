@@ -2,6 +2,22 @@
 #APPNEW curl -sL "https://api.github.com/repos/pikvm/ustreamer/tags" | jq -r '.[0].name[1:]'
 #
 FROM alpine:latest as build
+#
+RUN apk add --no-cache \
+		alpine-sdk \
+		linux-headers \
+		libjpeg-turbo-dev \
+		libevent-dev \
+		libbsd-dev \
+		libgpiod-dev
+#
+WORKDIR /opt
+RUN git clone https://github.com/pikvm/ustreamer \
+&&  make -C ustreamer
+#
+#
+#
+FROM alpine:latest as run
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -19,22 +35,7 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.vendor="${CO}" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
-#
-RUN apk add --no-cache \
-		alpine-sdk \
-		linux-headers \
-		libjpeg-turbo-dev \
-		libevent-dev \
-		libbsd-dev \
-		libgpiod-dev
-#
-WORKDIR /opt
-RUN git clone https://github.com/pikvm/ustreamer \
-&&  make -C ustreamer
-#
-#
-#
-FROM alpine:latest as run
+
 RUN apk add --no-cache \
 		libevent \
 		libjpeg-turbo \
