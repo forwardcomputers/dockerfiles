@@ -47,7 +47,7 @@ jobs:
           done
 
       - name: Commit and push to github
-        if: failure()
+        if: ${{ ! failure() }}
         run: |
           git config --local user.email "alim@forwardcomputers.com"
           git config --local user.name "Ali Mustakim"
@@ -56,7 +56,7 @@ jobs:
           git push origin
 
       - name: Tweet on Failure
-        if: failure()
+        if: ${{ failure() }}
         env:
           LP_T_CONSUMER_KEY: ${{ secrets.LP_T_CONSUMER_KEY }}
           LP_T_CONSUMER_SECRET: ${{ secrets.LP_T_CONSUMER_SECRET }}
