@@ -1,6 +1,6 @@
 #
 #APPNEW curl -sL "https://raw.githubusercontent.com/debuerreotype/docker-debian-artifacts/dist-amd64/testing/rootfs.debian_version" | cut -f1 -d\/
-#PLATFORM --platform=linux/amd64,linux/arm64
+##PLATFORM --platform=linux/amd64,linux/arm64
 #
 FROM debian:testing-slim
 ARG TARGETARCH
