@@ -35,3 +35,4 @@ RUN apk add --no-cache --update bash net-snmp-tools openssh-client \
     /var/lib/apk
 #
 ENTRYPOINT [ "crond", "-f" ]
+
