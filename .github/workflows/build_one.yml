@@ -9,12 +9,15 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v3
-      - name: build and push to docker
+
+      - name: Build and push to docker
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -42,6 +45,16 @@ jobs:
             ~/am-dapp push ${APP}
             ~/am-dapp readme
           done
+
+      - name: Commit and push to github
+        if: failure()
+        run: |
+          git config --local user.email "alim@forwardcomputers.com"
+          git config --local user.name "Ali Mustakim"
+          git add README.md
+          git diff-index --quiet HEAD || git commit -a -m "github actions update"
+          git push origin
+
       - name: Tweet on Failure
         if: failure()
         env:
