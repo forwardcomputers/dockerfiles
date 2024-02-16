@@ -91,8 +91,9 @@ RUN set -e \
 #
 # Clone repos
 #
-&&  git clone https://github.com/ipxe/ipxe.git /ipxe \
-&&  git clone https://github.com/RPi-Distro/pi-gen.git /pi-gen \
+&&  git clone https://github.com/ipxe/ipxe.git \
+&&  git clone https://github.com/RPi-Distro/pi-gen.git \
+&&  git -C /home/ali/ clone https://gitlab.com/buildroot.org/buildroot.git && chown -R ali: /home/ali/buildroot \
 #
 # Clean-up
 #
