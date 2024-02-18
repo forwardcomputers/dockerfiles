@@ -70,7 +70,7 @@ RUN set -e \
     quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools syslinux-common \
     libarchive-tools libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc\
     binfmt-support ca-certificates qemu-utils \
-    libncurses-dev unzip \
+    libncurses-dev nasm unzip \
 &&  apt-get update && apt-get install --yes \
     imagemagick \
 #
