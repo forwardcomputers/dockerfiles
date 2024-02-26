@@ -23,3 +23,4 @@ ENV LISTEN_ADDR 0.0.0.0:8080
 COPY --from=build /go/src/app/miniflux /usr/bin/miniflux
 CMD ["/usr/bin/miniflux"]
 
+
