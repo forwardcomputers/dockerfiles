@@ -6,7 +6,9 @@ ENV CGO_ENABLED=0
 ADD . /go/src/app
 WORKDIR /go/src/app
 
-RUN git clone https://github.com/miniflux/v2 . \
+RUN git init \
+&&  git remote add origin https://github.com/miniflux/v2 \
+&&  git pull origin main \
 &&  ls -la \
 &&  pwd \
 &&  go build \
