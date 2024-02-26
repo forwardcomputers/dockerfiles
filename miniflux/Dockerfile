@@ -5,7 +5,11 @@ FROM golang:latest AS build
 ENV CGO_ENABLED=0
 ADD . /go/src/app
 WORKDIR /go/src/app
-RUN go build \
+
+RUN git clone https://github.com/miniflux/v2 \
+&&  ls -la \
+&&  pwd \
+&&  go build \
     -o miniflux \
     -ldflags="-s -w -X 'miniflux.app/v2/internal/version.Version=`git describe --tags --abbrev=0`' -X 'miniflux.app/v2/internal/version.Commit=`git rev-parse --short HEAD`' -X 'miniflux.app/v2/internal/version.BuildDate=`date +%FT%T%z`'" \
     main.go
