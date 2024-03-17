@@ -61,7 +61,7 @@ RUN set -ex \
     tmux \
     trash-cli \
     unzip \
-    vim-tiny \
+    vim \
     xz-utils \
     \
     bash \
