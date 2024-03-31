@@ -45,13 +45,12 @@ RUN set -e \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/community"  >> /etc/apk/repositories \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/main"       >> /etc/apk/repositories \
 &&  echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing"    >> /etc/apk/repositories \
+&&  apk --update --no-cache upgrade libssl3 libcrypto3 \
 &&  apk --update --no-cache add \
     bash \
     ca-certificates \
     curl \
     jq \
-    libcrypto3 \
-    libssl3 \
     musl-locales \
     tzdata \
     xz \
