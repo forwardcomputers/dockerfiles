@@ -50,6 +50,8 @@ RUN set -e \
     ca-certificates \
     curl \
     jq \
+    libcrypto3 \
+    libssl \
     musl-locales \
     tzdata \
     xz \
