@@ -51,7 +51,7 @@ RUN set -e \
     curl \
     jq \
     libcrypto3 \
-    libssl \
+    libssl3 \
     musl-locales \
     tzdata \
     xz \
