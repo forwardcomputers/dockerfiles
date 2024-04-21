@@ -59,7 +59,7 @@ RUN set -ex \
     sudo \
     supervisor \
     tmux \
-    trash-cli \
+    #trash-cli \
     unzip \
     vim \
     xz-utils \
