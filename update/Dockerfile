@@ -36,6 +36,7 @@ RUN set -e \
     cpio \
     cron \
     curl \
+    dpkg-dev \
     fdisk \
     file \
     gawk \
