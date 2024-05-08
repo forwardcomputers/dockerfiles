@@ -34,6 +34,7 @@ RUN set -ex \
     ca-certificates \
     coreutils \
     curl \
+    dpkg-dev \
     file \
     findutils \
     grep \
