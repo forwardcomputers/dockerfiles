@@ -44,6 +44,7 @@ RUN set -e \
 # Update repos and install packages
 #
 &&  sed -i 's/main.*/main contrib non-free non-free-firmware/' /etc/apt/sources.list.d/debian.sources \
+&&  echo "deb [trusted=yes] http://filer/os/apt/ ./" > /etc/apt/sources.list.d/forwardcomputers.list \
 &&  apt-get update && apt-get -y full-upgrade && apt-get -y --no-install-recommends install \
     ca-certificates \
     curl \
