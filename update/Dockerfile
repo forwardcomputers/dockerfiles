@@ -66,6 +66,7 @@ RUN set -e \
     software-properties-common \
     squashfs-tools \
     vim \
+    xorriso \
     git vim parted \
     quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools syslinux-common \
     libarchive-tools libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc\
