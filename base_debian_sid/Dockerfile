@@ -1,5 +1,5 @@
 #
-#APPNEW sid
+#APPNEW print "sid"
 ##PLATFORM --platform=linux/amd64,linux/arm64
 #
 FROM debian:sid-slim
