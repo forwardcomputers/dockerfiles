@@ -1,7 +1,7 @@
 #
 #APPNEW curl -sL "https://raw.githubusercontent.com/debuerreotype/docker-debian-artifacts/dist-amd64/testing/rootfs.debian_version" | cut -f1 -d\/
 #
-FROM forwardcomputers/base_debian
+FROM forwardcomputers/base_debian_sid
 ARG BUILD_DATE
 ARG NAME
 ARG CO
