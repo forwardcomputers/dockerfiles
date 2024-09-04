@@ -66,6 +66,7 @@ RUN set -e \
     software-properties-common \
     squashfs-tools \
     vim \
+    wimtools \
     xorriso \
     git vim parted \
     quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools syslinux-common \
@@ -77,13 +78,13 @@ RUN set -e \
 #
 &&  . /etc/os-release \
 # Install wimtools - removed from trixie packages
-&&  curl -fsSL http://ftp.ca.debian.org/debian/pool/main/w/wimlib/libwim15_1.13.6-1_amd64.deb -o /tmp/libwim15_1.13.6-1_amd64.deb \
-&&  curl -fsSL http://ftp.ca.debian.org/debian/pool/main/w/wimlib/wimtools_1.13.6-1_amd64.deb -o /tmp/wimtools_1.13.6-1_amd64.deb \
-&&  dpkg -i /tmp/libwim15_1.13.6-1_amd64.deb /tmp/wimtools_1.13.6-1_amd64.deb \
+# &&  curl -fsSL http://ftp.ca.debian.org/debian/pool/main/w/wimlib/libwim15_1.13.6-1_amd64.deb -o /tmp/libwim15_1.13.6-1_amd64.deb \
+# &&  curl -fsSL http://ftp.ca.debian.org/debian/pool/main/w/wimlib/wimtools_1.13.6-1_amd64.deb -o /tmp/wimtools_1.13.6-1_amd64.deb \
+# &&  dpkg -i /tmp/libwim15_1.13.6-1_amd64.deb /tmp/wimtools_1.13.6-1_amd64.deb \
 #
-# &&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/Release.key" | gpg --dearmor -o /etc/apt/trusted.gpg.d/arx.gpg \
-# &&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/ /" | tee /etc/apt/sources.list.d/arx.list > /dev/null \
-# &&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
+&&  curl -fsSL "http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/Release.key" | gpg --dearmor -o /etc/apt/trusted.gpg.d/arx.gpg \
+&&  echo "deb [trusted=yes] http://download.opensuse.org/repositories/home:/dscharrer/Debian_Testing/ /" | tee /etc/apt/sources.list.d/arx.list > /dev/null \
+&&  apt-get update && apt-get install --no-install-recommends --yes innoextract \
 #
 &&  curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg \
 &&  echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
@@ -97,8 +98,10 @@ RUN set -e \
 #
 # Clone repos
 #
+&&  mkdir /git \
+&&  cd /git \
 &&  git clone https://github.com/ipxe/ipxe.git \
-&&  git clone https://github.com/RPi-Distro/pi-gen.git \
+# &&  git clone https://github.com/RPi-Distro/pi-gen.git \
 #
 # Clean-up
 #
