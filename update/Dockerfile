@@ -1,7 +1,7 @@
 #
 #APPNEW 2.0
 #
-FROM forwardcomputers/base_debian
+FROM forwardcomputers/base_debian_sid
 ARG BUILD_DATE
 ARG NAME
 ARG CO
