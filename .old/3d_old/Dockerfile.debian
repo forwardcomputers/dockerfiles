@@ -1,0 +1,122 @@
+FROM python:3-slim AS build
+
+#### From https://github.com/mainsail-crew/virtual-klipper-printe
+RUN apt-get update && apt-get install -y \
+    --no-install-recommends \
+    --no-install-suggests \
+    ### non-specific packages
+    git \
+    cmake \
+    swig \
+    virtualenv \
+    ### klipper
+    avr-libc \
+    binutils-avr \
+    build-essential \
+    cmake \
+    gcc-avr \
+    libcurl4-openssl-dev \
+    libffi-dev \
+    libssl-dev \
+    python3-dev \
+    python3-libgpiod \
+    ### clean up
+&&  apt-get -y autoremove \
+&&  apt-get clean \
+&&  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+
+WORKDIR /opt
+
+#### Klipper
+RUN git clone https://github.com/klipper3d/klipper \
+&&  rm -rf klipper/.git \
+#
+&&  python -m venv klippy-env \
+&&  klippy-env/bin/pip install -r klipper/scripts/klippy-requirements.txt \
+&&  klippy-env/bin/pip install numpy \
+&&  klippy-env/bin/python -m compileall klipper/klippy \
+&&  klippy-env/bin/python klipper/klippy/chelper/__init__.py
+
+#### Moonraker
+RUN git clone https://github.com/Arksine/moonraker \
+&&  rm -rf moonraker/.git \
+#
+&&  python -m venv moonraker-env \
+&&  moonraker-env/bin/pip install -r moonraker/scripts/moonraker-requirements.txt
+
+# #### MJPG-Streamer
+# RUN git clone --depth 1 https://github.com/jacksonliam/mjpg-streamer \
+#     && cd mjpg-streamer \
+#     && cd mjpg-streamer-experimental \
+#     && mkdir _build \
+#     && cd _build \
+#     && cmake -DPLUGIN_INPUT_HTTP=OFF -DPLUGIN_INPUT_UVC=OFF -DPLUGIN_OUTPUT_FILE=OFF -DPLUGIN_OUTPUT_RTSP=OFF -DPLUGIN_OUTPUT_UDP=OFF .. \
+#     && cd .. \
+#     && make \
+#     && rm -rf _build
+
+#### Simulavr
+
+COPY simulavr.config klipper/.config
+RUN git clone -b master git://git.savannah.nongnu.org/simulavr.git \
+    # Build the firmware
+&&  make -C klipper PYTHON=python3 \
+&&  mv klipper/out/klipper.elf ./simulavr.elf \
+&&  rm -f klipper/.config*.* \
+&&  make -C klipper PYTHON=python3 clean \
+    # Build simulavr
+&&  make -C simulavr cfgclean python build clean
+
+## The runner image
+
+FROM python:3-slim AS runner
+
+RUN apt-get update && apt-get install -y \
+    --no-install-recommends \
+    --no-install-suggests \
+    libopenjp2-7 \
+    python3-libgpiod \
+    curl \
+    libcurl4 \
+    libssl3 \
+    liblmdb0 \
+    libsodium23 \
+    libjpeg62-turbo \
+    libtiff6 \
+    libxcb1 \
+    zlib1g \
+    iproute2 \
+    systemd \
+    sudo \
+&&  apt-get -y autoremove \
+&&  apt-get clean \
+&&  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+
+COPY --chmod=755 start.sh /bin/start
+
+RUN ln -s /bin/systemctl /sbin/shutdown \
+&&  ln -s /bin/systemctl /sbin/reboot \
+&&  groupadd printer --force -g 1001 \
+&&  useradd printer -rm -d /home/printer -g 1001 -u 1001 \
+&&  usermod printer -aG dialout,tty \
+&&  echo 'printer ALL=(ALL:ALL) NOPASSWD:ALL' > /etc/sudoers.d/printer
+
+USER printer
+WORKDIR /home/printer
+
+RUN mkdir -p \
+    /home/printer/printer_data/gcodes \
+    /home/printer/printer_data/logs \
+    /home/printer/printer_data/run
+
+# Copy prebuilt applications from the build stage
+COPY --from=build --chown=printer:printer /opt/klippy-env ./klippy-env
+COPY --from=build --chown=printer:printer /opt/klipper/ ./klipper/
+COPY --from=build --chown=printer:printer /opt/moonraker ./moonraker
+COPY --from=build --chown=printer:printer /opt/moonraker-env ./moonraker-env
+COPY --from=build --chown=printer:printer /opt/simulavr ./simulavr
+COPY --from=build --chown=printer:printer /opt/simulavr.elf ./simulavr.elf
+# COPY --from=build --chown=printer:printer /build/mjpg-streamer/mjpg-streamer-experimental ./mjpg-streamer
+
+ENTRYPOINT ["/bin/start"]
+# ENTRYPOINT ["sleep", "infinity"]

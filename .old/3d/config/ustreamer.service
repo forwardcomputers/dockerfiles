@@ -1,0 +1,16 @@
+[Unit]
+Description=uStreamer service
+Requires=network-online.target
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+User=printer
+DeviceAllow=/dev/webcam
+ExecStart=/home/printer/ustreamer/ustreamer $PARAMETER1
+Environment=PARAMETER1="--host=0.0.0.0 --port=8080 --slowdown --device=/dev/webcam --resolution=1280x720 --format=MJPEG --desired-fps=30"
+Restart=always
+RestartSec=10

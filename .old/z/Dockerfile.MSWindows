@@ -1,0 +1,12 @@
+#
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
+#
+RUN powershell -Command \
+    Invoke-WebRequest -OutFile C:\ServiceMonitor.exe -Uri https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.6/ServiceMonitor.exe ; \
+    Invoke-WebRequest -OutFile "C:\wac.msi" -Uri https://aka.ms/WACDownload -UseBasicParsing ; \
+    Start-Process 'msiexec.exe' -ArgumentList '/i', 'C:\wac.msi', '/qn', 'SME_PORT=8080', 'SSL_CERTIFICATE_OPTION=generate', 'SME_CONTAINER=true', 'RESTART_WINRM=0' -Wait ; \
+    Remove-Item -Force -Path "C:\wac.msi" ; \
+    NET USER sysadmin "Password01!" /ADD ; \
+    NET LOCALGROUP "Administrators" "sysadmin" /ADD
+#
+ENTRYPOINT [ "ServiceMonitor.exe", "ServerManagementGateway" ]

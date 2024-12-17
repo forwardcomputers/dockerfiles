@@ -1,0 +1,49 @@
+#
+#APPNEW apt
+#DESKTOP_NAME Flameshot
+#DESKTOP_COMMENT Powerful yet simple to use screenshot software
+#DESKTOP_CATEGORIES Graphics;
+#DESKTOP_MIMETYPE 
+#DESKTOP_LOGO https://github.com/lupoDharkael/flameshot/raw/master/img/app/flameshot.svg
+#DOCKER_OPT + --privileged
+#
+# Alpine image
+FROM ubuntu:rolling
+ARG BUILD_DATE
+ARG NAME
+ARG CO
+ARG APPNEW
+#
+LABEL   org.label-schema.schema-version="1.0" \
+        org.label-schema.build-date="${BUILD_DATE}" \
+        org.label-schema.name="${NAME}" \
+        org.label-schema.vcs-url="https://github.com/forwardcomputers/dockerfiles/tree/master/${NAME}" \
+        org.label-schema.vendor="${CO}" \
+        org.label-schema.version="${APPNEW}" \
+        org.label-schema.url="https://hub.docker.com/r/forwardcomputers/${NAME}" \
+        org.opencontainers.image.created="${BUILD_DATE}" \
+        org.opencontainers.image.title="${NAME}" \
+        org.opencontainers.image.source="https://github.com/forwardcomputers/dockerfiles/tree/master/${NAME}" \
+        org.opencontainers.image.vendor="${CO}" \
+        org.opencontainers.image.version="${APPNEW}" \
+        org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
+#
+RUN set -e \
+#
+# Install application & dependencies
+#
+&&  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+    flameshot \
+#
+    # adwaita-icon-theme \
+    dbus-x11 
+    # libcanberra-gtk2 \
+    # libcanberra-gtk3 \
+    # libpulse \
+    # mesa-dri-gallium \
+#    ttf-freefont 
+#
+# &&  adduser -D -H -u 1000 duser 1000 \
+# &&  addgroup duser audio
+#
+ENTRYPOINT [ "flameshot", "gui" ]
