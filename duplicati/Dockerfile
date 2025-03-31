@@ -1,5 +1,5 @@
 #
-#APPNEW curl -sL "https://api.github.com/repos/duplicati/duplicati/releases" | jq -r 'first ( .[] | select( .tag_name | contains( "canary" ) ).tag_name )[1:]'
+#APPNEW curl -sL "https://api.github.com/repos/duplicati/duplicati/releases" | jq -r 'first ( .[] | select( .tag_name | contains( "stable" ) ).tag_name )[1:]'
 #
 FROM mono:6-slim
 ARG BUILD_DATE
@@ -34,11 +34,11 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
     referenceassemblies-pcl \
 #
 &&  APPNEW=$( curl -sX GET "https://api.github.com/repos/duplicati/duplicati/releases" | \
-                jq -r 'first( .[] | select( .tag_name | contains( "canary" ) ).tag_name )' ) \
+                jq -r 'first( .[] | select( .tag_name | contains( "stable" ) ).tag_name )' ) \
 &&  APPURL=$( curl -sX GET "https://api.github.com/repos/duplicati/duplicati/releases/tags/${APPNEW}" | \
-                jq -r '.assets[] | select( .browser_download_url | ( contains( ".zip" ) and ( contains( "signatures" ) | not ) ) ) | .browser_download_url' ) \
+                jq -r '.assets[] | select( .browser_download_url | ( contains( "linux-x64-gui.zip" ) and ( contains( "signatures" ) | not ) ) ) | .browser_download_url' ) \
 &&  mkdir -p /opt/duplicati \
-&&  curl -sL "${APPURL}" | bsdtar -xf- -C /opt/duplicati \
+&&  curl -sL "${APPURL}" | bsdtar -xf- --strip-components 1 -C /opt/duplicati \
 #
 &&  sed -i 's#mozilla/DST_Root_CA_X3.crt#!mozilla/DST_Root_CA_X3.crt#' /etc/ca-certificates.conf \
 &&  update-ca-certificates \
