@@ -30,6 +30,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && 
 &&  pip3 install ansible ansible-lint dnspython yamllint jmespath pywinrm \
 &&  pip3 install -r https://raw.githubusercontent.com/linode/ansible_linode/main/requirements.txt \
 #
+#  &&  MITOGENNEW=$( curl -sL "https://api.github.com/repos/mitogen-hq/mitogen/releases/latest" | jq -r '.tag_name | gsub("v";"")' ) \
+#  &&  mkdir -p /opt/mitogen \
+#  &&  wget -qO - "https://files.pythonhosted.org/packages/source/m/mitogen/mitogen-${MITOGENNEW}.tar.gz" | tar -xzf - --strip-components=1 -C /opt/mitogen \
+#
 #  &&  SEMAPHORENEW=$( curl -sL "https://api.github.com/repos/semaphoreui/semaphore/releases/latest" | jq -r '.tag_name | gsub("v";"")' ) \
 #  &&  wget -qO - "https://github.com/semaphoreui/semaphore/releases/download/v2.10.30/semaphore_${SEMAPHORENEW}_linux_amd64.tar.gz" | tar -xzf - -C /usr/local/bin semaphore \
 #
