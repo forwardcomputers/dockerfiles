@@ -22,6 +22,10 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
+ENV user="ali" \
+    uid="1001" \
+    gid="1001"
+#
 # Install application
 #
 #&&  curl -sL https://github.com/AmanoTeam/Kad/releases/download/v"${APPNEW}"/x86_64-unknown-linux-musl.tar.xz | tar -x --xz --strip-components=1 -C /opt/kad \
