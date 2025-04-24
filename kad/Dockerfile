@@ -28,9 +28,10 @@ ENV user="ali" \
 #
 # Install application
 #
-RUN apk --update --no-cache add \
+RUN set -e \
+&&  apk --update --no-cache add \
     ca-certificates \
-    curl
+    curl \
 &&  mkdir -p /opt/kad \
 &&  curl -sL https://github.com/AmanoTeam/Kad/releases/download/v"${APPNEW}"/x86_64-unknown-linux-musl.tar.xz | tar -x --xz --strip-components=1 -C /opt/kad \
 &&  chown -R "${uid}:${gid}" /opt/kad
