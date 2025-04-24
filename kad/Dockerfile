@@ -24,7 +24,7 @@ LABEL   org.label-schema.schema-version="1.0" \
 #
 # Install application
 #
-RUN mkdir -P /opt/kad \
+RUN mkdir -p /opt/kad \
 &&  curl -sL https://github.com/AmanoTeam/Kad/releases/download/v"${APPNEW}"/x86_64-unknown-linux-musl.tar.xz | tar -x --xz --strip-components=1 -C /opt/kad \
 &&  chown -R "${uid}:${gid}" /opt/kad
 #
