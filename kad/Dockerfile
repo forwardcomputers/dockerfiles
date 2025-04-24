@@ -28,13 +28,14 @@ ENV user="ali" \
 #
 # Install application
 #
-#&&  curl -sL https://github.com/AmanoTeam/Kad/releases/download/v"${APPNEW}"/x86_64-unknown-linux-musl.tar.xz | tar -x --xz --strip-components=1 -C /opt/kad \
-RUN mkdir -p /opt/kad \
-&&  wget -qO - https://github.com/AmanoTeam/Kad/releases/download/v"${APPNEW}"/x86_64-unknown-linux-musl.tar.xz | tar -x --xz --strip-components=1 -C /opt/kad \
+RUN apk --update --no-cache add \
+    ca-certificates \
+    curl
+&&  mkdir -p /opt/kad \
+&&  curl -sL https://github.com/AmanoTeam/Kad/releases/download/v"${APPNEW}"/x86_64-unknown-linux-musl.tar.xz | tar -x --xz --strip-components=1 -C /opt/kad \
 &&  chown -R "${uid}:${gid}" /opt/kad
 #
 EXPOSE 4000
-ENV LISTEN_ADDR 0.0.0.0:4000
 #
-ENTRYPOINT [ "/opt/kad/bin/kad" ]
+ENTRYPOINT [ "/opt/kad/bin/kad", "--host=0.0.0.0" ]
 
