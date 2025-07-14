@@ -1,6 +1,7 @@
 #
 #APPNEW curl -sL "https://api.github.com/repos/duplicati/duplicati/releases" | jq -r 'first ( .[] | select( .tag_name | contains( "stable" ) ).tag_name )[1:]'
 #
+FROM debian:latest
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -20,8 +21,6 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
-FROM debian:latest
-
 RUN apt update && apt install tini
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 
