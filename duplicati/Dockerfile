@@ -1,7 +1,6 @@
 #
 #APPNEW curl -sL "https://api.github.com/repos/duplicati/duplicati/releases" | jq -r 'first ( .[] | select( .tag_name | contains( "stable" ) ).tag_name )[1:]'
 #
-FROM mono:6-slim
 ARG BUILD_DATE
 ARG NAME
 ARG CO
@@ -21,36 +20,27 @@ LABEL   org.label-schema.schema-version="1.0" \
         org.opencontainers.image.version="${APPNEW}" \
         org.opencontainers.image.url="https://hub.docker.com/r/forwardcomputers/${NAME}"
 #
-# Install apps
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade && apt-get -y install \
-    curl \
-    jq \
-    libarchive-tools \
-    mono-complete \
-    libmono-sqlite4.0-cil \
-    libmono-system-drawing4.0-cil \
-    libmono-system-net-http-webrequest4.0-cil \
-    libmono-system-web4.0-cil \
-    referenceassemblies-pcl \
-#
-&&  APPNEW=$( curl -sX GET "https://api.github.com/repos/duplicati/duplicati/releases" | \
-                jq -r 'first( .[] | select( .tag_name | contains( "stable" ) ).tag_name )' ) \
-&&  APPURL=$( curl -sX GET "https://api.github.com/repos/duplicati/duplicati/releases/tags/${APPNEW}" | \
-                jq -r '.assets[] | select( .browser_download_url | ( contains( "linux-x64-gui.zip" ) and ( contains( "signatures" ) | not ) ) ) | .browser_download_url' ) \
-&&  mkdir -p /opt/duplicati \
-&&  curl -sL "${APPURL}" | bsdtar -xf- --strip-components 1 -C /opt/duplicati \
-#
-&&  sed -i 's#mozilla/DST_Root_CA_X3.crt#!mozilla/DST_Root_CA_X3.crt#' /etc/ca-certificates.conf \
-&&  update-ca-certificates \
-#
-# Clean-up
-&&  rm -rf \
-      /usr/share/doc \
-      /usr/share/man \
-      /var/lib/apt \
-      /var/lib/dpkg/info \
-      /var/log/apt \
-      /var/log/*.log
-#
+FROM debian:latest
+
+RUN apt update && apt install tini
+ENTRYPOINT [ "/usr/bin/tini", "--" ]
+
+RUN apt update -y && apt install -y libssl3 ca-certificates gnupg libicu72 rclone
+
+ENV XDG_CONFIG_HOME=/data
+VOLUME /data
+
+ARG CHANNEL=
+ARG VERSION=
+ENV DUPLICATI_CHANNEL=${CHANNEL}
+ENV DUPLICATI_VERSION=${VERSION}
+
+ENV DUPLICATI__WEBSERVICE_PORT=8200
+ENV DUPLICATI__WEBSERVICE_INTERFACE=any
+
+ARG TARGETARCH
+COPY ./${TARGETARCH} /opt/duplicati
+
 EXPOSE 8200
+CMD ["/opt/duplicati/duplicati-server"]
 
