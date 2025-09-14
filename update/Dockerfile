@@ -69,7 +69,7 @@ RUN set -e \
     wimtools \
     xorriso \
     git vim parted \
-    quilt coreutils qemu-user-static debootstrap zerofree zip dosfstools syslinux-common \
+    quilt coreutils qemu-user debootstrap zerofree zip dosfstools syslinux-common \
     libarchive-tools libcap2-bin rsync grep udev xz-utils curl xxd file kmod bc\
     binfmt-support ca-certificates qemu-utils \
     libncurses-dev nasm unzip \
