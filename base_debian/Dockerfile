@@ -67,6 +67,7 @@ RUN set -e \
 # Configure
 #
 # Create locales
+&&  touch /usr/share/locale/locale.alias \
 &&  localedef -c -i "${_LANG}_${_CNTRY}" -f "${_CHAR}" -A /usr/share/locale/locale.alias "${LANG}" \
 &&  update-locale --no-checks LANG="${LANG}" \
 # Create timezone
