@@ -40,3 +40,4 @@ RUN url_base='https://github.com/koalaman/shellcheck/releases/download/' \
 #
 WORKDIR /mnt
 ENTRYPOINT ["/bin/shellcheck"]
+
